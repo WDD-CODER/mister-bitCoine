@@ -1,1 +1,7 @@
-<p>contact-list works!</p>
+<contact-filter/>
+<section class="contacts" *ngIf="contacts">
+    <contact-preview *ngFor="let contact of contacts; let idx = index"
+     [contact]="contact"
+     >
+    </contact-preview>
+</section>

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { ContactService } from '../../services/contact.service';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'contact-list',
@@ -6,6 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
-export class ContactList {
+export class ContactList implements OnInit {
 
+  @Input() contacts: Contact[] | undefined
+
+  ngOnInit(): void {
+  }
 }

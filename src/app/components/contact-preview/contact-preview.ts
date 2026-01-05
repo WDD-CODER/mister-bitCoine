@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'contact-preview',
@@ -8,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class ContactPreview {
 
+  @Input() contact!:Contact 
+  
 }

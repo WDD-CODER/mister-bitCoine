@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ContactService } from '../../services/contact.service';
+import { Contact } from '../../models/contact.model';
 
 @Component({
   selector: 'contact-page',
@@ -6,6 +8,18 @@ import { Component } from '@angular/core';
   templateUrl: './contact-page.html',
   styleUrl: './contact-page.scss',
 })
-export class ContactPage {
+export class ContactPage implements OnInit {
+
+  private contactService = inject(ContactService)
+
+  contacts: Contact[] | undefined
+
+  ngOnInit(): void {
+    this.contactService.contacts$.subscribe({
+      next: contacts => this.contacts = contacts
+    })
+  }
+
+
 
 }
