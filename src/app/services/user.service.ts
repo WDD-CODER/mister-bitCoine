@@ -4,6 +4,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
+
 export class UserService {
 
   user: User = {
@@ -13,7 +14,7 @@ export class UserService {
   }
 
 
-  getUser(user: User) {
+  getUser() {
     return this.user
   }
 }
