@@ -1,0 +1,4 @@
+<h2>my Bitcoin Wallet</h2>
+<section class="routes">
+    <a  *ngFor="let route of customRoutes; let id = index" (click)="setRoute.emit(route)">{{route.name}}</a>
+</section>

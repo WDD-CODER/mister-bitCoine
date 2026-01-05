@@ -1,0 +1,12 @@
+:host {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-around;
+
+    section {
+        display: flex;
+        gap: 5px;
+    }
+}
