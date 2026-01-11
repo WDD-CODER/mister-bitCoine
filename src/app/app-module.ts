@@ -12,6 +12,7 @@ import { ContactEditPage } from './pages/contact-edit-page/contact-edit-page';
 import { ContactPage } from './pages/contact-page/contact-page';
 import { HomePage } from './pages/home-page/home-page';
 import { AppHeader } from './components/app-header/app-header';
+import { DashBoard } from './pages/dash-board/dash-board';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AppHeader } from './components/app-header/app-header';
     ContactPage,
     HomePage,
     AppHeader,
+    DashBoard,
   ],
   imports: [
     BrowserModule,

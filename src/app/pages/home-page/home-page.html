@@ -1,11 +1,11 @@
 <div class="main-container container">
     <h1 class="user-name ">hello
-        <span *ngIf="user">{{user.name}}</span>
+        <span *ngIf="user">{{user?.name}}</span>
     </h1>
     <div class="coins flex align-center">
         <img src="/assets/img/coins.png" alt="coins icon">
         Coins :
-        <span class="amount " *ngIf="user && user.coins">{{user.coins}}</span>
+        <span class="amount " *ngIf="user && user.coins">{{user?.coins}}</span>
     </div>
 
     <div class="btc flex align-center">

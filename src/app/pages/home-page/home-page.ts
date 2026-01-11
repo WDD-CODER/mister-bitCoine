@@ -20,7 +20,6 @@ export class HomePage {
 
   async ngOnInit() {
     this.user = this.userService.getUser()
-    console.log("🚀 ~ HomePage ~ ngOnInit ~ this.user.coins:", this.user.coins)
     this.btc = await this.bitcoinService.getRate(this.user.coins)
   }
 

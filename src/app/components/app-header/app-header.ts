@@ -12,9 +12,6 @@ export class AppHeader implements OnInit {
   @Output() setRoute = new EventEmitter<CustomRoute>
 
   ngOnInit(): void {
-    console.log('this.customRoutes', this.customRoutes)
   }
-
-
 
 }

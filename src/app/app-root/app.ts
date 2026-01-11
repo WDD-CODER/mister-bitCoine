@@ -23,10 +23,11 @@ export class App implements OnInit {
     { name: 'wallet', isActive: true, },
     { name: 'contacts', isActive: false, },
     { name: 'details', isActive: false, },
-    { name: 'dashBoard', isActive: false, }
+    { name: 'dash-board', isActive: false, }
   ]
 
   setCustomRoutes(route: CustomRoute) {
+    console.log("🚀 ~ App ~ setCustomRoutes ~ route:", route)
     this.customRoutes.forEach(r => {
       if (r.name === route.name) {
         r.isActive = true
@@ -39,12 +40,10 @@ export class App implements OnInit {
   currRouteName() {
     const res = this.customRoutes.find(route => route.isActive);
     if (!res) return
-    console.log("🚀 ~ App ~ currRouteName ~ res:", res)
     return this.currRoute = res
   }
 
   activeRouteName() {
-    console.log("🚀 ~ App ~ activeRouteName ~ this.currRoute?.name || '':", this.currRoute?.name || '')
     return this.currRoute?.name || '';
   }
 
