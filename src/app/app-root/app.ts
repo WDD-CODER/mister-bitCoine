@@ -4,6 +4,7 @@ import { User } from '../models/user.model';
 import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact.model';
 import { CustomRoute } from '../models/custom-routes.model';
+import { BitcoinService } from '../services/bitcoin.service';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,12 @@ import { CustomRoute } from '../models/custom-routes.model';
 export class App implements OnInit {
 
   private contactService = inject(ContactService)
+  private bitcoinService = inject(BitcoinService)
 
   contacts: Contact[] | undefined
   currRoute: CustomRoute | null = { name: 'wallet', isActive: true, }
 
-  
+
   customRoutes: CustomRoute[] = [
     { name: 'wallet', isActive: true, },
     { name: 'contacts', isActive: false, },
@@ -27,7 +29,6 @@ export class App implements OnInit {
   ]
 
   setCustomRoutes(route: CustomRoute) {
-    console.log("🚀 ~ App ~ setCustomRoutes ~ route:", route)
     this.customRoutes.forEach(r => {
       if (r.name === route.name) {
         r.isActive = true
@@ -49,6 +50,25 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.contactService.loadContacts()
+      .subscribe({
+        error: err => console.log('err', err)
+      })
+
+    this.bitcoinService.getRate(100).subscribe({
+      error: err => console.log('err', err)
+    })
+    
+    this.bitcoinService.getMarketPrice()
+      .subscribe({
+        error: err => console.log('err', err)
+      })
+
+      this.bitcoinService.getBlockSize()
+      .subscribe({
+        error: err => console.log('err', err)
+      })
+
+      this.bitcoinService.getTradeVolume()
       .subscribe({
         error: err => console.log('err', err)
       })
