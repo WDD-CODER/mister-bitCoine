@@ -1,17 +1,23 @@
 <div class="main-container container">
     <h1 class="user-name ">hello
-        <span *ngIf="user">{{user?.name}}</span>
+        <span *ngIf="user">{{user.name}}</span>
     </h1>
     <div class="coins flex align-center">
         <img src="/assets/img/coins.png" alt="coins icon">
-        Coins :
-        <span class="amount " *ngIf="user && user.coins">{{user?.coins}}</span>
+
+        <span class="amount " *ngIf="user && user.coins; else noUser"> Coins :{{user?.coins}}</span>
+        <ng-template class="amount " #noUser> User Is Not Found</ng-template>
     </div>
 
-    <div class="btc flex align-center">
+    <div class="btc flex align-center" *ngIf="user">
         <img src="/assets/img/bitcoin.png" alt="coins icon">
-        BTC :
-        <span class="amount " *ngIf="user && user.coins">{{btc}}</span>
+        <ng-container *ngIf="btcRate; else loading">
+            BTC :
+            <span class="amount ">{{btcRate}}</span>
+        </ng-container>
+        <ng-template #loading>
+            <p>loading BTC value</p>
+        </ng-template>
     </div>
-    
+
 </div>
