@@ -1,63 +1,98 @@
 import { Injectable, OnInit } from '@angular/core';
 import { storageService } from './async-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, catchError, from, of, retry, tap } from 'rxjs';
+import { MarketPrice } from '../models/market-price.model';
 
 
 
-const MARKET_PRICE_db = 'market-price-db'
-
-type PriceValues = {
-  x: number
-  y: number
-}
-
-type marketPrice = {
-  status: string
-  name: number
-  unit: string,
-  period: string,
-  description: string
-  values: PriceValues[]
-}
+const MARKET_PRICE_DB = 'market-price-db'
+const BLOCK_SIZE_DB = 'block-size-db'
+const TRADING_VOLUME_DB = 'trading-volume-db'
 @Injectable({
   providedIn: 'root',
 })
 
 export class BitcoinService {
 
-  savedMarketPrice: marketPrice | null = null
+  constructor(private http: HttpClient) { }
 
+  private _btcRate$ = new BehaviorSubject<number>(0)
+  public btcRate$ = this._btcRate$.asObservable()
 
-  public async getRate(coins: number) {
+  private _btcMarketPrice$ = new BehaviorSubject<MarketPrice | null>(null)
+  public btcMarketPrice$ = this._btcMarketPrice$.asObservable()
+
+  private _btcBlockSize$ = new BehaviorSubject<MarketPrice | null>(null)
+  public btcBlockSize$ = this._btcBlockSize$.asObservable()
+
+  public getRate(coins: number) {
     const url = `https://blockchain.info/tobtc?currency=USD&value=${coins}`
-    return fetch(url)
-      .then(res => {
-        if (!res) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then(data => data)
-      .catch(err => {
-        console.log("🚀 ~ BitcoinService ~ getRate ~ err:", err)
-        throw err;
-      });
+    return from(this.http.get<number>(url))
+      .pipe(
+        tap(rate => this._btcRate$.next(rate)),
+        retry(2)
+      )
   }
 
-  public async getMarketPrice() {
+  public getMarketPrice() {
+    const url = 'https://api.blockchain.info/charts/market-price?timespan=5months&format=json&cors=true'
+    var cachedData = localStorage.getItem(MARKET_PRICE_DB)
 
-    const url = 'https://api.blockchain.info/charts/marketprice?timespan=5months&format=json&cors=true'
-    console.log('this.savedMarketPrice', this.savedMarketPrice)
-    
-    // if (!this.savedMarketPrice)
-      // const marketPrice = 
-      return fetch(url)
-        .then(res => {
-          console.log('res', res)
-          return res.json()
-        })
-        .then(data => data)
-        .catch(err => {
-          console.log('err', err)
-          throw err
-         })
+    if (cachedData) {
+      let data = JSON.parse(cachedData) as MarketPrice
+      this._btcMarketPrice$.next(data)
+      return of(data)
+    }
 
+    return from(this.http.get<MarketPrice>(url))
+      .pipe(
+        tap(marketPrice => {
+          localStorage.setItem(MARKET_PRICE_DB, JSON.stringify(marketPrice))
+          this._btcMarketPrice$.next(marketPrice)
+        }),
+        retry(2)
+      )
   }
+
+  public getBlockSize() {
+    const url = 'https://api.blockchain.info/charts/avg-block-size?timespan=5months&format=json&cors=true'
+    var cachedData = localStorage.getItem(BLOCK_SIZE_DB)
+
+    if (cachedData) {
+      let data = JSON.parse(cachedData) as MarketPrice
+      this._btcBlockSize$.next(data)
+      return of(data)
+    }
+
+    return from(this.http.get<MarketPrice>(url))
+      .pipe(
+        tap(BlockSize => {
+          localStorage.setItem(BLOCK_SIZE_DB, JSON.stringify(BlockSize))
+          this._btcBlockSize$.next(BlockSize)
+        }),
+        retry(2)
+      )
+  }
+
+  public getTradeVolume() {
+    const url = 'https://api.blockchain.info/charts/trade-volume?timespan=5months&format=json&cors=true'
+    var cachedData = localStorage.getItem(TRADING_VOLUME_DB)
+
+    if (cachedData) {
+      let data = JSON.parse(cachedData) as MarketPrice
+      this._btcBlockSize$.next(data)
+      return of(data)
+    }
+
+    return from(this.http.get<MarketPrice>(url))
+      .pipe(
+        tap(BlockSize => {
+          localStorage.setItem(TRADING_VOLUME_DB, JSON.stringify(BlockSize))
+          this._btcBlockSize$.next(BlockSize)
+        }),
+        retry(2)
+      )
+  }
+
 }
