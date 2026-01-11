@@ -13,6 +13,7 @@ import { ContactPage } from './pages/contact-page/contact-page';
 import { HomePage } from './pages/home-page/home-page';
 import { AppHeader } from './components/app-header/app-header';
 import { DashBoard } from './pages/dash-board/dash-board';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import { DashBoard } from './pages/dash-board/dash-board';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
+    provideHttpClient(),
     provideBrowserGlobalErrorListeners()
   ],
   bootstrap: [App]
