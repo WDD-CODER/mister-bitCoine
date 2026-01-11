@@ -1,1 +1,10 @@
-<p>dash-board works!</p>
+<ng-container *ngIf="marketPrice; else loading">
+    <div> Description : {{marketPrice.description}}</div>
+    <div> Status : {{marketPrice.status}}</div>
+    <div> Name : {{marketPrice.name}}</div>
+    <div> Period : {{marketPrice.period}}</div>
+    <div> unit : {{marketPrice.unit}}</div>
+</ng-container>
+<ng-template #loading>
+    Problem Displaying Info 
+</ng-template>
