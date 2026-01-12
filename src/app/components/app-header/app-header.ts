@@ -7,11 +7,7 @@ import { CustomRoute } from '../../models/custom-routes.model';
   templateUrl: './app-header.html',
   styleUrl: './app-header.scss',
 })
-export class AppHeader implements OnInit {
+export class AppHeader {
   @Input() customRoutes!: CustomRoute[]
   @Output() setRoute = new EventEmitter<CustomRoute>
-
-  ngOnInit(): void {
-  }
-
 }
