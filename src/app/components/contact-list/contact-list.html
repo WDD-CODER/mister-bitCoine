@@ -1,7 +1,10 @@
-<contact-filter/>
-<section class="contacts" *ngIf="contacts">
-    <contact-preview *ngFor="let contact of contacts; let idx = index"
-     [contact]="contact"
-     >
-    </contact-preview>
-</section>
+<ul class="contacts-list" *ngIf="contacts$ | async; else loading">
+    <li *ngFor="let contact of contacts$ | async; let idx = index">
+        <contact-preview (click)="setRoute.emit({ name: 'details', isActive: true, id: contact._id })"
+            [contact]="contact">
+        </contact-preview>
+    </li>
+</ul>
+<ng-template #loading>
+    loading....
+</ng-template>

@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
+import { CustomRoute } from '../../models/custom-routes.model';
 
 @Component({
   selector: 'contact-page',
@@ -8,18 +9,7 @@ import { Contact } from '../../models/contact.model';
   templateUrl: './contact-page.html',
   styleUrl: './contact-page.scss',
 })
-export class ContactPage implements OnInit {
-
-  private contactService = inject(ContactService)
-
-  contacts: Contact[] | undefined
-
-  ngOnInit(): void {
-    this.contactService.contacts$.subscribe({
-      next: contacts => this.contacts = contacts
-    })
-  }
-
-
-
+export class ContactPage {
+  @Input() customRoutes!: CustomRoute[]
+  @Output() setRoute = new EventEmitter<CustomRoute>
 }

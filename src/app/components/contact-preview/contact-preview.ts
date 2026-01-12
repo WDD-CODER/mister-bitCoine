@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Contact } from '../../models/contact.model';
+import { CustomRoute } from '../../models/custom-routes.model';
 
 @Component({
   selector: 'contact-preview',
@@ -9,6 +10,13 @@ import { Contact } from '../../models/contact.model';
 })
 export class ContactPreview {
 
-  @Input() contact!:Contact 
-  
+  @Output() setRoute = new EventEmitter<CustomRoute>
+
+
+  GoToUserDetails(id: string) {
+
+  }
+
+  @Input() contact: Contact | null = null
+
 }

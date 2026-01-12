@@ -1,1 +1,2 @@
-<contact-list [contacts]="contacts"/>
+<contact-filter/>
+<contact-list (setRoute)="setRoute.emit($event)"/>

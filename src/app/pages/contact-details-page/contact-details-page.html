@@ -1,1 +1,9 @@
-<p>contact-details-page works!</p>
+<div *ngIf="contact; else loading" class="simple-cards-grid">
+<img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
+<span>Name : {{contact.name}}</span>
+<span>Email : {{contact.email}}</span>
+<span>Phone Number : {{contact.phone}}</span>
+</div>
+<ng-template #loading>
+loading....
+</ng-template>

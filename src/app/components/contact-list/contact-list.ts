@@ -1,6 +1,8 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
+import { CustomRoute } from '../../models/custom-routes.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'contact-list',
@@ -8,10 +10,11 @@ import { Contact } from '../../models/contact.model';
   templateUrl: './contact-list.html',
   styleUrl: './contact-list.scss',
 })
-export class ContactList implements OnInit {
+export class ContactList  {
 
-  @Input() contacts: Contact[] | undefined
+  private contactService = inject(ContactService)
+  contacts$: Observable<Contact[]> = this.contactService.contacts$
 
-  ngOnInit(): void {
-  }
+  @Output() setRoute = new EventEmitter<CustomRoute>
+
 }

@@ -1,0 +1,15 @@
+:host{
+    display: grid;
+
+    place-items: center;
+
+    .simple-cards-grid{
+        padding: 1em;
+
+        border-radius: 1vh;
+        border: 1px black solid;
+
+        text-align: center;
+        background-color: bisque;
+    }
+}

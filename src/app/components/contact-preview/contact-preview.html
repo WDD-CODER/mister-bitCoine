@@ -1,4 +1,6 @@
-<div class="contact-preview">
-    <img src="/assets/img/contact.png" alt="Content Image">
-    {{contact.name}}
-</div>
+<ng-container *ngIf="contact">
+    <div class="contact-preview" (click)="GoToUserDetails(contact._id)">
+        <img src="https://robohash.org/{{contact._id}}" alt="Content Image">
+        {{contact.name}}
+    </div>
+</ng-container>

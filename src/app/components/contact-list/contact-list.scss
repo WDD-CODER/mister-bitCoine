@@ -1,5 +1,9 @@
-.contacts{
+.contacts-list{
     display: grid;
-    
+    place-items: center;
     gap: 10px;
+
+    ul,li{
+        list-style: none;
+    }
 }

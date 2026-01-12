@@ -1,10 +1,8 @@
-<ng-container *ngIf="marketPrice; else loading">
-    <div> Description : {{marketPrice.description}}</div>
-    <div> Status : {{marketPrice.status}}</div>
-    <div> Name : {{marketPrice.name}}</div>
-    <div> Period : {{marketPrice.period}}</div>
-    <div> unit : {{marketPrice.unit}}</div>
-</ng-container>
-<ng-template #loading>
-    Problem Displaying Info 
-</ng-template>
+
+<div class="charts-container">
+    <market-price-chart />
+    <section class="two-charts">
+        <market-block-size />
+        <market-trade-volume />
+    </section>
+</div>
