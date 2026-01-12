@@ -18,13 +18,13 @@ export class App implements OnInit {
   private bitcoinService = inject(BitcoinService)
 
   contacts: Contact[] | undefined
-  currRoute: CustomRoute | null = { name: 'wallet', isActive: true, }
+  currRoute: CustomRoute | null = { name: 'dash-board', isActive: true, }
 
 
   customRoutes: CustomRoute[] = [
     { name: 'wallet', isActive: true, },
     { name: 'contacts', isActive: false, },
-    { name: 'details', isActive: false, },
+    { name: 'details', isActive: false, id: '' },
     { name: 'dash-board', isActive: false, }
   ]
 
@@ -32,6 +32,9 @@ export class App implements OnInit {
     this.customRoutes.forEach(r => {
       if (r.name === route.name) {
         r.isActive = true
+        if (route.id){
+          r.id = route.id
+        }
       }
       else r.isActive = false
     })
@@ -57,18 +60,18 @@ export class App implements OnInit {
     this.bitcoinService.getRate(100).subscribe({
       error: err => console.log('err', err)
     })
-    
+
     this.bitcoinService.getMarketPrice()
       .subscribe({
         error: err => console.log('err', err)
       })
 
-      this.bitcoinService.getBlockSize()
+    this.bitcoinService.getBlockSize()
       .subscribe({
         error: err => console.log('err', err)
       })
 
-      this.bitcoinService.getTradeVolume()
+    this.bitcoinService.getTradeVolume()
       .subscribe({
         error: err => console.log('err', err)
       })

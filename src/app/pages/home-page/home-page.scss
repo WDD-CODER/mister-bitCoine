@@ -1,0 +1,18 @@
+:host{
+    display: grid;
+
+    justify-content: center;
+
+    .main-container{
+        div{
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+            
+            img{
+                width: 50px;
+            }
+        }
+    }
+}

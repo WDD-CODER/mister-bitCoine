@@ -1,10 +1,9 @@
 <div class="main-container container">
-    <h1 class="user-name ">hello
+    <h1 class="user-name ">Hello : 
         <span *ngIf="user">{{user.name}}</span>
     </h1>
     <div class="coins flex align-center">
         <img src="/assets/img/coins.png" alt="coins icon">
-
         <span class="amount " *ngIf="user && user.coins; else noUser"> Coins :{{user?.coins}}</span>
         <ng-template class="amount " #noUser> User Is Not Found</ng-template>
     </div>
