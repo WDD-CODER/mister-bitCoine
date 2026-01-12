@@ -14,6 +14,11 @@ import { HomePage } from './pages/home-page/home-page';
 import { AppHeader } from './components/app-header/app-header';
 import { DashBoard } from './pages/dash-board/dash-board';
 import { provideHttpClient } from '@angular/common/http';
+import { AppFooter } from './components/app-footer/app-footer';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { MarketPriceChart } from './components/market-price-chart/market-price-chart';
+import { MarketTradeVolume } from './components/market-trade-volume/market-trade-volume';
+import { MarketBlockSize } from './components/market-block-size/market-block-size';
 
 @NgModule({
   declarations: [
@@ -28,10 +33,15 @@ import { provideHttpClient } from '@angular/common/http';
     HomePage,
     AppHeader,
     DashBoard,
+    AppFooter,
+    MarketPriceChart,
+    MarketTradeVolume,
+    MarketBlockSize,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    GoogleChartsModule
   ],
   providers: [
     provideHttpClient(),
