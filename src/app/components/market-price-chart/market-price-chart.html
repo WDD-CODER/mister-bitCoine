@@ -1,0 +1,11 @@
+<div class="chart-container" *ngIf="newValues">
+  <h4>{{title}}</h4>
+  <google-chart class="google-chart"
+    [type]="type"
+    [data]="newValues"
+    [columns]="columnNames"
+    [options]="options"
+    [dynamicResize]="true"
+    >
+  </google-chart>
+</div>
