@@ -4,5 +4,5 @@ export interface MarketPrice {
     unit: number,
     period: string,
     description: string
-    value: number
+    values: {x:number, y:number}[]
 }
