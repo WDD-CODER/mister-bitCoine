@@ -26,6 +26,9 @@ export class BitcoinService {
   private _btcBlockSize$ = new BehaviorSubject<MarketPrice | null>(null)
   public btcBlockSize$ = this._btcBlockSize$.asObservable()
 
+  private _btcTradeVolume$ = new BehaviorSubject<MarketPrice | null>(null)
+  public btcTradeVolume$ = this._btcTradeVolume$.asObservable()
+
   public getRate(coins: number) {
     const url = `https://blockchain.info/tobtc?currency=USD&value=${coins}`
     return from(this.http.get<number>(url))
@@ -81,7 +84,7 @@ export class BitcoinService {
 
     if (cachedData) {
       let data = JSON.parse(cachedData) as MarketPrice
-      this._btcBlockSize$.next(data)
+      this._btcTradeVolume$.next(data)
       return of(data)
     }
 
