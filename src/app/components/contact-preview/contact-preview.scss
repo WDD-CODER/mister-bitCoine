@@ -1,6 +1,9 @@
-    .contact-preview {
-        position: relative;
-        display: flex;
+   .contact-preview-container{
+
+       .contact-preview {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 50px 110px 5px;
 
         width: 220px;
         padding: 15px 25px 15px 0;
@@ -15,21 +18,21 @@
         button {
             display: grid;
             place-content: center;
-            position: absolute;
-            right: 10px;
+            margin-inline-start: 10px;
 
-
+            
             width: 22px;
             height: 22px;
 
-
+            
             text-align: center;
             border-radius: 10px;
         }
-
+        
         img {
 
             width: 50px;
             height: 50px;
         }
     }
+}
