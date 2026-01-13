@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Contact } from '../../models/contact.model';
 import { CustomRoute } from '../../models/custom-routes.model';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'contact-preview',
@@ -10,13 +11,22 @@ import { CustomRoute } from '../../models/custom-routes.model';
 })
 export class ContactPreview {
 
+  contactService = inject(ContactService)
+
   @Output() setRoute = new EventEmitter<CustomRoute>
+  @Input() contact!: Contact
+
+  onRemoveContact(ev:MouseEvent ,id: string) {
+    ev.stopPropagation()
+    this.contactService.deleteContact(id).subscribe({
+      error: err => console.log('err', err)
+    })
+  }
 
 
   GoToUserDetails(id: string) {
-
+    return id
   }
 
-  @Input() contact: Contact | null = null
 
 }
