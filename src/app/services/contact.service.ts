@@ -40,7 +40,7 @@ export class ContactService {
             )
     }
 
-    
+
     public getContactById(id: string): Observable<Contact> {
         // return from(storageService.get(ENTITY, id))
         return from(storageService.get<Contact>(ENTITY, id))

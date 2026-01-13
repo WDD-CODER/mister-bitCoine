@@ -17,4 +17,6 @@ export class ContactList  {
 
   @Output() setRoute = new EventEmitter<CustomRoute>
 
+  
+
 }
