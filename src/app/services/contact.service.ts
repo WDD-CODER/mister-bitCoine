@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, throwError, from, tap, retry, catchError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError, from, tap, retry, catchError, of, take, debounceTime } from 'rxjs';
 // import { Contact } from '../models/contact.model';
 import { Contact } from '../models/contact.model';
 import { storageService } from './async-storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { FilterBy } from '../models/filter-by.model';
 const ENTITY = 'contacts'
-
 
 
 @Injectable({
@@ -16,6 +16,9 @@ export class ContactService {
     private _contacts$ = new BehaviorSubject<Contact[]>([])
     public contacts$ = this._contacts$.asObservable()
 
+    private _filterBy$ = new BehaviorSubject<FilterBy>({ term: '' })
+    public filterBy$ = this._filterBy$.asObservable()
+
     constructor() {
         // Handling Demo Data, fetching from storage || saving to storage 
         const contacts = JSON.parse(localStorage.getItem(ENTITY) || 'null')
@@ -24,15 +27,25 @@ export class ContactService {
         }
     }
 
+    setFilterBy(filter: FilterBy) {
+        this._filterBy$.next(filter)
+        this.loadContacts()
+            .pipe(
+                take(1)
+            )
+            .subscribe({
+                error: err => console.log('Error', err)
+            })
+    }
+
     public loadContacts() {
         return from(storageService.query<Contact>(ENTITY))
             .pipe(
                 tap(contacts => {
-                    const filterBy = { term: '' }
+                    const filterBy = this._filterBy$.value
                     if (filterBy && filterBy.term) {
                         contacts = this._filter(contacts, filterBy.term)
                     }
-                    contacts = contacts.filter(contact => contact.name.toLowerCase().includes(filterBy.term.toLowerCase()))
                     this._contacts$.next(this._sort(contacts))
                 }),
                 retry(1),
@@ -110,8 +123,10 @@ export class ContactService {
     }
 
     private _filter(contacts: Contact[], term: string) {
-        term = term.toLocaleLowerCase()
+        term = term.toLocaleLowerCase().trim()
+        console.log("🚀 ~ ContactService ~ _filter ~ term:", term)
         return contacts.filter(contact => {
+            console.log("🚀 ~ ContactService ~ _filter ~ contact:", contact)
             return contact.name.toLocaleLowerCase().includes(term) ||
                 contact.phone.toLocaleLowerCase().includes(term) ||
                 contact.email.toLocaleLowerCase().includes(term)
