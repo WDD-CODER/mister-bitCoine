@@ -18,7 +18,7 @@ export class App implements OnInit {
   private bitcoinService = inject(BitcoinService)
 
   contacts: Contact[] | undefined
-  currRoute: CustomRoute | null = { name: 'dash-board', isActive: true, }
+  currRoute: CustomRoute | null = { name: 'contacts', isActive: true, }
 
 
   customRoutes: CustomRoute[] = [
