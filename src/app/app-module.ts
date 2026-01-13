@@ -19,6 +19,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { MarketPriceChart } from './components/market-price-chart/market-price-chart';
 import { MarketTradeVolume } from './components/market-trade-volume/market-trade-volume';
 import { MarketBlockSize } from './components/market-block-size/market-block-size';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { MarketBlockSize } from './components/market-block-size/market-block-siz
   imports: [
     BrowserModule,
     AppRoutingModule,
-    GoogleChartsModule
+    GoogleChartsModule,
+    FormsModule
   ],
   providers: [
     provideHttpClient(),
