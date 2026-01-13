@@ -1,6 +1,10 @@
-<ng-container *ngIf="contact">
+<ng-container *ngIf="contact; else loading">
     <div class="contact-preview" (click)="GoToUserDetails(contact._id)">
-        <img src="https://robohash.org/{{contact._id}}" alt="Content Image">
+        <img  src="https://robohash.org/{{contact._id}}" alt="Content Image">
         {{contact.name}}
+        <button (click)="onRemoveContact($event,contact._id)">X</button>
     </div>
 </ng-container>
+<ng-template #loading>
+Loading...
+</ng-template>
