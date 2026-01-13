@@ -1,0 +1,9 @@
+:host{
+    display: grid;
+    place-content: center;
+
+    input{
+        place-self: center;
+        width: 270px;
+    }
+}
