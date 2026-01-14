@@ -15,8 +15,6 @@ export class ContactList {
   private contactService = inject(ContactService)
   contacts$: Observable<Contact[]> = this.contactService.contacts$
 
-  @Output() setRoute = new EventEmitter<CustomRoute>
-
   onSelectContact(contact: Contact) {
     this.contactService.selectContent(contact._id)
   }

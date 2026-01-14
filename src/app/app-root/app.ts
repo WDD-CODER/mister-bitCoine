@@ -23,31 +23,31 @@ export class App implements OnInit {
   currRoute: CustomRoute | null = { name: 'wallet', isActive: true, }
 
 
-  customRoutes: CustomRoute[] = [
-    { name: 'wallet', isActive: true, },
-    { name: 'contacts', isActive: false, },
-    { name: 'details', isActive: false, id: '' },
-    { name: 'dash-board', isActive: false, }
-  ]
+  // customRoutes: CustomRoute[] = [
+  //   { name: 'wallet', isActive: true, },
+  //   { name: 'contacts', isActive: false, },
+  //   { name: 'details', isActive: false, id: '' },
+  //   { name: 'dash-board', isActive: false, }
+  // ]
 
-  setCustomRoutes(route: CustomRoute) {
-    this.customRoutes.forEach(r => {
-      if (r.name === route.name) {
-        r.isActive = true
-        if (route.id) {
-          r.id = route.id
-        }
-      }
-      else r.isActive = false
-    })
-    this.currRouteName()
-  }
+  // setCustomRoutes(route: CustomRoute) {
+  //   this.customRoutes.forEach(r => {
+  //     if (r.name === route.name) {
+  //       r.isActive = true
+  //       if (route.id) {
+  //         r.id = route.id
+  //       }
+  //     }
+  //     else r.isActive = false
+  //   })
+  //   this.currRouteName()
+  // }
 
-  currRouteName() {
-    const res = this.customRoutes.find(route => route.isActive);
-    if (!res) return
-    return this.currRoute = res
-  }
+  // currRouteName() {
+  //   const res = this.customRoutes.find(route => route.isActive);
+  //   if (!res) return
+  //   return this.currRoute = res
+  // }
 
   activeRouteName() {
     return this.currRoute?.name || '';

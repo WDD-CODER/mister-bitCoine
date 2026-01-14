@@ -1,6 +1,6 @@
 <h2>my Bitcoin Wallet</h2>
 <section class="routes">
     <ng-container *ngFor="let route of customRoutes; let id = index">
-        <a *ngIf="route.name !== 'details'" (click)="setRoute.emit(route)" routerLink="{{route.name}}">{{route.name}}</a>
+        <a *ngIf="route.name !== 'details'"  routerLink="{{(route.name === 'contacts')? route.name + '/contact-list' : route.name}}" routerLinkActive="active">{{route.name}}</a>
     </ng-container>
 </section>

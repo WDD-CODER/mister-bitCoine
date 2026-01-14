@@ -5,18 +5,26 @@ import { ContactPage } from './pages/contact-page/contact-page';
 import { DashBoard } from './pages/dash-board/dash-board';
 import { PageNotFound } from './omponents/page-not-found/page-not-found';
 import { ContactDetailsPage } from './pages/contact-details-page/contact-details-page';
+import { ContactEdit } from './pages/contact-edit/contact-edit';
+import { ContactList } from './components/contact-list/contact-list';
 
 const routes: Routes = [
-  {path:'wallet', component: HomePage},
-  {path:'contacts', component: ContactPage},
-  {path:'dash-board', component: DashBoard},
-  {path:'details', component: ContactDetailsPage},
-  {path:'', pathMatch:'full',redirectTo: 'home'},
-  {path:'**', component: PageNotFound},
+  { path: 'wallet', component: HomePage },
+  {
+    path: 'contacts', component: ContactPage, children: [
+      { path: 'contact-list', component: ContactList },
+      { path: 'edit', component: ContactEdit }
+      // path: 'contacts/:contact', component: ContactEdit
+    ]
+  },
+  { path: 'dash-board', component: DashBoard },
+  { path: 'details/:contactId', component: ContactDetailsPage },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', component: PageNotFound },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{useHash: true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -25,6 +25,9 @@
         >* {
             cursor: pointer;
 
+            &.active{
+                color: red;
+            }
             &:hover {
                 color: blue;
             }
