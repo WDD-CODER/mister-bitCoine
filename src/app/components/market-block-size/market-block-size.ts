@@ -25,7 +25,7 @@ export class MarketBlockSize implements OnInit {
   pieTitle: string = ''
 
   ngOnInit(): void {
-    let res = this.blockSize$.subscribe({
+   this.blockSize$.subscribe({
       next: blockSize => {
         if (!blockSize) return;
         const newValues = blockSize?.values.map((value, idx): ChartDataPoint => {
@@ -34,7 +34,6 @@ export class MarketBlockSize implements OnInit {
         });
         this.pieTitle = blockSize.description
         this.newValues = newValues.slice(-5)
-        console.log('res', res)
     },
       error: err => console.log('Error', err)
     })

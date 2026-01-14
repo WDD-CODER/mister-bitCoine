@@ -10,6 +10,5 @@ import { CustomRoute } from '../../models/custom-routes.model';
   styleUrl: './contact-page.scss',
 })
 export class ContactPage {
-  @Input() customRoutes!: CustomRoute[]
   @Output() setRoute = new EventEmitter<CustomRoute>
 }

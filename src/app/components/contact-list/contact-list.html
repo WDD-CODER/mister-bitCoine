@@ -1,6 +1,7 @@
 <ul class="contacts-list" *ngIf="contacts$ | async; else loading">
     <li *ngFor="let contact of contacts$ | async; let idx = index">
-        <contact-preview (click)="setRoute.emit({ name: 'details', isActive: true, id: contact._id })"
+         <!-- setRoute.emit({ name: 'details', isActive: true, id: contact._id }) -->
+        <contact-preview (click)="onSelectContact(contact)"
             [contact]="contact">
         </contact-preview>
     </li>

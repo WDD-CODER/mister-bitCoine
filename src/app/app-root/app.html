@@ -1,9 +1,8 @@
 <app-header (setRoute)="setCustomRoutes($event)" [customRoutes]="customRoutes"/>
 <section [ngSwitch]="activeRouteName()" class="main-content">
     <home-page  *ngSwitchCase="'wallet'"/>
-    <contact-page (setRoute)="setCustomRoutes($event)"  [customRoutes]="customRoutes" *ngSwitchCase="'contacts'"/>
-     <contact-details-page *ngSwitchCase="'details'" (setRoute)="setCustomRoutes($event)"  [customRoutes]="customRoutes"/>
-    <!-- <contact-edit-page *ngSwitchCase="'edit'"/> -->
+    <contact-page (setRoute)="setCustomRoutes($event)"   *ngSwitchCase="'contacts'"/>
+     <contact-details-page *ngSwitchCase="'details'" (setRoute)="setCustomRoutes($event)" />
     <dash-board *ngSwitchCase="'dash-board'"/>
 </section>
 <app-footer/>
