@@ -5,6 +5,7 @@ import { ContactService } from '../services/contact.service';
 import { Contact } from '../models/contact.model';
 import { CustomRoute } from '../models/custom-routes.model';
 import { BitcoinService } from '../services/bitcoin.service';
+import { LoaderService } from '../services/loader-service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +17,10 @@ export class App implements OnInit {
 
   private contactService = inject(ContactService)
   private bitcoinService = inject(BitcoinService)
+  private loaderService = inject(LoaderService)
 
   contacts: Contact[] | undefined
-  currRoute: CustomRoute | null = { name: 'contacts', isActive: true, }
+  currRoute: CustomRoute | null = { name: 'wallet', isActive: true, }
 
 
   customRoutes: CustomRoute[] = [
@@ -32,7 +34,7 @@ export class App implements OnInit {
     this.customRoutes.forEach(r => {
       if (r.name === route.name) {
         r.isActive = true
-        if (route.id){
+        if (route.id) {
           r.id = route.id
         }
       }
@@ -52,8 +54,10 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loaderService.osSetIsLoading(true)
     this.contactService.loadContacts()
       .subscribe({
+        next: () => this.loaderService.osSetIsLoading(false),
         error: err => console.log('err', err)
       })
 

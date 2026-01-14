@@ -20,6 +20,7 @@ import { MarketPriceChart } from './components/market-price-chart/market-price-c
 import { MarketTradeVolume } from './components/market-trade-volume/market-trade-volume';
 import { MarketBlockSize } from './components/market-block-size/market-block-size';
 import { FormsModule } from '@angular/forms';
+import { Loader } from './components/loader/loader';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { FormsModule } from '@angular/forms';
     MarketPriceChart,
     MarketTradeVolume,
     MarketBlockSize,
+    Loader,
   ],
   imports: [
     BrowserModule,
