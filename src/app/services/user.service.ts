@@ -8,12 +8,17 @@ import { BehaviorSubject, from, Observable, of } from 'rxjs';
 
 export class UserService {
 
-private _user$ = new BehaviorSubject<User| null>(null)
-public user$ = this._user$.asObservable()
-  
-  user: User | null = null
+  user: User = {
+    name: "Ochoa Hyde",
+    coins: 100,
+    moves: []
+  }
 
-  getUser(): Observable<User> {
-    return of({name: "Ochoa Hyde",coins: 100 ,moves: []})
+  private _user$ = new BehaviorSubject<User>(this.user)
+  public user$ = this._user$.asObservable()
+
+
+  getUser(): User {
+    return this.user
   }
 }
