@@ -21,4 +21,9 @@ export class UserService {
   getUser(): User {
     return this.user
   }
+
+  addCoins(coins: number) {
+     this.user.coins += coins
+    this._user$.next(this.user)
+  }
 }
