@@ -18,22 +18,27 @@ type ChartDataPoint = [
 
 export class MarketPriceChart implements OnInit {
 
-  @Input() marketPrice!: MarketPrice
 
   private bitcoinService = inject(BitcoinService)
+  
+  public marketPrice$: Observable<MarketPrice> = this.bitcoinService.getMarketPrice()
 
-  newValues: ChartDataPoint[] | null = null
+  newValues!: ChartDataPoint[]
   title: string = ''
 
   ngOnInit(): void {
-    if (!this.marketPrice) return;
-
-    const newValues = this.marketPrice?.values.map((value): ChartDataPoint => {
-      let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-      return [newData.toString(), value.y]
+    this.marketPrice$.subscribe({
+      next: marketPrice => {
+        if (!marketPrice) return;
+        const newValues = marketPrice.values.map((value): ChartDataPoint => {
+          let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
+          return [newData.toString(), value.y]
+        })
+        this.title = marketPrice.description;
+        this.newValues = newValues
+      },
+      error: err => console.log('Error', err)
     })
-    this.title = this.marketPrice.description;
-    this.newValues = newValues
   }
 
 

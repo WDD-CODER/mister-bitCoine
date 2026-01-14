@@ -1,5 +1,5 @@
-<div class="chart-container" *ngIf="newValues">
-  <h4>{{title}}</h4>
+<div class="chart-container" *ngIf="marketPrice$ | async as marketPrice">
+  <h4>{{marketPrice.name}}</h4>
   <google-chart class="google-chart"
     [type]="type"
     [data]="newValues"
