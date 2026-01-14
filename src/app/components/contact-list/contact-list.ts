@@ -12,16 +12,14 @@ import { Observable } from 'rxjs';
 })
 export class ContactList {
 
-
-
   private contactService = inject(ContactService)
   contacts$: Observable<Contact[]> = this.contactService.contacts$
 
   @Output() setRoute = new EventEmitter<CustomRoute>
 
   onSelectContact(contact: Contact) {
-    this.setRoute.emit({ name: 'details', isActive: true})
-this.contactService.selectContent(contact._id)
+    this.setRoute.emit({ name: 'details', isActive: true })
+    this.contactService.selectContent(contact._id)
   }
 
 
