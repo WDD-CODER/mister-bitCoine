@@ -20,7 +20,7 @@ import { MarketTradeVolume } from './components/market-trade-volume/market-trade
 import { MarketBlockSize } from './components/market-block-size/market-block-size';
 import { FormsModule } from '@angular/forms';
 import { Loader } from './components/loader/loader';
-import { PageNotFound } from './omponents/page-not-found/page-not-found';
+import { PageNotFound } from './components/page-not-found/page-not-found';
 import { ContactEdit } from './pages/contact-edit/contact-edit';
 
 @NgModule({
