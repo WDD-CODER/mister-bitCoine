@@ -19,12 +19,22 @@ export class ContactService {
     private _filterBy$ = new BehaviorSubject<FilterBy>({ term: '' })
     public filterBy$ = this._filterBy$.asObservable()
 
+    private _selectedContact$ = new BehaviorSubject<Contact | null>(null)
+    public selectedContact$ = this._selectedContact$.asObservable()
+
+
     constructor() {
         // Handling Demo Data, fetching from storage || saving to storage 
         const contacts = JSON.parse(localStorage.getItem(ENTITY) || 'null')
         if (!contacts || contacts.length === 0) {
             localStorage.setItem(ENTITY, JSON.stringify(this._createContacts()))
         }
+    }
+
+    selectContent(id: string) {
+        const res = this.getContactById(id).subscribe()
+        // console.log("🚀 ~ ContactService ~ selectContent ~ res:", res)
+        // this._selectedContact$.next() 
     }
 
     setFilterBy(filter: FilterBy) {
@@ -57,7 +67,10 @@ export class ContactService {
     public getContactById(id: string): Observable<Contact> {
         // return from(storageService.get(ENTITY, id))
         return from(storageService.get<Contact>(ENTITY, id))
-            .pipe(catchError(err => throwError(() => `Contact id ${id} not found!`)))
+            .pipe(
+                tap(contact =>this._selectedContact$.next(contact)),
+                catchError(err => throwError(() => `Contact id ${id} not found!`))
+            )
     }
 
     public deleteContact(id: string) {
