@@ -14,8 +14,6 @@ export class ContactDetailsPage {
 
   private contactService = inject(ContactService)
 
-  @Output() setRoute = new EventEmitter<CustomRoute>
-
   contact$: Observable<Contact | null> = this.contactService.selectedContact$
 
 }

@@ -5,7 +5,7 @@
     <span>Email : {{contact.email}}</span>
     <span>Phone Number : {{contact.phone}}</span>
     </div>
-    <button (click)="setRoute.emit( { name: 'contacts', isActive: false, })" >Back</button>
+    <button routerLink="/contacts/contact-list" >Back</button>
 </ng-container>
 <ng-template #loading>
 loading....
