@@ -8,7 +8,6 @@ import { ContactList } from './components/contact-list/contact-list';
 import { ContactPreview } from './components/contact-preview/contact-preview';
 import { Input } from './components/input/input';
 import { ContactDetailsPage } from './pages/contact-details-page/contact-details-page';
-import { ContactEditPage } from './pages/contact-edit-page/contact-edit-page';
 import { ContactPage } from './pages/contact-page/contact-page';
 import { HomePage } from './pages/home-page/home-page';
 import { AppHeader } from './components/app-header/app-header';
@@ -30,7 +29,6 @@ import { Loader } from './components/loader/loader';
     ContactPreview,
     Input,
     ContactDetailsPage,
-    ContactEditPage,
     ContactPage,
     HomePage,
     AppHeader,
