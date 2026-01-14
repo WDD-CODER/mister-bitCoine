@@ -1,5 +1,5 @@
-<div class="chart-container" *ngIf="tradeVolume">
-    <h4>{{barTitle}}</h4>
+<div class="chart-container" *ngIf="tradeVolume$ | async as tradeVolume">
+    <h4>{{tradeVolume.description}}</h4>
     <google-chart  
     [type]="barType" 
     [data]="newValues" 
