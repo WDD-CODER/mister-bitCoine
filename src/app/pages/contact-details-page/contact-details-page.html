@@ -1,11 +1,12 @@
-<ng-container *ngIf="contact$ |async as contact; else loading" >
+<!-- <ng-container *ngIf="contact$ |async as contact; else loading" > -->
+<ng-container *ngIf="contact$ | async as contact; else loading" >
     <div class="simple-cards-grid">
     <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
     <span>Name : {{contact.name}}</span>
     <span>Email : {{contact.email}}</span>
     <span>Phone Number : {{contact.phone}}</span>
     </div>
-    <button (click)="setRoute.emit( { name: 'contacts', isActive: false, })" >Back</button>
+    <button (click)="onBack()" >Back</button>
 </ng-container>
 <ng-template #loading>
 loading....

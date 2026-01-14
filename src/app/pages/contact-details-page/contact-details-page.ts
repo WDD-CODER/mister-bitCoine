@@ -1,8 +1,9 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CustomRoute } from '../../models/custom-routes.model';
 import { ContactService } from '../../services/contact.service';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, Observable, switchMap, tap } from 'rxjs';
 import { Contact } from '../../models/contact.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'contact-details-page',
@@ -13,9 +14,18 @@ import { Contact } from '../../models/contact.model';
 export class ContactDetailsPage {
 
   private contactService = inject(ContactService)
+  private route = inject(ActivatedRoute)
+  private router = inject(Router)
 
-  @Output() setRoute = new EventEmitter<CustomRoute>
 
-  contact$: Observable<Contact | null> = this.contactService.selectedContact$
+  public contact$: Observable<Contact> = this.route.params.pipe(
+    switchMap(params => this.contactService.getContactById(params['contactId']))
+  )
+  
+  onBack(): void {
+    this.router.navigateByUrl('/contacts')
+
+  }
+
 
 }
