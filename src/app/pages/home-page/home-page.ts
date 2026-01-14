@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { BitcoinService } from '../../services/bitcoin.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'home-page',
@@ -16,20 +17,10 @@ export class HomePage {
   private bitcoinService = inject(BitcoinService)
   private destroyRef = inject(DestroyRef)
 
-  user: User | null = null
-  btcRate: number | undefined
-
-  async ngOnInit() {
-    this.userService.getUser()
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({next: user => this.user = user })
-
-    this.bitcoinService.btcRate$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: btcRate => this.btcRate = btcRate
-      })
-  }
+  user$: Observable<User> = this.userService.user$
+  btcRate$: Observable<number> = this.user$.pipe(
+    switchMap(user => this.bitcoinService.getRateStream(user.coins))
+  ) 
 
 
 }

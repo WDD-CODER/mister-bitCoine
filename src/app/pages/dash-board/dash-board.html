@@ -1,8 +1,19 @@
 
-<div class="charts-container">
-    <market-price-chart />
-    <section class="two-charts">
-        <market-block-size />
-        <market-trade-volume />
-    </section>
+<div class="charts-main-container" [class.empty-data]="!marketPrice || !blockSize || !tradeVolume" >
+    <ng-container *ngIf="marketPrice && blockSize && tradeVolume ; else noData" >
+        <market-price-chart  [marketPrice]="marketPrice" />
+        <section class="two-charts">
+            <market-block-size [blockSize]="blockSize"/>
+            <market-trade-volume   [tradeVolume]="tradeVolume" />
+        </section>
+    </ng-container>
+    <ng-template class="empty-data" #noData>
+        Problem Getting  
+        <br>
+        <span *ngIf="!marketPrice">Market Price</span> 
+        <br>
+        <span *ngIf="!blockSize">Block Size </span> 
+        <br>
+        <span *ngIf="!tradeVolume">Trade Volume</span> 
+    </ng-template>
 </div>
