@@ -21,6 +21,7 @@ import { MarketBlockSize } from './components/market-block-size/market-block-siz
 import { FormsModule } from '@angular/forms';
 import { Loader } from './components/loader/loader';
 import { PageNotFound } from './omponents/page-not-found/page-not-found';
+import { ContactEdit } from './pages/contact-edit/contact-edit';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PageNotFound } from './omponents/page-not-found/page-not-found';
     MarketBlockSize,
     Loader,
     PageNotFound,
+    ContactEdit,
   ],
   imports: [
     BrowserModule,
