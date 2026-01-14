@@ -1,4 +1,4 @@
-<ng-container *ngIf="contact; else loading" >
+<ng-container *ngIf="contact$ |async as contact; else loading" >
     <div class="simple-cards-grid">
     <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
     <span>Name : {{contact.name}}</span>

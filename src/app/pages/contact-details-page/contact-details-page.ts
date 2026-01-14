@@ -10,28 +10,12 @@ import { Contact } from '../../models/contact.model';
   templateUrl: './contact-details-page.html',
   styleUrl: './contact-details-page.scss',
 })
-export class ContactDetailsPage implements OnInit {
+export class ContactDetailsPage {
 
   private contactService = inject(ContactService)
 
-
-  @Input() customRoutes!: CustomRoute[]
   @Output() setRoute = new EventEmitter<CustomRoute>
 
-  contact: Contact | null = null
+  contact$: Observable<Contact | null> = this.contactService.selectedContact$
 
-  async ngOnInit() {
-    const routId = this.customRoutes.find(r => r.name === 'details')?.id
-    if (routId) {
-      const contact = this.contactService.getContactById(routId)
-        .pipe(
-          tap(contact => this.contact = contact)
-        )
-        .subscribe({
-          next: contact => console.log('contact', contact),
-          error: err => console.log('err', err)
-        })
-    }
-
-  }
 }
