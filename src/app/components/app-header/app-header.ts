@@ -8,6 +8,12 @@ import { CustomRoute } from '../../models/custom-routes.model';
   styleUrl: './app-header.scss',
 })
 export class AppHeader {
-  @Input() customRoutes!: CustomRoute[]
-  @Output() setRoute = new EventEmitter<CustomRoute>
+
+    customRoutes: CustomRoute[] = [
+    { name: 'wallet', isActive: true, },
+    { name: 'contacts', isActive: false, },
+    { name: 'details', isActive: false, id: '' },
+    { name: 'dash-board', isActive: false, }
+  ]
+
 }
