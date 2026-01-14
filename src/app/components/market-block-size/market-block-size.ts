@@ -17,25 +17,29 @@ type ChartDataPoint = [
 })
 export class MarketBlockSize implements OnInit {
 
-  @Input() blockSize!: MarketPrice
-
-  // Pie Chart Configuration
   private bitcoinService = inject(BitcoinService)
 
-  // blockSize$: Observable<MarketPrice | null> = this.bitcoinService.getBlockSize()
-  
+  blockSize$: Observable<MarketPrice | null> = this.bitcoinService.getBlockSize()
+
   newValues!: ChartDataPoint[]
   pieTitle: string = ''
 
   ngOnInit(): void {
-    if (!this.blockSize) return;
-    const newValues = this.blockSize?.values.map((value, idx): ChartDataPoint => {
-      let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-      return [newData.toString(), value.y]
-    });
-    this.pieTitle = this.blockSize.description
-    this.newValues = newValues.slice(-5)
+    let res = this.blockSize$.subscribe({
+      next: blockSize => {
+        if (!blockSize) return;
+        const newValues = blockSize?.values.map((value, idx): ChartDataPoint => {
+          let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
+          return [newData.toString(), value.y]
+        });
+        this.pieTitle = blockSize.description
+        this.newValues = newValues.slice(-5)
+        console.log('res', res)
+    },
+      error: err => console.log('Error', err)
+    })
   }
+
 
 
 

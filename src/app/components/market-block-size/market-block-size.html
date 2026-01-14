@@ -1,5 +1,5 @@
-<div class="chart-container" *ngIf="blockSize">
-    <h4>{{pieTitle}}</h4>
+<div class="chart-container" *ngIf="blockSize$ | async as block">
+    <h4>{{block.description}}</h4>
     <google-chart
     [type]="pieType" 
     [data]="newValues" 
