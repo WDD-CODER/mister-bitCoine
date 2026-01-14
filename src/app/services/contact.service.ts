@@ -41,7 +41,7 @@ export class ContactService {
         this._filterBy$.next(filter)
         this.loadContacts()
             .pipe(
-                take(1)
+                take(   1)
             )
             .subscribe({
                 error: err => console.log('Error', err)
@@ -90,7 +90,7 @@ export class ContactService {
         return contact._id ? this._updateContact(contact) : this._addContact(contact)
     }
 
-    public getEmptyContact() {
+    public getEmptyContact(): Partial<Contact> {
         return {
             name: '',
             email: '',
