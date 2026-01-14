@@ -18,7 +18,6 @@ export class ContactList {
   @Output() setRoute = new EventEmitter<CustomRoute>
 
   onSelectContact(contact: Contact) {
-    this.setRoute.emit({ name: 'details', isActive: true })
     this.contactService.selectContent(contact._id)
   }
 
