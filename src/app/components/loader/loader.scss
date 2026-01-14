@@ -1,0 +1,44 @@
+.playful-loader {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100vw;
+  height: 100vh;
+
+  backdrop-filter: blur(2px);
+  cursor: wait;
+}
+
+.orb {
+  width: 20px;
+  height: 20px;
+  background: #f2a900;
+  border-radius: 50%;
+
+  animation: bounce 0.6s infinite alternate cubic-bezier(0.3, 0, 0.7, 1);
+}
+
+.orb:nth-child(2) {
+  background: #ffcc00;
+  animation-delay: 0.1s;
+}
+
+.orb:nth-child(3) {
+  background: #ffeb3b;
+  animation-delay: 0.2s;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-30px);
+  }
+}
