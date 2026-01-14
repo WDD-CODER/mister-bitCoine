@@ -13,7 +13,6 @@ export class ContactPreview {
 
   contactService = inject(ContactService)
 
-  @Output() setRoute = new EventEmitter<CustomRoute>
   @Input() contact!: Contact
 
   onRemoveContact(ev:MouseEvent ,id: string) {
