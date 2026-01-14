@@ -12,4 +12,14 @@
         text-align: center;
         background-color: bisque;
     }
+
+    button{
+        display: grid;
+        padding: .5em;
+
+        font-size: 1.5em;
+
+        background-color: bisque;
+        border-radius: 1vh;
+    }
 }
