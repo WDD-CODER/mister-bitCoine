@@ -18,56 +18,54 @@ type ChartDataPoint = [
 
 export class MarketPriceChart implements OnInit {
 
+  @Input() marketPrice!: MarketPrice
+
   private bitcoinService = inject(BitcoinService)
 
-  marketPrice: MarketPrice | null = null
   newValues: ChartDataPoint[] | null = null
+  title: string = ''
 
   ngOnInit(): void {
-    this.bitcoinService.btcMarketPrice$.subscribe({
-      next: marketPrice => {
-        if (!marketPrice) return;
-        const newValues = marketPrice?.values.map((value): ChartDataPoint => {
-          let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-          return [newData.toString(), value.y]
-        });
-        this.title = marketPrice.description;
-        this.newValues = newValues
-        return this.marketPrice = marketPrice
-      },
-      error: err => console.log('err', err)
+    if (!this.marketPrice) return;
 
+    const newValues = this.marketPrice?.values.map((value): ChartDataPoint => {
+      let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
+      return [newData.toString(), value.y]
     })
+    this.title = this.marketPrice.description;
+    this.newValues = newValues
   }
 
-  title = ''
+
   type = ChartType.LineChart;
 
   columnNames = ['Date', 'Price'];
 
   options = {
-    hAxis: { title: 'Month',
-    titleTextStyle: {  fontSize: 14 },
-    textStyle: { fontSize: 11 }, 
-    slantedText: true, 
-    slantedTextAngle: 40 },
+    hAxis: {
+      title: 'Month',
+      titleTextStyle: { fontSize: 14 },
+      textStyle: { fontSize: 11 },
+      slantedText: true,
+      slantedTextAngle: 40
+    },
     vAxis: { title: 'USD' },
-    
-    colors: ['#f2a900'], 
-    curveType: 'function', 
+
+    colors: ['#f2a900'],
+    curveType: 'function',
     legend: { position: 'bottom' },
-  
+
     chartArea: {
-    left: '15%',   
-    top: '10%',    
-    width: '100%', 
-    height: '65%' 
-  },
+      left: '15%',
+      top: '10%',
+      width: '100%',
+      height: '65%'
+    },
     animation: {
-    startup: true,
-    duration: 1000,
-    easing: 'out'
-  }
+      startup: true,
+      duration: 1000,
+      easing: 'out'
+    }
   };
 
 }

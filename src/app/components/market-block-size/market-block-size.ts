@@ -1,7 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ChartType } from 'angular-google-charts';
 import { BitcoinService } from '../../services/bitcoin.service';
 import { MarketPrice } from '../../models/market-price.model';
+import { Observable } from 'rxjs';
 
 type ChartDataPoint = [
   string,
@@ -16,30 +17,29 @@ type ChartDataPoint = [
 })
 export class MarketBlockSize implements OnInit {
 
+  @Input() blockSize!: MarketPrice
+
   // Pie Chart Configuration
   private bitcoinService = inject(BitcoinService)
-blockSize:MarketPrice | null = null
-newValues!:ChartDataPoint[]
+
+  // blockSize$: Observable<MarketPrice | null> = this.bitcoinService.getBlockSize()
+  
+  newValues!: ChartDataPoint[]
+  pieTitle: string = ''
 
   ngOnInit(): void {
-    this.bitcoinService.btcBlockSize$.subscribe({
-      next: blockSize => {
-        if (!blockSize) return;
-        const newValues = blockSize?.values.map((value,idx): ChartDataPoint => {
-          let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-          return [newData.toString(), value.y]
-        });
-        this.blockSize = blockSize
-        this.pieTitle = blockSize.description
-        this.newValues = newValues.slice(-5)
-      },
-      error: err => console.log('err', err)
-    })
-
+    if (!this.blockSize) return;
+    const newValues = this.blockSize?.values.map((value, idx): ChartDataPoint => {
+      let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
+      return [newData.toString(), value.y]
+    });
+    this.pieTitle = this.blockSize.description
+    this.newValues = newValues.slice(-5)
   }
 
 
-  pieTitle = ''
+
+
   pieType = ChartType.PieChart;
 
   pieOptions = {
@@ -47,8 +47,8 @@ newValues!:ChartDataPoint[]
     chartArea: { width: '80%', height: '70%' },
     backgroundColor: 'transparent',
     legend: { position: 'bottom' },
-    is3D: true, 
-    pieHole: 0.4 
+    is3D: true,
+    pieHole: 0.4
   };
 
 }

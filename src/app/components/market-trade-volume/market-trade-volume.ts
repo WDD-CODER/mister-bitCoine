@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { BitcoinService } from '../../services/bitcoin.service';
 import { ChartType } from 'angular-google-charts';
 import { MarketPrice } from '../../models/market-price.model';
@@ -18,28 +18,22 @@ type ChartDataPoint = [
 
 export class MarketTradeVolume {
 
+  @Input() tradeVolume!: MarketPrice
+
   private bitcoinService = inject(BitcoinService)
-  tradeVolume: MarketPrice | null = null
   newValues!: ChartDataPoint[]
 
-  barTitle:string ='';
-  barType:ChartType = ChartType.BarChart; // Or ChartType.ColumnChart for vertical bars
+  barTitle: string = '';
+  barType: ChartType = ChartType.BarChart; // Or ChartType.ColumnChart for vertical bars
 
   ngOnInit(): void {
-    this.bitcoinService.btcTradeVolume$.subscribe({
-      next: tradeVolume => {
-        if (!tradeVolume) return;
-        const newValues = tradeVolume?.values.map((value): ChartDataPoint => {
-          let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
-          return [newData.toString(), value.y]
-        });
-        this.tradeVolume = tradeVolume
-        this.barTitle = tradeVolume.description
-        this.newValues = newValues.splice(-10)
-      },
-      error: err => console.log('err', err)
-
-    })
+    if (!this.tradeVolume) return
+    const newValues = this.tradeVolume?.values.map((value): ChartDataPoint => {
+      let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
+      return [newData.toString(), value.y]
+    });
+    this.barTitle = this.tradeVolume.description
+    this.newValues = newValues.splice(-10)
   }
 
   options = {
