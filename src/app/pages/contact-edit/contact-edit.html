@@ -1,16 +1,26 @@
-<section class="contact-edit">
-
-    <form>
+<dialog open class="contact-edit">
+    <form (submit)="onSaveContact($event)">
         <label for="name">
-            <input id="name" type="text">
+            Contact Name :
+            <input [(ngModel)]="newContact.name" id="name" type="text"name="name">
         </label>
         <label for="coins">
-            <input id="coins" type="number">
+            Contact Phone :
+            <input id="coins" [(ngModel)]="newContact.phone" type="text" name="coins">
         </label>
         <label for="email">
-            <input id="email" type="email" >
+            Contact Email :
+            <input id="email" [(ngModel)]="newContact.email" type="email" name="email">
+        </label>
+        <label for="birthday">
+            Contact birthday :
+            <input id="birthday" [ngModel]="newContact.birthday" (ngModelChange)="handleBirthdayChange($event)" type="date" name="birthday">
         </label>
 
+        <section class="actions">
+            <button type="submit">Save</button>
+            <button type="button" routerLink="/contacts">Back</button>
+        </section>
     </form>
 
-</section>
+</dialog>
