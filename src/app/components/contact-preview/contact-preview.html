@@ -1,10 +1,13 @@
 <article *ngIf="contact; else loading" class="contact-preview-container">
     <div class="contact-preview" (click)="GoToUserDetails(contact._id)">
-        <img  src="https://robohash.org/{{contact._id}}" alt="Content Image">
+        <img src="https://robohash.org/{{contact._id}}" alt="Content Image">
         {{contact.name}}
-        <button (click)="onRemoveContact($event,contact._id)">X</button>
+        <section class="actions">
+            <button (click)="onRemoveContact($event,contact._id)">X</button>
+            <button (click)="$event.stopPropagation()" [routerLink]="['/contacts', 'edit', contact._id]">Edit</button>
+        </section>
     </div>
 </article>
 <ng-template #loading>
-Loading...
+    Loading...
 </ng-template>
