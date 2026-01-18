@@ -12,14 +12,14 @@ const routes: Routes = [
   { path: 'wallet', component: HomePage },
   {
     path: 'contacts', component: ContactPage, children: [
-      { path: 'contact-list', component: ContactList },
-      { path: 'edit', component: ContactEdit }
-      // path: 'contacts/:contact', component: ContactEdit
+      // { path: 'contact-list', component: ContactList },
+      { path: 'edit', component: ContactEdit },
+      { path: 'edit/:contactId', component: ContactEdit }
     ]
   },
   { path: 'dash-board', component: DashBoard },
   { path: 'details/:contactId', component: ContactDetailsPage },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'wallet' },
   { path: '**', component: PageNotFound },
 ];
 

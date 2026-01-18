@@ -3,4 +3,5 @@ export interface Contact {
     email: string
     phone: string
     _id: string
+    birthday?:Date
 }
