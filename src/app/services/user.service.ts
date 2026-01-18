@@ -13,17 +13,22 @@ export class UserService {
     coins: 100,
     moves: []
   }
-
-  private _user$ = new BehaviorSubject<User>(this.user)
+  // private _user$ = new BehaviorSubject<User | null>(null);
+  private _user$ = new BehaviorSubject<User | null>(this.user)
   public user$ = this._user$.asObservable()
 
 
-  getUser(): User {
-    return this.user
+  getLoggedUser() {
+    return this._user$.value
   }
 
   addCoins(coins: number) {
-     this.user.coins += coins
-    this._user$.next(this.user)
+    const user = this._user$.value
+    if (user) {
+      const updatedUser = {...user, coins:user.coins + coins}
+      this.user.coins += coins
+      this._user$.next(updatedUser)
+    }
+    this._user$.next(null)
   }
 }

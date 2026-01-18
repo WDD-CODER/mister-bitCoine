@@ -54,10 +54,10 @@ export class App implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loaderService.osSetIsLoading(true)
+    this.loaderService.onSetIsLoading(true)
     this.contactService.loadContacts()
       .subscribe({
-        next: () => this.loaderService.osSetIsLoading(false),
+        next: () => this.loaderService.onSetIsLoading(false),
         error: err => console.log('err', err)
       })
 
