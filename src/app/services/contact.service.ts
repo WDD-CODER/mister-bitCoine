@@ -33,8 +33,6 @@ export class ContactService {
 
     selectContent(id: string) {
         const res = this.getContactById(id).subscribe()
-        // console.log("🚀 ~ ContactService ~ selectContent ~ res:", res)
-        // this._selectedContact$.next() 
     }
 
     setFilterBy(filter: FilterBy) {
@@ -137,9 +135,7 @@ export class ContactService {
 
     private _filter(contacts: Contact[], term: string) {
         term = term.toLocaleLowerCase().trim()
-        console.log("🚀 ~ ContactService ~ _filter ~ term:", term)
         return contacts.filter(contact => {
-            console.log("🚀 ~ ContactService ~ _filter ~ contact:", contact)
             return contact.name.toLocaleLowerCase().includes(term) ||
                 contact.phone.toLocaleLowerCase().includes(term) ||
                 contact.email.toLocaleLowerCase().includes(term)

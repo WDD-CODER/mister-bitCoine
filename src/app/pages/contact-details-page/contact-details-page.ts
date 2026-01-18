@@ -24,7 +24,6 @@ export class ContactDetailsPage {
   
   onBack(): void {
     this.router.navigateByUrl('/contacts')
-
   }
 
 
