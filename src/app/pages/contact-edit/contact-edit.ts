@@ -23,10 +23,13 @@ export class ContactEdit implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      map(params => params['contactId']),
-      filter(contactId => contactId),
-      switchMap(contactId => this.contactService.getContactById(contactId)),
+    this.route.data.pipe(
+      map(data => data['contact']),
+      filter(contact => {
+        console.log("🚀 ~ ContactEdit ~ ngOnInit ~ contact:", contact)
+        
+        return contact}),
+      // switchMap(contactId => this.contactService.getContactById(contactId)),
       takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: contact => this.newContact = contact,
