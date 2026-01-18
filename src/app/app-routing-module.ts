@@ -7,6 +7,8 @@ import { PageNotFound } from './components/page-not-found/page-not-found';
 import { ContactDetailsPage } from './pages/contact-details-page/contact-details-page';
 import { ContactEdit } from './pages/contact-edit/contact-edit';
 import { ContactList } from './components/contact-list/contact-list';
+import { authGuard } from './guards/auth-guard';
+import { contactResolver } from './resolvers/contact-resolver';
 
 const routes: Routes = [
   { path: 'wallet', component: HomePage },
@@ -14,11 +16,12 @@ const routes: Routes = [
     path: 'contacts', component: ContactPage, children: [
       // { path: 'contact-list', component: ContactList },
       { path: 'edit', component: ContactEdit },
-      { path: 'edit/:contactId', component: ContactEdit }
+      { path: 'edit/:contactId', component: ContactEdit ,  resolve: {contact:contactResolver} }
     ]
   },
   { path: 'dash-board', component: DashBoard },
-  { path: 'details/:contactId', component: ContactDetailsPage },
+  { path: 'details/:contactId', component: ContactDetailsPage 
+    , canActivate:[authGuard], resolve: {contact:contactResolver}},
   { path: '', pathMatch: 'full', redirectTo: 'wallet' },
   { path: '**', component: PageNotFound },
 ];
