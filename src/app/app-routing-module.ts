@@ -14,14 +14,17 @@ const routes: Routes = [
   { path: 'wallet', component: HomePage },
   {
     path: 'contacts', component: ContactPage, children: [
-      // { path: 'contact-list', component: ContactList },
       { path: 'edit', component: ContactEdit },
-      { path: 'edit/:contactId', component: ContactEdit ,  resolve: {contact:contactResolver} }
     ]
   },
   { path: 'dash-board', component: DashBoard },
-  { path: 'details/:contactId', component: ContactDetailsPage 
-    , canActivate:[authGuard], resolve: {contact:contactResolver}},
+  {
+    path: 'details/:contactId', component: ContactDetailsPage,
+    children: [
+      { path: 'edit/:contactId', component: ContactEdit, resolve: { contact: contactResolver } }
+    ]
+    , canActivate: [authGuard], resolve: { contact: contactResolver }
+  },
   { path: '', pathMatch: 'full', redirectTo: 'wallet' },
   { path: '**', component: PageNotFound },
 ];
