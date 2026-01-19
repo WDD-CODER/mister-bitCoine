@@ -1,10 +1,21 @@
-.contacts-list {
+:host {
     display: grid;
-    place-items: center;
-    gap: 10px;
-    padding: 0;
+    .contacts-list {
+        display: grid;
+        place-items: center;
+        gap: 10px;
+        padding: 0;
 
-    li {
-        list-style: none;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    button {
+        cursor: pointer;
+        place-self: center;
+
+        border-radius: 1vh;
     }
 }
