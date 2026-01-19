@@ -4,14 +4,43 @@
     place-content: center;
 
     .charts-main-container {
+        display: grid;
+
+        gap: 10px;
 
         .two-charts {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
             grid-auto-flow: dense;
+
+            gap: 10px;
+
             place-items: center;
 
+            >* {
+                display: grid;
+                // grid-template-columns: minmax(150px,1fr);
+
+                grid-template-columns: auto;
+                place-content: center;
+                width: 90%;
+                height: 90%;
+
+                padding: 15px;
+
+                background: #ffffff;
+                text-align: center;
+
+                border-radius: 8px;
+
+
+            }
+
+            @media (min-width: 490px) {
+                grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            }
+
         }
+
     }
 
 
@@ -22,11 +51,13 @@
 
         width: fit-content;
         height: fit-content;
-        
+
         text-align: center;
         background-color: wheat;
-        
+
         border: 1px solid black;
         border-radius: 1vh;
     }
 }
+
+// @media(min-width )
