@@ -4,13 +4,13 @@
             <span >{{ user.name }}</span>
         </h1>
         <div class="coins flex align-center">
-        <img src="/assets/img/coins.png" alt="coins icon">
+        <img src="assets/img/coins.png" alt="coins icon">
         <span class="amount " *ngIf="user; else noUser"> Coins :{{user.coins}}</span>
         <ng-template class="amount " #noUser> User Is Not Found</ng-template>
     </div>
 
     <div class="btc flex align-center" *ngIf="user">
-        <img src="/assets/img/bitcoin.png" alt="coins icon">
+        <img src="assets/img/bitcoin.png" alt="bitcoin icon">
         <ng-container *ngIf="btcRate$ | async as btcRate; else loading">
             BTC :
             <span class="amount ">{{btcRate}}</span>

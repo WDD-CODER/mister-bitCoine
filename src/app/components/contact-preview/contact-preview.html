@@ -4,7 +4,6 @@
         {{contact.name}}
         <section class="actions">
             <button (click)="onRemoveContact($event,contact._id)">X</button>
-            <button (click)="$event.stopPropagation()" [routerLink]="['/contacts', 'edit', contact._id]">Edit</button>
         </section>
     </div>
 </article>
