@@ -29,7 +29,6 @@ export class ContactEdit implements OnInit {
         console.log("🚀 ~ ContactEdit ~ ngOnInit ~ contact:", contact)
         
         return contact}),
-      // switchMap(contactId => this.contactService.getContactById(contactId)),
       takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: contact => this.newContact = contact,
