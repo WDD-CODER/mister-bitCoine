@@ -1,10 +1,11 @@
-:host{
+:host {
     display: grid;
 
     place-items: center;
 
     gap: 10px;
-    .simple-cards-grid{
+
+    .simple-cards-grid {
         padding: 1em;
 
         border-radius: 1vh;
@@ -12,19 +13,26 @@
 
         text-align: center;
         background-color: bisque;
-        img{
+
+        img {
             place-self: center;
             width: 80%;
         }
     }
 
-    button{
-        display: grid;
-        padding: .5em;
+    section {
+        display: flex;
+        justify-content: space-around;
+        gap: 10px;
 
-        font-size: 1.5em;
+        button {
+            display: grid;
+            padding: .5em;
 
-        background-color: bisque;
-        border-radius: 1vh;
+            font-size: 1.5em;
+
+            background-color: bisque;
+            border-radius: 1vh;
+        }
     }
 }

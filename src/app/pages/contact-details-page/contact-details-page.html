@@ -1,13 +1,18 @@
-<ng-container *ngIf="contact$ | async as contact; else loading" >
+<ng-container *ngIf="contact$ | async as contact; else loading">
     <div class="simple-cards-grid">
-    <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
-    <span>Name : {{contact.name}}</span>
-    <span>Email : {{contact.email}}</span>
-    <span>Phone Number : {{contact.phone}}</span>
-    <span *ngIf="contact.birthday">birthday : {{contact.birthday | date : 'dd/MM/yyyy'}}</span>
+        <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
+        <span>Name : {{contact.name}}</span>
+        <span>Email : {{contact.email}}</span>
+        <span>Phone Number : {{contact.phone}}</span>
+        <span *ngIf="contact.birthday">birthday : {{contact.birthday | date : 'dd/MM/yyyy'}}</span>
     </div>
-    <button routerLink="/contacts" >Back</button>
+    <section class="actions">
+        <button routerLink="/contacts">Back</button>
+        <button (click)="onRemoveContact($event,contact._id)">Delete</button>
+        <button [routerLink]="['edit',contact._id]">Edit</button>
+    </section>
+    <router-outlet></router-outlet>
 </ng-container>
 <ng-template #loading>
-loading....
+    loading....
 </ng-template>
