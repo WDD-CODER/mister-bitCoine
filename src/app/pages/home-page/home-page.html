@@ -19,8 +19,13 @@
             <p>loading BTC value</p>
         </ng-template>
     </div>
-<span>Costume date{{date | dateDescription}}</span>
+<!-- <span>Costume date : {{date | dateDescription}}</span>
+<br>
+<span>Fetch data : {{url | fetchData | json}}</span> -->
 
+<!-- <ng-container *ngIf="contacts?.length && contacts">
+    <simple-list   [contacts]="contacts | filterArr : 'name' : 'ccc' "/>
+</ng-container> -->
     <button (click)="onAddCoins($event)">Add Coins </button>
 </ng-container>
 <ng-template #noUser>

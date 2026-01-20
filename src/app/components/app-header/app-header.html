@@ -1,6 +1,9 @@
-<header [style.background-color]="curColor">
+<header
+ [style.background-color]="curColor"
+ [style.color]="curColor | textColor"
+ >
     <h2>my Bitcoin Wallet</h2>
-    <button class="is-open-btn" (click)="onSetIsOpen($event)">🎨</button>
+    <button  [style.background-color]="curColor | textColor" class="is-open-btn" (click)="onSetIsOpen($event)">🎨</button>
     <color-palette (isOpenChange)="onSetIsOpen($event)" (colorChange)="onSetColor($event)" [curColor]="curColor" [isOpen]="isOpen" />
     <section class="routes">
         <ng-container *ngFor="let route of customRoutes; let id = index">
