@@ -1,0 +1,6 @@
+<section class="list">
+    list
+    <span *ngFor="let contact of filteredContacts; let idx = index">
+        <contact-preview [contact]="contact"/>
+    </span>
+</section>
