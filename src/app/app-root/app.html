@@ -1,19 +1,7 @@
-<!-- <app-header (setRoute)="setCustomRoutes($event)" [customRoutes]="customRoutes"/>
-<section [ngSwitch]="activeRouteName()" class="main-content">
-    <home-page  *ngSwitchCase="'wallet'"/>
-    <contact-page (setRoute)="setCustomRoutes($event)"   *ngSwitchCase="'contacts'"/>
-     <contact-details-page *ngSwitchCase="'details'" (setRoute)="setCustomRoutes($event)" />
-    <dash-board *ngSwitchCase="'dash-board'"/>
-</section>
-<app-footer/>
-<loader/> -->
+
 <app-header  />
 <main class="main-content" >
     <router-outlet/>
-    <!-- <home-page *ngSwitchCase="'wallet'" /> -->
-    <!-- <contact-page (setRoute)="setCustomRoutes($event)" *ngSwitchCase="'contacts'" /> -->
-    <!-- <contact-details-page *ngSwitchCase="'details'" (setRoute)="setCustomRoutes($event)" /> -->
-    <!-- <dash-board *ngSwitchCase="'dash-board'" /> -->
 </main>
 <app-footer />
 <loader />

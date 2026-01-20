@@ -14,8 +14,10 @@ export class ContactPreview {
   contactService = inject(ContactService)
 
   @Input() contact!: Contact
+  @Output() remove = new EventEmitter()
 
-  onRemoveContact(ev:MouseEvent ,id: string) {
+
+  onRemoveContact(ev: MouseEvent, id: string) {
     ev.stopPropagation()
     this.contactService.deleteContact(id).subscribe({
       error: err => console.log('err', err)
