@@ -9,7 +9,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return userService.user$.pipe(
     map(user=> {
-      console.log("🚀 ~ authGuard ~ user:", user)
       return !!user || router.createUrlTree(['/wallet']);
     })
   );

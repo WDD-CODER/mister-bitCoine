@@ -18,10 +18,14 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { MarketPriceChart } from './components/market-price-chart/market-price-chart';
 import { MarketTradeVolume } from './components/market-trade-volume/market-trade-volume';
 import { MarketBlockSize } from './components/market-block-size/market-block-size';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Loader } from './components/loader/loader';
 import { PageNotFound } from './components/page-not-found/page-not-found';
 import { ContactEdit } from './pages/contact-edit/contact-edit';
+import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
+import { ColorPalette } from './components/color-palette/color-palette';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { DateDescriptionPipe } from './pipes/date-description-pipe';
 
 @NgModule({
   declarations: [
@@ -42,16 +46,21 @@ import { ContactEdit } from './pages/contact-edit/contact-edit';
     Loader,
     PageNotFound,
     ContactEdit,
+    ContactEditReactive,
+    ColorPalette,
+    DateDescriptionPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     GoogleChartsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideHttpClient(),
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),
+    provideAnimationsAsync('animations')
   ],
   bootstrap: [App]
 })
