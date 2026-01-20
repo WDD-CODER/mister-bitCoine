@@ -1,0 +1,55 @@
+// :host{
+//     position: relative;
+// }
+.back-drop {
+    position: fixed;
+    display: grid;
+    inset: 0;
+    // width: 100vw;
+    // height: 100vh;
+    backdrop-filter: blur(1px);
+    z-index: 10;
+}
+
+.color-palette {
+
+
+    position: absolute;
+    top: 100%;
+    right: 40%;
+    // transform: translate(0, 50%);
+
+    border-radius: 1vh;
+    border: 1px black solid;
+
+    background-color: white;
+
+    z-index: 11;
+
+    .colors {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+        grid-auto-flow: dense;
+        
+        place-items: center;
+        gap: 1em;
+
+        width: 100px;
+
+        padding: 1em;
+
+
+        span {
+            display: grid;
+
+            width: 15px;
+            height: 15px;
+
+            cursor: pointer;
+
+            border-radius: 2px;
+            border: 1px black solid;
+
+        }
+    }
+}
