@@ -26,6 +26,10 @@ import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-
 import { ColorPalette } from './components/color-palette/color-palette';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DateDescriptionPipe } from './pipes/date-description-pipe';
+import { FilterArr} from './pipes/filter-arr-pipe';
+import { SimpleList } from './components/simple-list/simple-list';
+import { FetchData } from './pipes/fetch-data-pipe';
+import {  TextColorPipe } from './pipes/Text-color-pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,10 @@ import { DateDescriptionPipe } from './pipes/date-description-pipe';
     ContactEditReactive,
     ColorPalette,
     DateDescriptionPipe,
+    FilterArr,
+    SimpleList,
+    FetchData,
+    TextColorPipe,
   ],
   imports: [
     BrowserModule,
