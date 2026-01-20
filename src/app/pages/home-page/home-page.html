@@ -1,34 +1,55 @@
-<div class="main-container container" >
+<div class="main-container">
     <ng-container *ngIf="user$ | async as user; else noUser">
         <h1 class="user-name ">Hello :
-            <span >{{ user.name }}</span>
+            <span>{{ user.name }}</span>
         </h1>
         <div class="coins flex align-center">
-        <img src="assets/img/coins.png" alt="coins icon">
-        <span class="amount " *ngIf="user; else noUser"> Coins :{{user.coins}}</span>
-        <ng-template class="amount " #noUser> User Is Not Found</ng-template>
-    </div>
+            <img src="assets/img/coins.png" alt="coins icon">
+            <span class="amount " *ngIf="user; else noUser"> Coins :{{user.coins}}</span>
+            <ng-template class="amount " #noUser> User Is Not Found</ng-template>
+        </div>
 
-    <div class="btc flex align-center" *ngIf="user">
-        <img src="assets/img/bitcoin.png" alt="bitcoin icon">
-        <ng-container *ngIf="btcRate$ | async as btcRate; else loading">
-            BTC :
-            <span class="amount ">{{btcRate}}</span>
-        </ng-container>
-        <ng-template #loading>
-            <p>loading BTC value</p>
-        </ng-template>
-    </div>
-<!-- <span>Costume date : {{date | dateDescription}}</span>
+        <div class="btc flex align-center" *ngIf="user">
+            <img src="assets/img/bitcoin.png" alt="bitcoin icon">
+            <ng-container *ngIf="btcRate$ | async as btcRate; else loading">
+                BTC :
+                <span class="amount ">{{btcRate}}</span>
+            </ng-container>
+            <ng-template #loading>
+                <p>loading BTC value</p>
+            </ng-template>
+        </div>
+        <!-- <span>Costume date : {{date | dateDescription}}</span>
 <br>
 <span>Fetch data : {{url | fetchData | json}}</span> -->
 
-<!-- <ng-container *ngIf="contacts?.length && contacts">
-    <simple-list   [contacts]="contacts | filterArr : 'name' : 'ccc' "/>
+        <!-- <ng-container *ngIf="contacts?.length && contacts">
+    <simple-list   [contacts]="contacts | filterArr : 'name' : 'c' "/>
 </ng-container> -->
-    <button (click)="onAddCoins($event)">Add Coins </button>
-</ng-container>
-<ng-template #noUser>
-No User Is Logged In
-</ng-template>
+
+        <!-- <button (click)="onChangeName()">Change name</button> -->
+        <button (click)="onAddCoins($event)">Add Coins </button>
+    </ng-container>
+    <ng-template #noUser>
+        <button (click)="SetSingUpLogin($event)">{{singUp? 'Login' : 'Sing Up' }}</button>
+        <ng-container *ngIf="singUp; else login">
+            <h4>Sing Up Please</h4>
+            <form (submit)="onSingUpUser($event)">
+            <label for="user-name">
+                <input placeholder="Please enter name?" ngModel  type="text" name="user-name">
+            </label>
+            <label for="user-email">
+                <input placeholder="Please enter email?" ngModel type="email" name="user-email">
+            </label>
+            <button type="submit">Sing Up User</button>
+            </form>
+        </ng-container>
+        <ng-template #login>
+            <h4>Login Please</h4>
+            <label for="user-name">
+                <input placeholder="what is you user name?" [(ngModel)]="userNameInput" type="text" name="user-name">
+            </label>
+            <button (click)="Login($event)">show name </button>
+        </ng-template>
+    </ng-template>
 </div>
