@@ -9,19 +9,20 @@ import { ContactEdit } from './pages/contact-edit/contact-edit';
 import { ContactList } from './components/contact-list/contact-list';
 import { authGuard } from './guards/auth-guard';
 import { contactResolver } from './resolvers/contact-resolver';
+import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
 
 const routes: Routes = [
   { path: 'wallet', component: HomePage },
   {
     path: 'contacts', component: ContactPage, children: [
-      { path: 'edit', component: ContactEdit },
+      { path: 'edit', component: ContactEditReactive },
     ]
   },
   { path: 'dash-board', component: DashBoard },
   {
     path: 'details/:contactId', component: ContactDetailsPage,
     children: [
-      { path: 'edit/:contactId', component: ContactEdit, resolve: { contact: contactResolver } }
+      { path: 'edit/:contactId', component: ContactEditReactive, resolve: { contact: contactResolver } }
     ]
     , canActivate: [authGuard], resolve: { contact: contactResolver }
   },
