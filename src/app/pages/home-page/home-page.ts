@@ -15,15 +15,17 @@ export class HomePage {
   private userService = inject(UserService)
   private bitcoinService = inject(BitcoinService)
 
+  date = Date.now() - 1000 * 60 ** 2 * 30
+
   user$: Observable<User | null> = this.userService.user$
   btcRate$: Observable<number> = this.user$.pipe(
     filter((user): user is User => !!user),
     switchMap(user => this.bitcoinService.getRateStream(user.coins))
-  ) 
+  )
 
-  onAddCoins(ev:MouseEvent) {
+  onAddCoins(ev: MouseEvent) {
     this.userService.addCoins(100)
-}
+  }
 
 
 

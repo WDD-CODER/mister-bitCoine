@@ -8,6 +8,9 @@ import { CustomRoute } from '../../models/custom-routes.model';
   styleUrl: './app-header.scss',
 })
 export class AppHeader {
+  
+curColor = '#FF5733'  
+isOpen = false
 
     customRoutes: CustomRoute[] = [
     { name: 'wallet', isActive: true, },
@@ -15,5 +18,16 @@ export class AppHeader {
     { name: 'details', isActive: false, id: '' },
     { name: 'dash-board', isActive: false, }
   ]
+
+onSetIsOpen(ev:MouseEvent) {
+  console.log( this.isOpen)
+  
+  this.isOpen = !this.isOpen
+}
+
+onSetColor(color : string) {
+  this.curColor = color
+}
+
 
 }

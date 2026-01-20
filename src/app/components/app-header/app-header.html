@@ -1,6 +1,10 @@
-<h2>my Bitcoin Wallet</h2>
-<section class="routes">
-    <ng-container *ngFor="let route of customRoutes; let id = index">
-        <a *ngIf="route.name !== 'details'"  routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>
-    </ng-container>
-</section>
+<header [style.background-color]="curColor">
+    <h2>my Bitcoin Wallet</h2>
+    <button class="is-open-btn" (click)="onSetIsOpen($event)">🎨</button>
+    <color-palette (isOpenChange)="onSetIsOpen($event)" (colorChange)="onSetColor($event)" [curColor]="curColor" [isOpen]="isOpen" />
+    <section class="routes">
+        <ng-container *ngFor="let route of customRoutes; let id = index">
+            <a *ngIf="route.name !== 'details'"  routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>
+        </ng-container>
+    </section>
+</header>
