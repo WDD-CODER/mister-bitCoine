@@ -41,7 +41,7 @@ export class SignupLogin {
       this.userSigninForm.markAllAsTouched()
       return
     }
-    this.userService.setLoggedUser(this.userSigninForm.value)
+    this.userService.setSignedUser(this.userSigninForm.value)
   }
 
   setSingUpLogin($event: MouseEvent) {
