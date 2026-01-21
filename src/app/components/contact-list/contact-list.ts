@@ -16,6 +16,8 @@ export class ContactList {
   contacts$: Observable<Contact[]> = this.contactService.contacts$
 
   onSelectContact(contact: Contact) {
+    console.log('variable')
+    
     this.contactService.selectContent(contact._id)
   }
 
