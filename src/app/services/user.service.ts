@@ -26,25 +26,14 @@ export class UserService {
 
     const loggedInUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER) || 'null')
     if (!loggedInUser) return
-    else this._user$.next(signedUsers)
+    else this._user$.next(loggedInUser)
   }
 
-  public setLoggedUser(user: User): void {
+  public setSignedUser(user: User): void {
     const coins = 0
     const newUser: User = { ...user, coins }
-    localStorage.setItem(LOGGED_IN_USER, JSON.stringify(newUser))
 
-    let signedUsers = this._signedUsers$.value
-    if (!signedUsers) {
-      signedUsers = [newUser]
-      localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
-    }
-    else if (!signedUsers.some(u => u.name === newUser.name)) {
-      signedUsers.push(newUser)
-      localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
-    }
-
-    this._user$.next(newUser)
+    this._updateUser(newUser)
   }
 
   public logout(): void {
@@ -57,23 +46,39 @@ export class UserService {
     if (users && users.length === 0) return console.log('no signed users')
     let user = users?.find(user => user.name === userName)
     if (user) {
-      localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
-      this._user$.next(user)
+      this._updateUser(user)
     }
   }
 
   public addCoins(coins: number) {
-    // const user = this._user$.value
-    // if (user) {
-    //   const updatedUser = { ...user, coins: user.coins + coins }
-    //   this.user.coins += coins
-    //   this._user$.next(updatedUser)
-    // }
-    if (this.user) {
-      const updatedUser = { ...this.user, coins: this.user.coins + coins }
-      this.user.coins += coins
-      this._user$.next(updatedUser)
+    let user = this._user$.value
+    if (!user) return
+    const updatedUser = { ...user, coins: user.coins += coins }
+    this._updateUser(updatedUser)
+
+  }
+
+  _updateUser(user: User): void {
+    localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
+    let signedUsers = this._signedUsers$.value
+    if (!signedUsers) {
+      signedUsers = [user]
+      localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
     }
-    this._user$.next(null)
+    else if (!signedUsers.some(u => u.name === user.name)) {
+      signedUsers.push(user)
+      localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
+    }
+    else {
+      const idx = signedUsers.findIndex(u => u.name === user.name)
+      if (idx) {
+        signedUsers.splice(idx, 1, user)
+        localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
+        this._signedUsers$.next(signedUsers)
+      }
+    }
+
+    this._user$.next(user)
+
   }
 }
