@@ -31,10 +31,7 @@
             justify-content: space-around;
         }
         
-        .errors{
-            color: red;
-        }
-
+        
         input{
             &.ng-invalid.ng-touched {
                 border-color: red;

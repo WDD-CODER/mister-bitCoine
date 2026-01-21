@@ -43,7 +43,6 @@ export class ContactEditReactive {
       takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: contact => {
-          console.log("🚀 ~ ContactEditReactive ~ ngOnInit ~ contact:", contact)
           const contactToEdit = { ...contact, birthday: this._formatTime(contact.birthday || Date.now()) }
           this.contactForm.patchValue(contactToEdit),
             this.newContact = contactToEdit

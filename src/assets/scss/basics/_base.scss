@@ -62,13 +62,3 @@ input {
     color: red;
     width: 100%;
 }
-
-body:has(.pet-edit-form) {
-    .pet-edit-form,
-    .pet-edit-form * {
-        pointer-events: all;
-    }
-    :not(.pet-edit-form, .pet-edit-form *) {
-        pointer-events: none;
-    }
-}
