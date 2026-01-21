@@ -30,6 +30,7 @@ import { FilterArr} from './pipes/filter-arr-pipe';
 import { SimpleList } from './components/simple-list/simple-list';
 import { FetchData } from './pipes/fetch-data-pipe';
 import {  TextColorPipe } from './pipes/Text-color-pipe';
+import { SignupLogin } from './components/signup-login/signup-login';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import {  TextColorPipe } from './pipes/Text-color-pipe';
     SimpleList,
     FetchData,
     TextColorPipe,
+    SignupLogin,
   ],
   imports: [
     BrowserModule,

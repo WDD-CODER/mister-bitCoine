@@ -23,14 +23,11 @@ export class HomePage implements OnInit {
 
   date = Date.now() - 1000 * 60 ** 2 * 30
   contacts: Contact[] | null = null
-  userNameInput!: string;
-  singUp: boolean = true
 
 
 
   contacts$: Observable<Contact[]> = this.contactService.contacts$
   user$: Observable<User | null> = this.userService.user$
-  // loggedInUser$: Observable<User | null> = this.userService.LoggedInUser$
 
 
   // url = 'https://jsonplaceholder.typicode.com/todos/1'
@@ -50,18 +47,8 @@ export class HomePage implements OnInit {
     })
   }
 
-onSingUpUser({target}: SubmitEvent) {
-console.log("🚀 ~ HomePage ~ onSingUpUser ~ target:", target)
-}
-
-  SetSingUpLogin($event: MouseEvent) {
-    this.singUp = !this.singUp
-  }
-
-  Login(ev: MouseEvent) {
-
-    // const user = localStorage.getItem(this.SINGED_IN_USERS)
-    // console.log("🚀 ~ HomePage ~ Login ~ user:", user)
+  onLogout(ev: MouseEvent): void {
+    this.userService.logout()
   }
 
   onChangeName() {
