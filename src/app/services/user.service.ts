@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, of, take } from 'rxjs';
 import { Contact } from '../models/contact.model';
 import { ContactService } from './contact.service';
 import { Router } from '@angular/router';
+import { Move } from '../models/move.model';
 
 const SINGED_USERS = 'signed-users-db'
 const LOGGED_IN_USER = 'signed-user'
@@ -36,10 +37,9 @@ export class UserService {
   }
 
   public setSignedUser(user: User): void {
-    const coins = 0
-    const newUser: User = { ...user, coins }
+    const newUser: User = { ...user }
 
-    this._updateUser(newUser)
+    this._updateUser(user)
   }
 
   public logout(): void {
@@ -64,36 +64,41 @@ export class UserService {
 
   }
 
-  public sendCoins(contactId: string, coinsToSend: number) {
-    if (!this._user$.value) return
-
-    if (this._user$.value?.coins < coinsToSend) {
+  public async sendCoins(contactId: string, coinsToSend: number) {
+    let user = this._user$.value
+    if (!user || user.coins < coinsToSend) {
       return alert('Not enough funds for transfer')
     }
 
-    let curUser = this._user$.value
 
     this.contactService.getContactById(contactId)
-      .subscribe({
-        next: contact => {
-          const updatedContact = { ...contact, coins: contact.coins ? contact.coins += coinsToSend : coinsToSend }
-          this.contactService.saveContact(updatedContact)
+      .pipe(
+        take(1),
+        map(contact => {
+          
+          let updatedCoins = user.coins -= coinsToSend
+          let curMove = { toId: contact._id, to:contact.name , at: Date.now(), amount: coinsToSend }
+          
+           let UpdatedMoves: Move[] = (!user.moves)?  [curMove] : [...user.moves, curMove]
+           
+          return {
+            user: { ...user, coins: updatedCoins, moves: UpdatedMoves },
+            contact: {...contact, coins:(contact.coins || 0) + coinsToSend}
+          }
 
+        }
+        )
+      )
+      .subscribe({
+        next: data => {
+          this.contactService.saveContact(data.contact)
+          this._updateUser(data.user)
         },
         error: err => console.log('err', err)
-
       })
-
-
-    let updatedCoins = this._user$.value.coins -= coinsToSend
-    this._updateUser({ ...this._user$.value, coins: updatedCoins })
-
-    // this.router.navigateByUrl('/contacts')
   }
 
   public _addMove(contact: Contact, amount: number) {
-    console.log("🚀 ~ UserService ~ _addMove ~ contact:", contact)
-    console.log("🚀 ~ UserService ~ _addMove ~ amount:", amount)
   }
 
   private _updateUser(user: User): void {
