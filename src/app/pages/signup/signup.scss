@@ -1,0 +1,24 @@
+:host {
+    display: grid;
+    place-content: center;
+    place-items: center;
+
+    button {
+        width: fit-content;
+
+    }
+
+    label {
+        // display: flex;
+
+        // place-items: center;
+    }
+
+    form {
+        display: grid;
+place-items: center;
+        gap: 10px;
+
+
+    }
+}
