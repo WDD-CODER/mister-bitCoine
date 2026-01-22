@@ -102,6 +102,7 @@ export class ContactService {
             .pipe(
                 tap(updatedContact => {
                     const contacts = this._contacts$.value
+                    this._selectedContact$.next(updatedContact)
                     this._contacts$.next(contacts.map(contact => contact._id === updatedContact._id ? updatedContact : contact))
                 }),
                 retry(1),

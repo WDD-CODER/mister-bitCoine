@@ -26,8 +26,10 @@ export class ContactEditReactive {
   newContact: Contact | null = null
 
   constructor() {
+
+    
     this.contactForm = this.fb.group({
-      name: ['', [Validators.required, OnlyEnglishLetters], nameTaken(this.contactService) ],
+      name: ['', [Validators.required, OnlyEnglishLetters], nameTaken(this.contactService)],
       email: ['', [Validators.required, mustContainHash]],
       phone: ['', [Validators.required, Validators.minLength(6)]],
       birthday: [this._formatTime(Date.now())],
@@ -43,9 +45,15 @@ export class ContactEditReactive {
       takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: contact => {
+
           const contactToEdit = { ...contact, birthday: this._formatTime(contact.birthday || Date.now()) }
+
+          this.contactForm.get('name')?.clearAsyncValidators()
+          this.contactForm.get('name')?.setValidators([Validators.required, OnlyEnglishLetters]);
+
           this.contactForm.patchValue(contactToEdit),
-            this.newContact = contactToEdit
+          this.contactForm.get('name')?.updateValueAndValidity()
+          this.newContact = contactToEdit
         },
         error: err => console.log('Error', err)
       })
@@ -63,7 +71,7 @@ export class ContactEditReactive {
 
 
   onSaveContact(ev: SubmitEvent) {
-    if ( this.contactForm.invalid){
+    if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched()
       return
     }
@@ -73,7 +81,7 @@ export class ContactEditReactive {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         error: err => console.log('err', err),
-        complete: () => this.router.navigateByUrl('/contacts')
+        complete: ()=> this.onBack()
       })
 
   }

@@ -4,28 +4,45 @@
             Contact Name :
             <input id="name" required type="text" formControlName="name">
             <ng-container *ngIf="contactForm.controls['name'] as contactName">
-                <p class="errors" *ngIf="contactName.invalid && contactName.touched">
-                    <span *ngIf="contactName.errors?.['required']">Name is required</span>
-                    <span *ngIf="contactName.errors?.['nameTaken'] as errorMsg">{{errorMsg}}</span>
-                    <span *ngIf="contactName.errors?.['OnlyEnglishLetters'] as errorMsg">{{errorMsg}}</span>
-                </p>
-                <span *ngIf="contactName.pending && contactName.dirty">Fetching for name...</span>
+                <ng-container *ngIf="editing; else creating">
+                    <p class="errors" *ngIf="contactName.invalid">
+                        <span *ngIf="contactName.errors?.['required']">Name is required</span>
+                        <span *ngIf="contactName.errors?.['OnlyEnglishLetters'] as errorMsg">{{errorMsg}}</span>
+                    </p>
+                    <span *ngIf="contactName.pending && contactName.dirty">Fetching for name...</span>
+                </ng-container>
+
+                <ng-template #creating>
+                    <p class="errors" *ngIf="contactName.invalid && contactName.touched">
+                        <span *ngIf="contactName.errors?.['required']">Name is required</span>
+                        <span *ngIf="contactName.errors?.['nameTaken'] as errorMsg">{{errorMsg}}</span>
+                        <span *ngIf="contactName.errors?.['OnlyEnglishLetters'] as errorMsg">{{errorMsg}}</span>
+                    </p>
+                </ng-template>
             </ng-container>
         </label>
         <label for="phone">
             Contact Phone :
             <input id="phone" required type="text" formControlName="phone">
             <ng-container *ngIf="contactForm.controls['phone'] as contactPhone">
-                <p class="errors" *ngIf="contactPhone.invalid && contactPhone.touched">
-                    <span *ngIf="contactPhone.errors?.['required']">phone Number is required</span>
-                    <span *ngIf="contactPhone.errors?.['minlength']">Number must be Minimum 6 figures</span>
-                </p>
+                <ng-container *ngIf="editing; else creating">
+                    <p class="errors" *ngIf="contactPhone.invalid ">
+                        <span *ngIf="contactPhone.errors?.['required']">phone Number is required</span>
+                        <span *ngIf="contactPhone.errors?.['minlength']">Number must be Minimum 6 figures</span>
+                    </p>
+                </ng-container>
+                <ng-template #creating>
+                    <p class="errors" *ngIf="contactPhone.invalid && contactPhone.touched ">
+                        <span *ngIf="contactPhone.errors?.['required']">phone Number is required</span>
+                        <span *ngIf="contactPhone.errors?.['minlength']">Number must be Minimum 6 figures</span>
+                    </p>
+                </ng-template>
             </ng-container>
         </label>
         <label for="email">
             Contact Email :
             <input id="email" required type="email" formControlName="email">
-             <ng-container *ngIf="contactForm.controls['email'] as contactEmail">
+            <ng-container *ngIf="contactForm.controls['email'] as contactEmail">
                 <p class="errors" *ngIf="contactEmail.invalid && contactEmail.touched">
                     <span *ngIf="contactEmail.errors?.['required']">Email is required</span>
                     <span *ngIf="contactEmail.errors?.['mustContainHash'] as errorMsg">{{errorMsg}}</span>
@@ -38,7 +55,8 @@
         </label>
 
         <section class="actions">
-            <button type="submit" [disabled]="contactForm.invalid">Save</button>
+            {{contactForm.status }}
+            <button type="submit" [disabled]="!contactForm.valid">Save</button>
             <button type="button" (click)="onBack()">Back</button>
         </section>
     </form>
