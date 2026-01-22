@@ -6,11 +6,14 @@
         <span>Email : {{contact.email}}</span>
         <span>Phone Number : {{contact.phone}}</span>
         <span *ngIf="contact.birthday">birthday : {{contact.birthday | date : 'dd/MM/yyyy'}}</span>
+        <span *ngIf="contact.coins">Coins : {{contact.coins}}</span>
     </div>
     <section class="actions">
         <button routerLink="/contacts">Back</button>
         <button (click)="onRemoveContact($event,contact._id)">Delete</button>
-        <button [routerLink]="['edit',contact._id]">Edit</button>
+        <button (click)="onSendCoins(contact._id)">Send coins</button>
+        <!-- <button [routerLink]="['edit',contact._id]">Edit</button> -->
+        <button routerLink="edit">Edit</button>
     </section>
     <router-outlet></router-outlet>
 </ng-container>

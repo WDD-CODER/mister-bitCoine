@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { CustomRoute } from '../../models/custom-routes.model';
 import { ContactService } from '../../services/contact.service';
-import { BehaviorSubject, lastValueFrom, map, Observable, switchMap, tap } from 'rxjs';
+import {  Observable} from 'rxjs';
 import { Contact } from '../../models/contact.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'contact-details-page',
@@ -16,15 +16,13 @@ export class ContactDetailsPage implements OnInit {
 
 
   private contactService = inject(ContactService)
-  private route = inject(ActivatedRoute)
+  private userService = inject(UserService)
   private router = inject(Router)
   private cd = inject(ChangeDetectorRef)
 
+  public contact$: Observable<Contact | null> = this.contactService.selectedContact$
 
-  public contact$: Observable<Contact> = this.route.data.pipe(
-    map(data => data['contact'])
-  )
-  msg: string | null = null
+  public msg: string | null = null
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -33,17 +31,20 @@ export class ContactDetailsPage implements OnInit {
     }, 1000);
   }
 
+  onSendCoins(contactId: string) {
+    let coins = prompt('how many coins to send?') || null
+    if (!coins) return
+    this.userService.sendCoins(contactId, +coins)
+    this.cd.markForCheck()
+  }
+
+
   onRemoveContact(ev: MouseEvent, id: string) {
     ev.stopPropagation()
     this.contactService.deleteContact(id).subscribe({
       error: err => console.log('err', err),
       complete: () => this.router.navigateByUrl('/contacts')
-
     })
-  }
-
-  onBack(): void {
-    this.router.navigateByUrl('/contacts')
   }
 
 
