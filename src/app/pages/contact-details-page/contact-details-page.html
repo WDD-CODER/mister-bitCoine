@@ -12,7 +12,6 @@
         <button routerLink="/contacts">Back</button>
         <button (click)="onRemoveContact($event,contact._id)">Delete</button>
         <button (click)="onSendCoins(contact._id)">Send coins</button>
-        <!-- <button [routerLink]="['edit',contact._id]">Edit</button> -->
         <button routerLink="edit">Edit</button>
     </section>
     <router-outlet></router-outlet>
