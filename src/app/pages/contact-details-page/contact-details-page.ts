@@ -34,7 +34,7 @@ export class ContactDetailsPage implements OnInit {
   onSendCoins(contactId: string) {
     let coins = prompt('how many coins to send?') || null
     if (!coins) return
-    this.userService.sendCoins(contactId, +coins)
+    this.userService.addMove(contactId, +coins)
     this.cd.markForCheck()
   }
 

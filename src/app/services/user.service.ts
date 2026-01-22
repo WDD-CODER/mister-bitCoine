@@ -65,9 +65,9 @@ export class UserService {
 
   }
 
-  public sendCoins(contactId: string, coinsToSend: number) {
+  public addMove(contactId: string, amount: number) {
     let user = this._user$.value
-    if (!user || user.coins < coinsToSend) {
+    if (!user || user.coins < amount) {
       return alert('Not enough funds for transfer')
     }
 
@@ -76,18 +76,17 @@ export class UserService {
         take(1),
         map(contact => {
           
-          let updatedCoins = user.coins -= coinsToSend
-          let curMove = { toId: contact._id, to:contact.name , at: Date.now(), amount: coinsToSend }
+          let updatedCoins = user.coins -= amount
           
+          let curMove = { toId: contact._id, to:contact.name , at: Date.now(), amount: amount }
            let UpdatedMoves: Move[] = (!user.moves)?  [curMove] : [...user.moves, curMove]
            
           return {
             user: { ...user, coins: updatedCoins, moves: UpdatedMoves },
-            contact: {...contact, coins:(contact.coins || 0) + coinsToSend}
+            contact: {...contact, coins:(contact.coins || 0) + amount}
           }
 
-        }
-        )
+        })
       )
       .subscribe({
         next: data => {
@@ -98,8 +97,6 @@ export class UserService {
       })
   }
 
-  public _addMove(contact: Contact, amount: number) {
-  }
 
   private _updateUser(user: User): void {
     localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
