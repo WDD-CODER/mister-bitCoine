@@ -29,6 +29,8 @@ export class SignupLogin {
     this.userSigninForm = this.fb.group({
       name: ['', [Validators.required, OnlyEnglishLetters], userNameTaken(this.userService)],
       email: ['', [Validators.required, mustContainHash]],
+      coins: [0],
+      moves: [[]]
     })
     this.userLoginForm = this.fb.group({
       name: ['', [Validators.required, OnlyEnglishLetters], userNotSignin(this.userService)],
@@ -41,23 +43,21 @@ export class SignupLogin {
       this.userSigninForm.markAllAsTouched()
       return
     }
-    this.userService.setSignedUser(this.userSigninForm.value)
+    return this.userService.setSignedUser(this.userSigninForm.value)
+    
   }
 
   setSingUpLogin($event: MouseEvent) {
     this.singUp = !this.singUp
-    this.userSigninForm.reset()
   }
 
   onLogin(ev: MouseEvent) {
-    console.log("🚀 ~ SignupLogin ~ onLogin ~ this.userSigninForm.invalid:", this.userSigninForm.invalid)
     if (this.userLoginForm.invalid) {
       this.userLoginForm.markAllAsTouched()
       return
-    } 
+    }
     // console.log('variable')
-    
-    // console.log("🚀 ~ SignupLogin ~ onLogin ~ this.userLoginForm.value:", this.userLoginForm.value)
+
     this.userService.login(this.userLoginForm.value.name)
   }
 

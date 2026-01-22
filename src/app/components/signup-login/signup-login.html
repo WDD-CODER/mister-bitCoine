@@ -1,6 +1,5 @@
 <button (click)="setSingUpLogin($event)">{{singUp? 'Login' : 'Sing Up' }}</button>
 <ng-container *ngIf="singUp; else login">
-    {{userSigninForm.value | json}}
     <h4>Sing Up Please</h4>
     <form [formGroup]="userSigninForm" (submit)="onSingUpUser($event)">
         <label for="user-name">
