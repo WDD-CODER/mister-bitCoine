@@ -4,4 +4,5 @@ export interface Contact {
     phone: string
     _id: string
     birthday?:Date
+    coins?:number
 }

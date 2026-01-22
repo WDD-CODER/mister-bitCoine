@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { Contact } from '../models/contact.model';
+import { ContactService } from './contact.service';
+import { Router } from '@angular/router';
 
 const SINGED_USERS = 'signed-users-db'
 const LOGGED_IN_USER = 'signed-user'
@@ -9,6 +12,9 @@ const LOGGED_IN_USER = 'signed-user'
 })
 
 export class UserService {
+
+  contactService = inject(ContactService)
+  router = inject(Router)
 
   private _signedUsers$ = new BehaviorSubject<User[] | null>(null)
   public signedUsers$ = this._signedUsers$.asObservable()
@@ -58,7 +64,39 @@ export class UserService {
 
   }
 
-  _updateUser(user: User): void {
+  public sendCoins(contactId: string, coinsToSend: number) {
+    if (!this._user$.value) return
+
+    if (this._user$.value?.coins < coinsToSend) {
+      return alert('Not enough funds for transfer')
+    }
+
+    let curUser = this._user$.value
+
+    this.contactService.getContactById(contactId)
+      .subscribe({
+        next: contact => {
+          const updatedContact = { ...contact, coins: contact.coins ? contact.coins += coinsToSend : coinsToSend }
+          this.contactService.saveContact(updatedContact)
+
+        },
+        error: err => console.log('err', err)
+
+      })
+
+
+    let updatedCoins = this._user$.value.coins -= coinsToSend
+    this._updateUser({ ...this._user$.value, coins: updatedCoins })
+
+    // this.router.navigateByUrl('/contacts')
+  }
+
+  public _addMove(contact: Contact, amount: number) {
+    console.log("🚀 ~ UserService ~ _addMove ~ contact:", contact)
+    console.log("🚀 ~ UserService ~ _addMove ~ amount:", amount)
+  }
+
+  private _updateUser(user: User): void {
     localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
     let signedUsers = this._signedUsers$.value
     if (!signedUsers) {
@@ -77,8 +115,6 @@ export class UserService {
         this._signedUsers$.next(signedUsers)
       }
     }
-
     this._user$.next(user)
-
   }
 }
