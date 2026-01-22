@@ -5,8 +5,6 @@ import { ContactPage } from './pages/contact-page/contact-page';
 import { DashBoard } from './pages/dash-board/dash-board';
 import { PageNotFound } from './components/page-not-found/page-not-found';
 import { ContactDetailsPage } from './pages/contact-details-page/contact-details-page';
-import { ContactEdit } from './pages/contact-edit/contact-edit';
-import { ContactList } from './components/contact-list/contact-list';
 import { authGuard } from './guards/auth-guard';
 import { contactResolver } from './resolvers/contact-resolver';
 import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
@@ -22,7 +20,7 @@ const routes: Routes = [
   {
     path: 'details/:contactId', component: ContactDetailsPage,
     children: [
-      { path: 'edit/:contactId', component: ContactEditReactive, resolve: { contact: contactResolver } }
+      { path: 'edit', component: ContactEditReactive, resolve: { contact: contactResolver } }
     ]
     , canActivate: [authGuard], resolve: { contact: contactResolver }
   },

@@ -9,7 +9,8 @@ import { delay, finalize, tap } from 'rxjs';
 export const contactResolver: ResolveFn<Contact> = (route, state) => {
   const contactService = inject(ContactService)
   const loaderService = inject(LoaderService)
-  const contactId = route.params['contactId']
+  const contactId = route.params['contactId'] || route.parent?.params['contactId']
+
   return contactService.getContactById(contactId).pipe(
     tap(() => loaderService.onSetIsLoading(true)),
     delay(1000),
