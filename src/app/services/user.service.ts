@@ -53,6 +53,7 @@ export class UserService {
     let user = users?.find(user => user.name === userName)
     if (user) {
       this._updateUser(user)
+      this.router.navigateByUrl('/wallet')
     }
   }
 
