@@ -8,9 +8,11 @@ import { ContactDetailsPage } from './pages/contact-details-page/contact-details
 import { authGuard } from './guards/auth-guard';
 import { contactResolver } from './resolvers/contact-resolver';
 import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
+import { Signup } from './pages/signup/signup';
 
 const routes: Routes = [
   { path: 'wallet', component: HomePage },
+  { path: 'signup', component: Signup },
   {
     path: 'contacts', component: ContactPage, children: [
       { path: 'edit', component: ContactEditReactive },
