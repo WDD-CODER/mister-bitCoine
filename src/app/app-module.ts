@@ -21,7 +21,6 @@ import { MarketBlockSize } from './components/market-block-size/market-block-siz
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Loader } from './components/loader/loader';
 import { PageNotFound } from './components/page-not-found/page-not-found';
-import { ContactEdit } from './pages/contact-edit/contact-edit';
 import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
 import { ColorPalette } from './components/color-palette/color-palette';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -50,7 +49,7 @@ import { SignupLogin } from './components/signup-login/signup-login';
     MarketBlockSize,
     Loader,
     PageNotFound,
-    ContactEdit,
+    // ContactEdit,
     ContactEditReactive,
     ColorPalette,
     DateDescriptionPipe,
