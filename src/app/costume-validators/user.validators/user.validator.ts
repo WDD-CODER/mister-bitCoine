@@ -5,14 +5,14 @@ import { UserService } from "../../services/user.service";
 
 export function userNameTaken(userService: UserService): AsyncValidatorFn {
   return (control: AbstractControl) => {
-    if (!control.value || typeof control.value !== 'string') return timer(0).pipe(map(() => null));
+    if (!control.value ) return timer(0).pipe(map(() => null));
 
     return timer(1000).pipe(
       // Switch to the contacts observable from your service
       switchMap(() => userService.signedUsers$.pipe(
         take(1),
         map(users => {
-
+            console.log("🚀 ~ userNameTaken ~ control.value :", typeof control.value )
           const isTaken = users?.some(c =>
             c.name.toLowerCase() === control.value.toLowerCase()
           );
@@ -25,13 +25,15 @@ export function userNameTaken(userService: UserService): AsyncValidatorFn {
 
 export function userNotSignin(userService: UserService): AsyncValidatorFn {
   return (control: AbstractControl) => {
-    if (!control.value || typeof control.value !== 'string') return timer(0).pipe(map(() => null));
+    if (!control.value ) return timer(0).pipe(map(() => null));
 
     return timer(1000).pipe(
       // Switch to the contacts observable from your service
       switchMap(() => userService.signedUsers$.pipe(
         take(1),
         map(users => {
+            console.log("🚀 ~ userNotSignin ~ control.value :", typeof control.value )
+
           const exist = users?.some(c =>
             c.name.toLowerCase() === control.value.toLowerCase()
           );
