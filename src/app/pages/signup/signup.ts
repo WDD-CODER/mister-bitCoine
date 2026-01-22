@@ -42,23 +42,25 @@ export class Signup {
       this.userSigninForm.markAllAsTouched()
       return
     }
-    return this.userService.setSignedUser(this.userSigninForm.value)
-    
+
+    this.userService.setSignedUser(this.userSigninForm.value)
+
   }
 
   setSignupLogin($event: MouseEvent) {
     this.Signup = !this.Signup
+    this.userSigninForm.reset({
+      name: '' ,
+      email: '',
+      coins: 100,
+      moves: [],
+    })
 
-  this.userSigninForm.reset({
-    name:[''],
-    email:[''],
-    coins:[100],
-    moves:[[]],
-  })
 
-  this.userLoginForm.reset({
-    name:[''],
-  })
+    this.userLoginForm.reset({
+      name: '',
+    })
+
   }
 
   onLogin(ev: MouseEvent) {
@@ -68,6 +70,7 @@ export class Signup {
     }
 
     this.userService.login(this.userLoginForm.value.name)
+
   }
 
 }
