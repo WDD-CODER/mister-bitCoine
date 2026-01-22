@@ -2,10 +2,12 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { BitcoinService } from '../../services/bitcoin.service';
-import { filter, Observable, switchMap } from 'rxjs';
+import { filter, Observable, switchMap, tap } from 'rxjs';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'home-page',
@@ -20,6 +22,8 @@ export class HomePage implements OnInit {
   private userService = inject(UserService)
   private bitcoinService = inject(BitcoinService)
   private fb = inject(FormBuilder)
+  private router = inject(Router)
+  private destroyRef = inject(DestroyRef)
 
   date = Date.now() - 1000 * 60 ** 2 * 30
   contacts: Contact[] | null = null
@@ -38,7 +42,13 @@ export class HomePage implements OnInit {
   )
 
   ngOnInit(): void {
-
+    this.user$.pipe(
+      tap(user => {
+        if (!user) this.router.navigateByUrl('/signup')
+        }),
+      takeUntilDestroyed(this.destroyRef)
+    )
+    .subscribe()
     this.contacts$.subscribe({
       next: contacts => {
         this.contacts = contacts
