@@ -65,12 +65,11 @@ export class UserService {
 
   }
 
-  public async sendCoins(contactId: string, coinsToSend: number) {
+  public sendCoins(contactId: string, coinsToSend: number) {
     let user = this._user$.value
     if (!user || user.coins < coinsToSend) {
       return alert('Not enough funds for transfer')
     }
-
 
     this.contactService.getContactById(contactId)
       .pipe(
