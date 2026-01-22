@@ -29,7 +29,7 @@ import { FilterArr} from './pipes/filter-arr-pipe';
 import { SimpleList } from './components/simple-list/simple-list';
 import { FetchData } from './pipes/fetch-data-pipe';
 import {  TextColorPipe } from './pipes/Text-color-pipe';
-import { SignupLogin } from './components/signup-login/signup-login';
+import { Signup } from './pages/signup/signup';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,6 @@ import { SignupLogin } from './components/signup-login/signup-login';
     MarketBlockSize,
     Loader,
     PageNotFound,
-    // ContactEdit,
     ContactEditReactive,
     ColorPalette,
     DateDescriptionPipe,
@@ -57,7 +56,7 @@ import { SignupLogin } from './components/signup-login/signup-login';
     SimpleList,
     FetchData,
     TextColorPipe,
-    SignupLogin,
+    Signup,
   ],
   imports: [
     BrowserModule,
