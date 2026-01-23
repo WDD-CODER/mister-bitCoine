@@ -98,6 +98,7 @@ export class ContactService {
 
 
     private _updateContact(contact: Contact) {
+        console.log("🚀 ~ ContactService ~ _updateContact ~ contact:", contact)
         return from(storageService.put<Contact>(ENTITY, contact))
             .pipe(
                 tap(updatedContact => {

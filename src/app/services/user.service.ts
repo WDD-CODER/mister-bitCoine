@@ -5,6 +5,7 @@ import { Contact } from '../models/contact.model';
 import { ContactService } from './contact.service';
 import { Router } from '@angular/router';
 import { Move } from '../models/move.model';
+import { ReceiveMove } from '../models/receive-move.model';
 
 const SINGED_USERS = 'signed-users-db'
 const LOGGED_IN_USER = 'signed-user'
@@ -60,13 +61,17 @@ export class UserService {
   public addCoins(coins: number) {
     let user = this._user$.value
     if (!user) return
-    const updatedUser = { ...user, coins: user.coins += coins }
+    const UpdatedCoins = user.coins + coins 
+    const updatedUser = { ...user, coins:UpdatedCoins }
     this._updateUser(updatedUser)
 
   }
 
   public addMove(contactId: string, amount: number) {
+    console.log("🚀 ~ UserService ~ addMove ~ amount:", amount)
     let user = this._user$.value
+    console.log("🚀 ~ UserService ~ addMove ~ user:", user)
+    console.log("🚀 ~ UserService ~ addMove ~ !user || user.coins < amount:", !user || user.coins < amount)
     if (!user || user.coins < amount) {
       return alert('Not enough funds for transfer')
     }
@@ -76,21 +81,23 @@ export class UserService {
         take(1),
         map(contact => {
           
-          let updatedCoins = user.coins -= amount
-          
-          let curMove = { toId: contact._id, to:contact.name , at: Date.now(), amount: amount }
-           let UpdatedMoves: Move[] = (!user.moves)?  [curMove] : [...user.moves, curMove]
+          let updatedCoins = user.coins - amount
+          let curMoveFrom:Move = { toId: contact._id, to:contact.name , at: Date.now(), amount: amount }
+          let curMoveTo:ReceiveMove = { receivedFrom: user.name , at: Date.now(), amount: amount }
+          let UpdatedUserMoves: Move[] = (!user.moves)?  [curMoveFrom] : [...user.moves, curMoveFrom]
+          let UpdatedContactMoves: ReceiveMove[] = (!contact.receivedMove)?  [curMoveTo] : [...contact.receivedMove, curMoveTo]
            
           return {
-            user: { ...user, coins: updatedCoins, moves: UpdatedMoves },
-            contact: {...contact, coins:(contact.coins || 0) + amount}
+            user: { ...user, coins: updatedCoins, moves: UpdatedUserMoves },
+            contact: {...contact, coins:(contact.coins || 0) + amount, receivedMove: UpdatedContactMoves}
           }
 
         })
       )
       .subscribe({
         next: data => {
-          this.contactService.saveContact(data.contact)
+          console.log("🚀 ~ UserService ~ addMove ~ data:", data)
+          this.contactService.saveContact(data.contact).subscribe()
           this._updateUser(data.user)
         },
         error: err => console.log('err', err)
@@ -101,6 +108,9 @@ export class UserService {
   private _updateUser(user: User): void {
     localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
     let signedUsers = this._signedUsers$.value
+    console.log("🚀 ~ UserService ~ _updateUser ~ !signedUsers:", !signedUsers)
+    console.log("🚀 ~ UserService ~ _updateUser ~ !signedUsers.some(u => u.name === user.name):", !signedUsers?.some(u => u.name === user.name))
+    console.log("🚀 ~ UserService ~ _updateUser ~ idx:", signedUsers?.findIndex(u => u.name === user.name))
     if (!signedUsers) {
       signedUsers = [user]
       localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
