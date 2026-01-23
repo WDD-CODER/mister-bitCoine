@@ -1,5 +1,4 @@
 <ng-container *ngIf="contact$ | async as contact; else loading">
-    {{msg}}
     <div class="simple-cards-grid">
         <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
         <span>Name : {{contact.name}}</span>
@@ -11,10 +10,24 @@
     <section class="actions">
         <button routerLink="/contacts">Back</button>
         <button (click)="onRemoveContact($event,contact._id)">Delete</button>
-        <button (click)="onSendCoins(contact._id)">Send coins</button>
         <button routerLink="edit">Edit</button>
     </section>
-    <router-outlet></router-outlet>
+    <div class="moveCoinsTo simple-cards-grid" *ngIf=" showTransferOption">
+        <h4>Send coins to {{contact.name}}</h4>
+        <span>
+            <button (click)="onSendCoins(contact._id)">Send</button>
+            <label for="amount">
+                <input [(ngModel)]="amountToTransfer" class="amount" type="number" name="amount">
+            </label>
+        </span>
+    </div>
+    <section class="transfers simple-cards-grid" *ngIf="contact.receivedMove">
+        <article *ngFor="let move of contact.receivedMove; let idx = index" class="transfer">
+            <div>Sent From : <span>{{move.receivedFrom}} </span></div>
+            <div>Amount : <span>{{move.amount}} </span></div>
+            <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+        </article>
+    </section>
 </ng-container>
 <ng-template #loading>
     loading....

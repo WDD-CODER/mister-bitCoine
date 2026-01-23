@@ -29,10 +29,46 @@
             display: grid;
             padding: .5em;
 
-            font-size: 1.5em;
-
             background-color: bisque;
             border-radius: 1vh;
+        }
+    }
+
+    .moveCoinsTo {
+        display: grid;
+        place-items: center;
+
+
+        h4 {
+            margin: 0;
+        }
+
+        span {
+            display: flex;
+            gap: 5px;
+
+            input {
+                width: 50px;
+            }
+        }
+    }
+
+    .transfers {
+        display: grid;
+
+        .transfer {
+            display: flex;
+            padding: 5px;
+            gap: 10px;
+
+            background-color: white;
+            border-radius: 1vh;
+            border: 1px black solid;
+
+            span {
+                text-decoration: underline;
+                text-underline-offset: 5px;
+            }
         }
     }
 }

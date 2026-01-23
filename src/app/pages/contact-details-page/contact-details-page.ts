@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
-import {  Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { Contact } from '../../models/contact.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -22,17 +22,20 @@ export class ContactDetailsPage implements OnInit {
 
   public contact$: Observable<Contact | null> = this.contactService.selectedContact$
 
-  public msg: string | null = null
+  public showTransferOption: boolean  = false
+
+  amountToTransfer: number | null = null;
 
   ngOnInit(): void {
     setTimeout(() => {
       this.cd.markForCheck()
-      this.msg = 'Hello contact details'
+      this.showTransferOption = true
     }, 1000);
   }
 
   onSendCoins(contactId: string) {
-    let coins = prompt('how many coins to send?') || null
+    let coins = this.amountToTransfer
+    console.log("🚀 ~ ContactDetailsPage ~ onSendCoins ~ coins:", coins)
     if (!coins) return
     this.userService.addMove(contactId, +coins)
     this.cd.markForCheck()
