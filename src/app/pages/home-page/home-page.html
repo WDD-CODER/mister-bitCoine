@@ -23,11 +23,13 @@
             </section>
         </article>
 
-        <section class="transfers" *ngIf="user.moves">
-            <article *ngFor="let move of user.moves; let idx = index" class="transfer">
-                <div>Sent To : <span>{{move.to}} </span></div>
-                <div>Amount : <span>{{move.amount}} </span></div>
-                <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+        <section class="transfers" *ngIf="userMoves$">
+            <article  *ngFor="let move of userMoves$ | async; let idx = index" class="transfer">
+                <h4>Sent To : <span>{{move.to}} </span></h4>
+                <section class="details" >
+                    <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+                    <div>Amount : <span>{{move.amount}} </span></div>
+                </section>
             </article>
         </section>
 
@@ -40,9 +42,11 @@
 </ng-container> -->
 
         <!-- <button (click)="onChangeName()">Change name</button> -->
+    <router-outlet/>
 
         <section class="actions">
-            <button (click)="onAddCoins($event)">Add Coins </button>
+            <button (click)="onAddCoins($event)">Add Coins</button>
+            <button (click)="makeTransaction($event)">Make transaction</button>
             <button (click)="onLogout($event)">Logout</button>
         </section>
     </ng-container>
