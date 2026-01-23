@@ -9,9 +9,12 @@ import { authGuard } from './guards/auth-guard';
 import { contactResolver } from './resolvers/contact-resolver';
 import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
 import { Signup } from './pages/signup/signup';
+import { Transaction } from './components/transaction/transaction';
 
 const routes: Routes = [
-  { path: 'wallet', component: HomePage },
+  { path: 'wallet', component: HomePage , children: [
+      { path: 'transaction', component: Transaction },
+    ] },
   { path: 'signup', component: Signup },
   {
     path: 'contacts', component: ContactPage, children: [
