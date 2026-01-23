@@ -35,7 +35,6 @@ export class ContactDetailsPage implements OnInit {
 
   onSendCoins(contactId: string) {
     let coins = this.amountToTransfer
-    console.log("🚀 ~ ContactDetailsPage ~ onSendCoins ~ coins:", coins)
     if (!coins) return
     this.userService.addMove(contactId, +coins)
     this.cd.markForCheck()
