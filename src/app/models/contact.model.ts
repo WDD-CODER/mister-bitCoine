@@ -1,3 +1,5 @@
+import { ReceiveMove } from "./receive-move.model"
+
 export interface Contact {
     name: string
     email: string
@@ -5,4 +7,5 @@ export interface Contact {
     _id: string
     birthday?:Date
     coins?:number
+    receivedMove?:ReceiveMove[]
 }
