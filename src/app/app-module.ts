@@ -30,6 +30,7 @@ import { SimpleList } from './components/simple-list/simple-list';
 import { FetchData } from './pipes/fetch-data-pipe';
 import {  TextColorPipe } from './pipes/Text-color-pipe';
 import { Signup } from './pages/signup/signup';
+import { Transaction } from './components/transaction/transaction';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { Signup } from './pages/signup/signup';
     FetchData,
     TextColorPipe,
     Signup,
+    Transaction,
   ],
   imports: [
     BrowserModule,
