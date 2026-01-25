@@ -41,6 +41,7 @@ export class UserService {
     const newUser: User = { ...user }
 
     this._updateUser(user)
+    this.router.navigateByUrl('/wallet')
   }
 
   public logout(): void {
@@ -68,10 +69,7 @@ export class UserService {
   }
 
   public addMove(contactId: string, amount: number) {
-    console.log("🚀 ~ UserService ~ addMove ~ amount:", amount)
     let user = this._user$.value
-    console.log("🚀 ~ UserService ~ addMove ~ user:", user)
-    console.log("🚀 ~ UserService ~ addMove ~ !user || user.coins < amount:", !user || user.coins < amount)
     if (!user || user.coins < amount) {
       return alert('Not enough funds for transfer')
     }
@@ -96,7 +94,6 @@ export class UserService {
       )
       .subscribe({
         next: data => {
-          console.log("🚀 ~ UserService ~ addMove ~ data:", data)
           this.contactService.saveContact(data.contact).subscribe()
           this._updateUser(data.user)
         },
@@ -108,9 +105,6 @@ export class UserService {
   private _updateUser(user: User): void {
     localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user))
     let signedUsers = this._signedUsers$.value
-    console.log("🚀 ~ UserService ~ _updateUser ~ !signedUsers:", !signedUsers)
-    console.log("🚀 ~ UserService ~ _updateUser ~ !signedUsers.some(u => u.name === user.name):", !signedUsers?.some(u => u.name === user.name))
-    console.log("🚀 ~ UserService ~ _updateUser ~ idx:", signedUsers?.findIndex(u => u.name === user.name))
     if (!signedUsers) {
       signedUsers = [user]
       localStorage.setItem(SINGED_USERS, JSON.stringify(signedUsers))
