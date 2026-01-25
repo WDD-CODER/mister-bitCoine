@@ -1,0 +1,45 @@
+:host {
+    display: grid;
+    position: absolute;
+    top: 300px;
+    place-self: center;
+    padding: 1em;
+
+    border-radius: 1vh;
+    border: 1px black solid;
+    background-color: white;
+
+    form {
+        display: grid;
+        gap: 10px;
+
+        h4 {
+            margin: 0;
+        }
+
+        input {
+            padding: 5px;
+            border-radius: .5vh;
+        }
+
+        .actions {
+            display: flex;
+
+            padding: 5px;
+
+            justify-content: space-around;
+
+            border-radius: 1vh;
+            border: 1px black solid;
+
+            text-align: center;
+            background-color: gray;
+
+            button {
+                border-radius: .5vh;
+                padding: 5px;
+            }
+        }
+
+    }
+}

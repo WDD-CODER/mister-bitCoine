@@ -1,6 +1,7 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, DestroyRef, inject, Input, input, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'transaction',
@@ -8,22 +9,18 @@ import { Router } from '@angular/router';
   templateUrl: './transaction.html',
   styleUrl: './transaction.scss',
 })
-export class Transaction implements OnInit {
+export class Transaction {
 
-amount!:number
-  private router = inject(Router)
+  amount!: number
 
-  private destroyRef = inject(DestroyRef)
-  private fb = inject(FormBuilder)
+  private userService = inject(UserService)
+  public amountToSent = new FormControl('', [Validators.min(1)])
 
-  transactionForm!: FormGroup
-
-  ngOnInit(): void {
-    this.transactionForm = this.fb.group({
-      amount:[0],
-      from:['The man'],
-      at:[ Date.now()]
-    })
+  onSendFunds(ev: SubmitEvent): void {
+    if (this.amountToSent.value) { 
+      const coinsToSend:number = +this.amountToSent.value
+      this.userService.addCoins(coinsToSend)
+    }
   }
 
 }

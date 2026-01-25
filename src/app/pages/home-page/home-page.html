@@ -8,8 +8,8 @@
             <section class="balance">
                 <div class="funds">
                     <img src="assets/img/coins.png" alt="coins icon">
-                    <span class="amount " *ngIf="user; else noUser"> Coins : {{user.coins}}</span>
-                    <ng-template class="amount " #noUser> User Is Not Found</ng-template>
+                    <span class="amount"> Coins : {{user.coins}}</span>
+                    <!-- <ng-template class="amount " #noUser> User Is Not Found</ng-template> -->
                 </div>
                 <div class="funds" *ngIf="user">
                     <img src="assets/img/bitcoin.png" alt="bitcoin icon">
@@ -23,14 +23,26 @@
             </section>
         </article>
 
-        <section class="transfers" *ngIf="userMoves$">
-            <article  *ngFor="let move of userMoves$ | async; let idx = index" class="transfer">
-                <h4>Sent To : <span>{{move.to}} </span></h4>
-                <section class="details" >
-                    <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
-                    <div>Amount : <span>{{move.amount}} </span></div>
-                </section>
-            </article>
+        <section class="transfers">
+            <ng-container *ngIf="(userMoves$ | async)?.length; else noTransfers">
+
+                <article *ngFor="let move of userMoves$ | async; let idx = index" class="transfer">
+                    <ng-container class="title" *ngIf="!move.toId; else send">
+                        <h4>Received Funds</h4>
+                    </ng-container>
+                    <ng-template #send>
+                        <h4>Sent To : <span>{{move.to}} </span></h4>
+                    </ng-template>
+                    <section class="details">
+                        <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+                        <div>Amount : <span>{{move.amount}} </span></div>
+                    </section>
+                </article>
+
+            </ng-container>
+            <ng-template class="transfers" #noTransfers>
+                No transaction Yat
+            </ng-template>
         </section>
 
         <!-- <span>Costume date : {{date | dateDescription}}</span>
@@ -38,16 +50,14 @@
 <span>Fetch data : {{url | fetchData | json}}</span> -->
 
         <!-- <ng-container *ngIf="contacts?.length && contacts">
-    <simple-list   [contacts]="contacts | filterArr : 'name' : 'c' "/>
-</ng-container> -->
+        <simple-list   [contacts]="contacts | filterArr : 'name' : 'c' "/>
+        </ng-container> -->
 
-        <!-- <button (click)="onChangeName()">Change name</button> -->
-    <router-outlet/>
-
+        
         <section class="actions">
-            <button (click)="onAddCoins($event)">Add Coins</button>
             <button (click)="makeTransaction($event)">Make transaction</button>
             <button (click)="onLogout($event)">Logout</button>
         </section>
     </ng-container>
+    <router-outlet />
 </div>

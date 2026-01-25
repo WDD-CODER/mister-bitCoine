@@ -22,7 +22,7 @@ export class ContactDetailsPage implements OnInit {
 
   public contact$: Observable<Contact | null> = this.contactService.selectedContact$
 
-  public showTransferOption: boolean  = false
+  public showTransferOption: boolean = false
 
   amountToTransfer: number | null = null;
 
@@ -33,11 +33,17 @@ export class ContactDetailsPage implements OnInit {
     }, 1000);
   }
 
-  onSendCoins(contactId: string) {
+  onSendCoins(contact: Contact) {
     let coins = this.amountToTransfer
     if (!coins) return
-    this.userService.addMove(contactId, +coins)
-    this.cd.markForCheck()
+    this.userService.addMove(contact, +coins).subscribe({
+      next: () => {
+        this.amountToTransfer = null
+        this.cd.markForCheck()
+      },
+      error: err => console.log('err', err)
+
+    })
   }
 
 

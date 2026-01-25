@@ -22,28 +22,27 @@ export class HomePage implements OnInit {
   private contactService = inject(ContactService)
   private userService = inject(UserService)
   private bitcoinService = inject(BitcoinService)
-  private fb = inject(FormBuilder)
   private router = inject(Router)
   private destroyRef = inject(DestroyRef)
 
   date = Date.now() - 1000 * 60 ** 2 * 30
   contacts: Contact[] | null = null
 
-
-
   contacts$: Observable<Contact[]> = this.contactService.contacts$
+
   user$: Observable<User | null> = this.userService.user$
+
   userMoves$: Observable<Move[] | undefined> = this.userService.user$.pipe(
+    filter(user => !!user),
     map(user => user?.moves ? user.moves.slice(-3) : [])
   )
 
   btcRate$: Observable<number> = this.user$.pipe(
-    filter((user): user is User => !!user),
+    filter(user => !!user),
     switchMap(user => this.bitcoinService.getRateStream(user.coins))
   )
 
   ngOnInit(): void {
-
     this.user$.pipe(
       tap(user => {
         if (!user) this.router.navigateByUrl('/signup')
@@ -51,12 +50,7 @@ export class HomePage implements OnInit {
       takeUntilDestroyed(this.destroyRef)
     )
       .subscribe()
-    this.contacts$.subscribe({
-      next: contacts => {
-        this.contacts = contacts
-      },
-      error: err => console.log('err', err)
-    })
+
   }
 
   makeTransaction($event: PointerEvent) {
@@ -65,17 +59,16 @@ export class HomePage implements OnInit {
 
 
   onLogout(ev: MouseEvent): void {
-    this.userService.logout()
+    this.userService.logout().subscribe({ 
+      next: () => this.router.navigateByUrl('/signup'),
+      error:err=> console.log('err', err)
+    })
+    
   }
 
-  onChangeName() {
-    if (this.contacts) {
-      this.contacts[0].name = 'new'
-    }
-  }
-  onAddCoins(ev: MouseEvent) {
-    this.userService.addCoins(100)
-  }
+  // onAddCoins(ev: MouseEvent) {
+  //   this.userService.addCoins(100)
+  // }
 
 
 }

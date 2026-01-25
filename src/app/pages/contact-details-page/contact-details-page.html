@@ -15,7 +15,7 @@
     <div class="moveCoinsTo simple-cards-grid" *ngIf=" showTransferOption">
         <h4>Send coins to {{contact.name}}</h4>
         <span>
-            <button (click)="onSendCoins(contact._id)">Send</button>
+            <button (click)="onSendCoins(contact)">Send</button>
             <label for="amount">
                 <input [(ngModel)]="amountToTransfer" class="amount" type="number" name="amount">
             </label>
