@@ -39,7 +39,7 @@ export class ContactService {
         this._filterBy$.next(filter)
         this.loadContacts()
             .pipe(
-                take(   1)
+                take(1)
             )
             .subscribe({
                 error: err => console.log('Error', err)
@@ -66,7 +66,7 @@ export class ContactService {
         // return from(storageService.get(ENTITY, id))
         return from(storageService.get<Contact>(ENTITY, id))
             .pipe(
-                tap(contact =>this._selectedContact$.next(contact)),
+                tap(contact => this._selectedContact$.next(contact)),
                 catchError(err => throwError(() => `Contact id ${id} not found!`))
             )
     }
@@ -98,7 +98,6 @@ export class ContactService {
 
 
     private _updateContact(contact: Contact) {
-        console.log("🚀 ~ ContactService ~ _updateContact ~ contact:", contact)
         return from(storageService.put<Contact>(ENTITY, contact))
             .pipe(
                 tap(updatedContact => {
