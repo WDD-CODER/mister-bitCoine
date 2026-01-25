@@ -21,13 +21,21 @@
             </label>
         </span>
     </div>
-    <section class="transfers simple-cards-grid" *ngIf="contact.receivedMove">
-        <article *ngFor="let move of contact.receivedMove; let idx = index" class="transfer">
-            <div>Sent From : <span>{{move.receivedFrom}} </span></div>
-            <div>Amount : <span>{{move.amount}} </span></div>
-            <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
-        </article>
-    </section>
+    <section class="transfers simple-cards-grid" *ngIf="(contactMoves$ |async ) as contactMoves">
+        <!-- {{contactMoves | json}} -->
+        <ng-container *ngIf="contactMoves.length > 0; else noMoves">
+            <article *ngFor="let move of contactMoves; let idx = index" class="transfer">
+                <div>Sent From : <span>{{(user$| async)?.name}}</span></div>
+                <div>Amount : <span>{{move.amount}} </span></div>
+                <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+            </article>
+        </ng-container>
+        <ng-template class="transfers" #noMoves>
+                No transaction Yat
+        </ng-template>
+        </section>
+
+
     <router-outlet/>
 </ng-container>
 <ng-template #loading>
