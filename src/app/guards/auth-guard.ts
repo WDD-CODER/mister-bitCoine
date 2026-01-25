@@ -4,12 +4,14 @@ import { UserService } from '../services/user.service';
 import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const userService = inject(UserService)
   const router = inject(Router)
 
-  return userService.user$.pipe(
+  return inject(UserService).user$.pipe(
     map(user=> {
-      return !!user || router.createUrlTree(['/wallet']);
+      if (!user) {
+        return router.createUrlTree(['/wallet']);
+      }
+      return true
     })
   );
 };
