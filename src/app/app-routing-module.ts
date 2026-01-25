@@ -19,9 +19,9 @@ const routes: Routes = [
   {
     path: 'contacts', component: ContactPage, children: [
       { path: 'edit', component: ContactEditReactive },
-    ]
+    ] , canActivate: [authGuard]
   },
-  { path: 'dash-board', component: DashBoard },
+  { path: 'dash-board', component: DashBoard , canActivate: [authGuard]},
   {
     path: 'details/:contactId', component: ContactDetailsPage,
     children: [

@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { ContactService } from '../../services/contact.service';
 import { mustContainHash, nameTaken, OnlyEnglishLetters } from '../../costume-validators/contact.validator/contact.validator';
 import { userNameTaken, userNotSignin } from '../../costume-validators/user.validators/user.validator';
+import { Router } from '@angular/router';
 const LOGGED_IN_USER = 'signed-users'
 
 @Component({
@@ -17,6 +18,7 @@ export class Signup {
 
   private fb = inject(FormBuilder)
   private userService = inject(UserService)
+  private router = inject(Router)
 
   public userSigninForm!: FormGroup
   public userLoginForm!: FormGroup;
@@ -43,14 +45,18 @@ export class Signup {
       return
     }
 
-    this.userService.setSignedUser(this.userSigninForm.value)
+    this.userService.signup(this.userSigninForm.value).subscribe({
+      next: () => this.router.navigateByUrl('/wallet'),
+      error: err => console.log('err', err)
+
+    })
 
   }
 
   setSignupLogin($event: MouseEvent) {
     this.Signup = !this.Signup
     this.userSigninForm.reset({
-      name: '' ,
+      name: '',
       email: '',
       coins: 100,
       moves: [],
@@ -69,7 +75,10 @@ export class Signup {
       return
     }
 
-    this.userService.login(this.userLoginForm.value.name)
+    this.userService.login(this.userLoginForm.value.name).subscribe({
+      next: () => this.router.navigateByUrl('/wallet'),
+      error: err => console.log('Error', err)
+    })
 
   }
 

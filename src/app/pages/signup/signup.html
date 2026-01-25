@@ -1,4 +1,4 @@
-<button  type="button"  (click)="setSignupLogin($event)">{{Signup? 'Login' : 'Sing Up' }}</button>
+<button type="button" (click)="setSignupLogin($event)">{{Signup? 'Login' : 'Sing Up' }}</button>
 <ng-container *ngIf="Signup; else login">
     <h4>Sing Up Please</h4>
     <form [formGroup]="userSigninForm" (submit)="onSignupUser($event)">
@@ -8,7 +8,6 @@
         <label for="user-email">
             <input required placeholder="Please enter email?" type="email" formControlName="email">
         </label>
-        <button type="submit">Sing Up User</button>
         <ng-container *ngIf="userSigninForm.controls['name'] as userName">
             <p class="errors" *ngIf="userName.touched && userName.invalid">
                 <span *ngIf="userName.errors?.['required']">Name is required</span>
@@ -22,6 +21,10 @@
                 <span *ngIf="userEmail.errors?.['mustContainHash'] as errorMsg">{{errorMsg}}</span>
             </p>
         </ng-container>
+        <button type="submit"
+            [disabled]="userSigninForm.controls['email'].invalid || userSigninForm.controls['name'].invalid">Sing Up
+            User</button>
+
     </form>
 </ng-container>
 <ng-template #login>
@@ -39,6 +42,6 @@
             </p>
         </ng-container>
 
-        <button type="button" (click)="onLogin($event)">Login</button>
+        <button type="button" [disabled]="userLoginForm.controls['name'].invalid" (click)="onLogin($event)">Login</button>
     </form>
 </ng-template>
