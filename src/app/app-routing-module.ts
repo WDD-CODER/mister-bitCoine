@@ -12,16 +12,20 @@ import { Signup } from './pages/signup/signup';
 import { Transaction } from './components/transaction/transaction';
 
 const routes: Routes = [
-  { path: 'wallet', component: HomePage , children: [
+  { path: 'wallet', component: HomePage 
+    , children: [
       { path: 'transaction', component: Transaction },
-    ] },
+    ] 
+  },
   { path: 'signup', component: Signup },
   {
     path: 'contacts', component: ContactPage, children: [
       { path: 'edit', component: ContactEditReactive },
     ] , canActivate: [authGuard]
   },
-  { path: 'dash-board', component: DashBoard , canActivate: [authGuard]},
+  { path: 'dash-board', component: DashBoard , canActivate: [authGuard]
+    
+  },
   {
     path: 'details/:contactId', component: ContactDetailsPage,
     children: [

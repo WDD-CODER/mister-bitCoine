@@ -28,7 +28,6 @@ export class UserService {
   private _user$ = new BehaviorSubject<User | null>(this.utilService.LoadUserFromSession())
   public user$ = this._user$.asObservable()
 
-  user: User | null = null
 
   public signup(newUser: User) {
     return from(storageService.query<User>(SINGED_USERS)).pipe(
@@ -116,7 +115,6 @@ export class UserService {
   }
 
   _saveUserLocal(user: User | null): void {
-    console.log("🚀 ~ UserService ~ _saveUserLocal ~ user:", user)
     this._user$.next(user && { ...user })
     this.utilService.saveUserToSession(user)
   }

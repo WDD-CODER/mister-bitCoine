@@ -66,7 +66,7 @@ export class ContactService {
         // return from(storageService.get(ENTITY, id))
         return from(storageService.get<Contact>(ENTITY, id))
             .pipe(
-                tap(contact => this._selectedContact$.next(contact)),
+                // tap(contact => this._selectedContact$.next(contact)),
                 catchError(err => throwError(() => `Contact id ${id} not found!`))
             )
     }
