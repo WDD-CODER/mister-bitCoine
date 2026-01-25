@@ -22,7 +22,6 @@
         </span>
     </div>
     <section class="transfers simple-cards-grid" *ngIf="(contactMoves$ |async ) as contactMoves">
-        <!-- {{contactMoves | json}} -->
         <ng-container *ngIf="contactMoves.length > 0; else noMoves">
             <article *ngFor="let move of contactMoves; let idx = index" class="transfer">
                 <div>Sent From : <span>{{(user$| async)?.name}}</span></div>
