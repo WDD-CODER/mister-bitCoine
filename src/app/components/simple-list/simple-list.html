@@ -1,7 +1,0 @@
-<section class="list">
-    list
-    <span *ngFor="let contact of filteredContacts; let idx = index">
-        <contact-preview (remove)="remove.emit(contact._id)" [contact]="contact"/>
-    </span>
-    <!-- <button (click)="nothing()">nothing</button> -->
-</section>

@@ -10,6 +10,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export class UserMsgService {
 
+  // private _msg = new BehaviorSubject<Msg | null>(null)
+  // public msg$ = this._msg.asObservable().pipe(distinctUntilChanged())
+  
   private _msg = new BehaviorSubject<Msg | null>(null)
   public msg$ = this._msg.asObservable().pipe(distinctUntilChanged())
 
