@@ -12,7 +12,7 @@ import { Signup } from './pages/signup/signup';
 import { Transaction } from './components/transaction/transaction';
 import { noAuthGuard } from './guards/no-auth-guard';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'wallet', component: HomePage 
     , children: [
       { path: 'transaction', component: Transaction },

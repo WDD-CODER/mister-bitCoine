@@ -1,8 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { BitcoinService } from '../../services/bitcoin.service';
-import { ChartType } from 'angular-google-charts';
+import { ChartType, GoogleChart } from 'angular-google-charts';
 import { MarketPrice } from '../../models/market-price.model';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 
 type ChartDataPoint = [
@@ -12,9 +13,10 @@ type ChartDataPoint = [
 
 @Component({
   selector: 'market-trade-volume',
-  standalone: false,
+  standalone: true,
   templateUrl: './market-trade-volume.html',
   styleUrl: './market-trade-volume.scss',
+  imports:[GoogleChart,CommonModule]
 })
 
 export class MarketTradeVolume {

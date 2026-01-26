@@ -2,7 +2,7 @@ import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, inject,
 
 @Directive({
   selector: '[clickOutSide]',
-  standalone: false
+  standalone: true
 })
 export class ClickOutSide implements OnInit {
 

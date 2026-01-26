@@ -6,7 +6,7 @@ type Indexable<T = any> = {
 
 @Pipe({
   name: 'filterArr',
-  standalone: false
+  standalone: true
 })
 
 export class FilterArr implements PipeTransform {

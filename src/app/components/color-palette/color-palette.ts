@@ -1,14 +1,16 @@
 import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { colorPikerAnimation } from '../../../assets/animations/animations';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'color-palette',
-  standalone: false,
+  standalone: true,
   templateUrl: './color-palette.html',
   styleUrl: './color-palette.scss',
+  imports:[   CommonModule],
   animations: [
-colorPikerAnimation
+    colorPikerAnimation
   ]
 })
 export class ColorPalette {

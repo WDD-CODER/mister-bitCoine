@@ -1,13 +1,14 @@
 import { Component, DestroyRef, inject, Input, input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'transaction',
-  standalone: false,
+  standalone: true,
   templateUrl: './transaction.html',
   styleUrl: './transaction.scss',
+  imports:[FormsModule,ReactiveFormsModule]
 })
 export class Transaction {
 
@@ -26,7 +27,7 @@ export class Transaction {
     }
   }
 
-  onBack(ev: MouseEvent) {
+  onBack() {
    return this.router.navigateByUrl('/wallet')
   }
 

@@ -6,13 +6,25 @@ import { Contact } from '../models/contact.model';
 import { CustomRoute } from '../models/custom-routes.model';
 import { BitcoinService } from '../services/bitcoin.service';
 import { LoaderService } from '../services/loader-service';
+import { AppHeader } from "../components/app-header/app-header";
+import { RouterOutlet } from '@angular/router';
+import { AppFooter } from '../components/app-footer/app-footer';
+import { Loader } from '../components/loader/loader';
+import { UserMsg } from '../components/user-msg/user-msg';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false,
-  styleUrl: './app.scss'
+  standalone: true,
+  styleUrl: './app.scss',
+  imports: [
+    RouterOutlet, 
+    AppHeader, 
+    AppFooter, 
+    Loader, 
+    UserMsg]
 })
+
 export class App implements OnInit {
 
   private contactService = inject(ContactService)

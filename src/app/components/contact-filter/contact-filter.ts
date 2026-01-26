@@ -1,48 +1,42 @@
-import { Component, DestroyRef, inject, OnChanges, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { FilterBy } from '../../models/filter-by.model';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'contact-filter',
-  standalone: false,
+  standalone: true,
   templateUrl: './contact-filter.html',
   styleUrl: './contact-filter.scss',
+  imports:[CommonModule,FormsModule,ReactiveFormsModule]
 })
 export class ContactFilter implements OnInit {
 
   contactService = inject(ContactService)
 
+  filterBy_ = signal<FilterBy>(this.contactService.filterBy_() || {term:''});
+
   filter!: FilterBy
-  private filterSubject = new Subject()
+  private filterSubject = toObservable(this.filterBy_)
 
 
   private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.contactService.filterBy$
+    this.filterSubject
       .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe({
-        next: filterBy => {
-          return this.filter = filterBy
-        },
-        error: err => console.log('Error', err)
-      })
+      .subscribe(() => {
+        console.log('fetching contacts')
 
-    this.filterSubject
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      takeUntilDestroyed(this.destroyRef)
-    )
-    .subscribe(() => {
-      console.log('fatchin contacts')
-      
-      this.contactService.setFilterBy(this.filter)
-    })
+        this.contactService.setFilterBy(this.filter)
+      })
   }
 
 
@@ -52,8 +46,8 @@ export class ContactFilter implements OnInit {
   }
 
 
-  onSetFilterBy(filter: FilterBy) {
-    this.filterSubject.next(filter)
+  onSetFilterBy(term: string) {
+   this.filterBy_.set({ term });
   }
 
 }

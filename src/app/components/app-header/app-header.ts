@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CustomRoute } from '../../models/custom-routes.model';
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TextColorPipe } from '../../pipes/Text-color-pipe';
+import { ColorPalette } from '../color-palette/color-palette';
 
 @Component({
   selector: 'app-header',
-  standalone: false,
+  standalone: true,
   templateUrl: './app-header.html',
   styleUrl: './app-header.scss',
+  imports:[RouterLink, CommonModule,RouterLink,TextColorPipe,ColorPalette]
 })
 export class AppHeader {
   

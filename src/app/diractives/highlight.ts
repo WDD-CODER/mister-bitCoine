@@ -2,11 +2,11 @@ import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, inject,
 
 @Directive({
   selector: '[highlight]',
-  standalone: false
+  standalone: true
 })
 export class Highlight {
 
-@Output('highlight') saveText = new EventEmitter()
+@Output('highlight') saveText = new EventEmitter<string>()
 
 private  el = inject(ElementRef)
 

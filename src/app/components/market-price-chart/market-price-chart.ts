@@ -1,8 +1,9 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { ChartType } from 'angular-google-charts';
+import { ChartType, GoogleChart } from 'angular-google-charts';
 import { MarketPrice } from '../../models/market-price.model';
 import { BitcoinService } from '../../services/bitcoin.service';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 type ChartDataPoint = [
   string,
@@ -11,9 +12,10 @@ type ChartDataPoint = [
 
 @Component({
   selector: 'market-price-chart',
-  standalone: false,
+  standalone: true,
   templateUrl: './market-price-chart.html',
   styleUrl: './market-price-chart.scss',
+  imports:[GoogleChart,CommonModule]
 })
 
 export class MarketPriceChart implements OnInit {

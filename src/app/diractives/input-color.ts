@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostBinding, HostListener, inject, Input, input,
 
 @Directive({
   selector: '[inputColor]',
-  standalone: false
+  standalone: true
 })
 export class InputColor implements OnInit {
 

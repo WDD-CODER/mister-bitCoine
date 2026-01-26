@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'textColor',
-  standalone: false
+  standalone: true
 })
+
 export class TextColorPipe implements PipeTransform {
 
   transform(bgColor: string): string {

@@ -4,7 +4,7 @@ import { inject, Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'fetchData',
   pure:false,
-  standalone: false
+  standalone: true
 })
 export class FetchData implements PipeTransform {
 
