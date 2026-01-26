@@ -9,3 +9,14 @@ body {
     color: red;
 }
 
+body:has(.click-outside){
+ 
+    .click-outside,
+    .click-outside *{
+        pointer-events: all;
+    }
+
+    :not(.click-outside,.click-outside * ){
+        pointer-events: none;
+    }
+}
