@@ -2,15 +2,18 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, in
 import { ContactService } from '../../services/contact.service';
 import { combineLatest, filter, map, Observable, tap } from 'rxjs';
 import { Contact } from '../../models/contact.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'contact-details-page',
-  standalone: false,
+  standalone: true,
   templateUrl: './contact-details-page.html',
   styleUrl: './contact-details-page.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports:[CommonModule,ReactiveFormsModule,FormsModule,RouterOutlet]
 })
 export class ContactDetailsPage implements OnInit {
 
@@ -27,8 +30,6 @@ export class ContactDetailsPage implements OnInit {
   public contactMoves$ = combineLatest([this.user$, this.contact$]).pipe(
     filter(([user]) => !!user),
     map(([user, contact]) => {
-      console.log("🚀 ~ ContactDetailsPage ~ contact:", contact)
-      console.log("🚀 ~ ContactDetailsPage ~ user:", user)
       
      return  user?.moves?.filter(move => move.toId === contact?._id)})
   )

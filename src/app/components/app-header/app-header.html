@@ -1,13 +1,12 @@
-<header
- [style.background-color]="curColor"
- [style.color]="curColor | textColor"
- >
+<header [style.background-color]="curColor" [style.color]="curColor | textColor">
     <h2>my Bitcoin Wallet</h2>
-    <button  [style.background-color]="curColor | textColor" class="is-open-btn" (click)="onSetIsOpen($event)">🎨</button>
-    <color-palette (isOpenChange)="onSetIsOpen($event)" (colorChange)="onSetColor($event)" [curColor]="curColor" [isOpen]="isOpen" />
+    <button [style.background-color]="curColor | textColor" class="is-open-btn"
+        (click)="onSetIsOpen($event)">🎨</button>
+    <color-palette (isOpenChange)="onSetIsOpen($event)" (colorChange)="onSetColor($event)" [curColor]="curColor"
+        [isOpen]="isOpen" />
     <section class="routes">
-        <ng-container *ngFor="let route of customRoutes; let id = index">
-            <a *ngIf="route.name !== 'details'"  routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>
-        </ng-container>
+        @for (route of customRoutes; track route){
+        <a *ngIf="route.name !== 'details'" routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>
+        }
     </section>
 </header>

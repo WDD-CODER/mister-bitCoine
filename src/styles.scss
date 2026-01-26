@@ -9,14 +9,18 @@ body {
     color: red;
 }
 
-body:has(.click-outside){
- 
+body:has(.click-outside) {
+
     .click-outside,
-    .click-outside *{
+    .click-outside * {
         pointer-events: all;
     }
 
-    :not(.click-outside,.click-outside * ){
+    :not(.click-outside, .click-outside *) {
         pointer-events: none;
     }
+}
+
+h4 {
+    margin: 10px;
 }

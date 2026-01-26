@@ -4,14 +4,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Contact } from '../../models/contact.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { mustContainHash, nameTaken, OnlyEnglishLetters } from '../../costume-validators/contact.validator/contact.validator';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'contact-edit-reactive',
-  standalone: false,
+  standalone: true,
   templateUrl: './contact-edit-reactive.html',
   styleUrl: './contact-edit-reactive.scss',
+  imports:[ReactiveFormsModule,CommonModule]
 })
 export class ContactEditReactive {
 

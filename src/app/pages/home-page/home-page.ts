@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { BitcoinService } from '../../services/bitcoin.service';
@@ -6,54 +6,56 @@ import { filter, map, Observable, switchMap, tap } from 'rxjs';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router, RouterOutlet } from '@angular/router';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Move } from '../../models/move.model';
+import { CommonModule } from '@angular/common';
+import { Highlight } from '../../diractives/highlight';
 
 @Component({
   selector: 'home-page',
-  standalone: false,
+  standalone: true,
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
+  imports: [CommonModule, RouterOutlet, Highlight]
 })
 
 export class HomePage implements OnInit {
 
-  private contactService = inject(ContactService)
+  // private contactService = inject(ContactService)
   private userService = inject(UserService)
   private bitcoinService = inject(BitcoinService)
   private router = inject(Router)
-  private destroyRef = inject(DestroyRef)
+  // private destroyRef = inject(DestroyRef)
 
   date = Date.now() - 1000 * 60 ** 2 * 30
-  contacts: Contact[] | null = null
+  // contacts: Contact[] | null = null
 
-  contacts$: Observable<Contact[]> = this.contactService.contacts$
+  // contacts$: Observable<Contact[]> = this.contactService.contacts$
+  // contacts_= this.contactService.contacts_
 
-  user$: Observable<User | null> = this.userService.user$
+  
+  public user_ = this.userService.user_
 
-  userMoves$: Observable<Move[] | undefined> = this.userService.user$.pipe(
-    filter(user => !!user),
-    map(user => user?.moves ? user.moves.slice(-3) : [])
-  )
+  userMoves_ = computed(() => {
+    const user = this.user_()
+    if (!user) return []
+    return user?.moves ? user.moves.slice(-3) : []
+  })
 
-  btcRate$: Observable<number> = this.user$.pipe(
-    filter(user => !!user),
-    switchMap(user => this.bitcoinService.getRateStream(user.coins))
+  btcRate_ = toSignal(
+    toObservable(this.user_)
+      .pipe(
+        filter(user => !!user),
+        switchMap(user => this.bitcoinService.getRateStream(user.coins))
+      )
   )
 
   ngOnInit(): void {
-    this.user$.pipe(
-      tap(user => {
-        if (!user) this.router.navigateByUrl('/signup')
-      }),
-      takeUntilDestroyed(this.destroyRef)
-    )
-      .subscribe()
-
+    if (!this.user_()) this.router.navigateByUrl('/signup')
   }
 
-  onSaveTxt(txt:string) {
+  onSaveTxt(txt: string) {
     console.log("🚀 ~ HomePage ~ onSaveTxt ~ txt:", txt)
   }
 

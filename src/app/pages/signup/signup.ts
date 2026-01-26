@@ -1,18 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { ContactService } from '../../services/contact.service';
 import { mustContainHash, nameTaken, OnlyEnglishLetters } from '../../costume-validators/contact.validator/contact.validator';
 import { userNameTaken, userNotSignin } from '../../costume-validators/user.validators/user.validator';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 const LOGGED_IN_USER = 'signed-users'
 
 @Component({
   selector: 'signup',
-  standalone: false,
+  standalone: true,
   templateUrl: './signup.html',
   styleUrl: './signup.scss',
+  imports:[FormsModule,ReactiveFormsModule,CommonModule]
 })
 export class Signup {
 

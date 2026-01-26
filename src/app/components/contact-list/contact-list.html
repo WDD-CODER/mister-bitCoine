@@ -1,12 +1,16 @@
-<contact-filter/>
-<ul class="contacts-list" *ngIf="contacts$ | async as contacts; else loading">
-    <li *ngFor="let contact of contacts; let idx = index" [routerLink]="['/details',contact._id]">
-        <contact-preview (click)="onSelectContact(contact)  "
-            [contact]="contact">
+<!-- <contact-filter /> -->
+<!-- *ngIf="contacts$ | async as contacts; else loading" -->
+@if (contacts_(); as contacts) {
+  <ul class="contacts-list">
+    @for (contact of contacts; track contact._id) {
+      <li [routerLink]="['/details', contact._id]">
+        <contact-preview 
+          (click)="onSelectContact(contact)" 
+          [contact]="contact">
         </contact-preview>
-    </li>
-</ul>
-<button routerLink="/contacts/edit">Add Contact</button>
-<ng-template #loading>
-    loading....
-</ng-template>
+      </li>
+    }
+  </ul>
+} @else {
+  <div>loading....</div>
+}
