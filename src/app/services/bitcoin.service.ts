@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, signal } from '@angular/core';
 import { storageService } from './async-storage.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, from, interval, Observable, of, retry, switchMap, tap, timer } from 'rxjs';
@@ -17,8 +17,11 @@ export class BitcoinService {
 
   constructor(private http: HttpClient) { }
 
-  private _btcRate$ = new BehaviorSubject<number>(0)
-  public btcRate$ = this._btcRate$.asObservable()
+  // private _btcRate$ = new BehaviorSubject<number>(0)
+  // public btcRate$ = this._btcRate$.asObservable()
+
+  private _btcRate_ = signal<number>(0)
+  public btcRate_ = this._btcRate_.asReadonly()
 
   private _btcMarketPrice$ = new BehaviorSubject<MarketPrice | null>(null)
   public btcMarketPrice$ = this._btcMarketPrice$.asObservable()
@@ -33,7 +36,7 @@ export class BitcoinService {
   public getRateStream(coins: number): Observable<number> {
     return timer(0, 1000)
     .pipe(
-      switchMap(idx => this.getRate(coins)
+      switchMap(() => this.getRate(coins)
     ))
   }
 
@@ -41,7 +44,7 @@ export class BitcoinService {
     const url = `https://blockchain.info/tobtc?currency=USD&value=${coins}`
     return from(this.http.get<number>(url))
       .pipe(
-        tap(rate => this._btcRate$.next(rate)),
+        tap(rate => this._btcRate_.set(rate)),
         retry(2)
       )
   }

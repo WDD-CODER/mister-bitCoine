@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable, BehaviorSubject, throwError, from, tap, retry, catchError, of, take, debounceTime } from 'rxjs';
 // import { Contact } from '../models/contact.model';
 import { Contact } from '../models/contact.model';
@@ -13,11 +13,17 @@ const ENTITY = 'contacts'
 })
 export class ContactService {
 
-    private _contacts$ = new BehaviorSubject<Contact[]>([])
-    public contacts$ = this._contacts$.asObservable()
+    // private _contacts$ = new BehaviorSubject<Contact[]>([])
+    // public contacts$ = this._contacts$.asObservable()
 
-    private _filterBy$ = new BehaviorSubject<FilterBy>({ term: '' })
-    public filterBy$ = this._filterBy$.asObservable()
+    private _contacts_ = signal<Contact[]>([])
+    public contacts_ = this._contacts_.asReadonly()
+
+    // private _filterBy$ = new BehaviorSubject<FilterBy>({ term: '' })
+    // public filterBy$ = this._filterBy$.asObservable()
+
+    private _filterBy_ = signal<FilterBy>({ term: '' })
+    public filterBy_ = this._filterBy_.asReadonly()
 
     private _selectedContact$ = new BehaviorSubject<Contact | null>(null)
     public selectedContact$ = this._selectedContact$.asObservable()
@@ -36,7 +42,7 @@ export class ContactService {
     }
 
     setFilterBy(filter: FilterBy) {
-        this._filterBy$.next(filter)
+        this._filterBy_.set(filter)
         this.loadContacts()
             .pipe(
                 take(1)
@@ -50,11 +56,12 @@ export class ContactService {
         return from(storageService.query<Contact>(ENTITY))
             .pipe(
                 tap(contacts => {
-                    const filterBy = this._filterBy$.value
+                    const filterBy = this._filterBy_()
                     if (filterBy && filterBy.term) {
                         contacts = this._filter(contacts, filterBy.term)
                     }
-                    this._contacts$.next(this._sort(contacts))
+                    // this._contacts$.next(this._sort(contacts))
+                    this._contacts_.set(this._sort(contacts))
                 }),
                 retry(1),
                 catchError(this._handleError)
@@ -75,9 +82,9 @@ export class ContactService {
         return from(storageService.remove(ENTITY, id))
             .pipe(
                 tap(() => {
-                    let contacts = this._contacts$.value
+                    let contacts = this._contacts_()
                     contacts = contacts.filter(contact => contact._id !== id)
-                    this._contacts$.next(contacts)
+                    this._contacts_.set(contacts)
                 }),
                 retry(1),
                 catchError(this._handleError)
@@ -101,9 +108,9 @@ export class ContactService {
         return from(storageService.put<Contact>(ENTITY, contact))
             .pipe(
                 tap(updatedContact => {
-                    const contacts = this._contacts$.value
+                    const contacts = this._contacts_()
                     this._selectedContact$.next(updatedContact)
-                    this._contacts$.next(contacts.map(contact => contact._id === updatedContact._id ? updatedContact : contact))
+                    this._contacts_.update(() => contacts.map(contact => contact._id === updatedContact._id ? updatedContact : contact))
                 }),
                 retry(1),
                 catchError(this._handleError)
@@ -114,8 +121,8 @@ export class ContactService {
         return from(storageService.post(ENTITY, contact))
             .pipe(
                 tap(newContact => {
-                    const contacts = this._contacts$.value
-                    this._contacts$.next([...contacts, newContact])
+                    const contacts = this._contacts_()
+                    this._contacts_.update(() => [...contacts, newContact])
                 }),
                 retry(1),
                 catchError(this._handleError)

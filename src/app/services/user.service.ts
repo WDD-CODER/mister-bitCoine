@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { BehaviorSubject, filter, from, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { Contact } from '../models/contact.model';
@@ -23,12 +23,17 @@ export class UserService {
   contactService = inject(ContactService)
   router = inject(Router)
 
-  private _signedUsers$ = new BehaviorSubject<User[] | null>(this.utilService.LoadFromStorage())
-  public signedUsers$ = this._signedUsers$.asObservable()
+  // private _signedUsers$ = new BehaviorSubject<User[] | null>(this.utilService.LoadFromStorage())
+  // public signedUsers$ = this._signedUsers$.asObservable()
 
   private _user$ = new BehaviorSubject<User | null>(this.utilService.LoadUserFromSession())
   public user$ = this._user$.asObservable()
+  
+  private _users_ = signal<User[] | null>(this.utilService.LoadFromStorage())
+  public users_ = this._users_.asReadonly()
 
+  private _user_ = signal<User | null>(this.utilService.LoadUserFromSession())
+  public user_ = this._user_.asReadonly()
 
   public signup(newUser: User) {
     return from(storageService.query<User>(SINGED_USERS)).pipe(
@@ -62,7 +67,8 @@ export class UserService {
   }
 
   public addCoins(coins: number) {
-    let user = this._user$.value
+    let user = this.user_()
+
     if (!user) return
     const UpdatedCoins = user.coins + coins
     const moveToAdd: Move = { toId: '', to: user.name, at: Date.now(), amount: coins }
@@ -99,55 +105,48 @@ export class UserService {
 
 
   private _updateUser(user: User): void {
-    let signedUsers = this._signedUsers$.value
-    if (!signedUsers) {
-      signedUsers = [user]
-    }
-    else if (!signedUsers.some(u => u.name === user.name)) {
-      signedUsers.push(user)
-    }
-    else {
-      const idx = signedUsers.findIndex(u => u.name === user.name)
-      if (idx) {
-        signedUsers.splice(idx, 1, user)
+    this._users_.update(prevUsers => {
+      const users = prevUsers ? [...prevUsers] : []
+      const idx = users.findIndex(u => u.name === user.name)
+      if (idx !== -1) {
+        users[idx] = user
+      } else {
+        users.push(user)
       }
-    }
+      return users
+    })
+    this._saveUserLocal(user)
+}
 
-    this._signedUsers$.next(signedUsers)
-    this.utilService.saveToStorage(signedUsers)
+_saveUserLocal(user: User | null): void {
+  this._user_.set(user && { ...user })
     this.utilService.saveUserToSession(user)
-    this._user$.next(user)
-  }
+}
 
-  _saveUserLocal(user: User | null): void {
-    this._user$.next(user && { ...user })
-    this.utilService.saveUserToSession(user)
-  }
+_clearSessionStorage() {
+  console.log('variable')
 
-  _clearSessionStorage() {
-    console.log('variable')
+  sessionStorage.clear()
+  this._user_.set(null)
+}
 
-    sessionStorage.clear()
-    this._user$.next(null)
+_getLoggedInUser(): User {
+  return this._user_()!
+}
+_createMove(moveTo: Contact, amount: number): Move {
+  return {
+    toId: moveTo._id,
+    to: moveTo.name,
+    at: Date.now(),
+    amount
   }
+}
 
-  _getLoggedInUser(): User {
-    return this._user$.value!
+_createReceiveMove(moveFrom: User, amount: number): ReceiveMove {
+  return {
+    receivedFrom: moveFrom.name,
+    at: Date.now(),
+    amount
   }
-  _createMove(moveTo: Contact, amount: number): Move {
-    return {
-      toId: moveTo._id,
-      to: moveTo.name,
-      at: Date.now(),
-      amount
-    }
-  }
-
-  _createReceiveMove(moveFrom: User, amount: number): ReceiveMove {
-    return {
-      receivedFrom: moveFrom.name,
-      at: Date.now(),
-      amount
-    }
-  }
+}
 }

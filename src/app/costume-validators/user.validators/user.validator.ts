@@ -8,16 +8,12 @@ export function userNameTaken(userService: UserService): AsyncValidatorFn {
     if (!control.value) return timer(0).pipe(map(() => null));
 
     return timer(1000).pipe(
-      // Switch to the contacts observable from your service
-      switchMap(() => userService.signedUsers$.pipe(
-        take(1),
-        map(users => {
-          const isTaken = users?.some(c =>
-            c.name.toLowerCase() === control.value.toLowerCase()
-          );
-          return isTaken ? { userNameTaken: 'Name is already in use' } : null;
-        })
-      ))
+      map(() => {
+        const isTaken = userService.users_()?.some(c =>
+          c.name.toLowerCase() === control.value.toLowerCase()
+        );
+        return isTaken ? { userNameTaken: 'Name is already in use' } : null;
+      })
     );
   };
 }
@@ -28,16 +24,12 @@ export function userNotSignin(userService: UserService): AsyncValidatorFn {
 
     return timer(1000).pipe(
       // Switch to the contacts observable from your service
-      switchMap(() => userService.signedUsers$.pipe(
-        take(1),
-        map(users => {
-
-          const exist = users?.some(c =>
-            c.name.toLowerCase() === control.value.toLowerCase()
-          );
-          return !exist ? { userNotSignin: 'No such signup user ' } : null;
-        })
-      ))
+      map(() => {
+        const exist = userService.users_()?.some(c =>
+          c.name.toLowerCase() === control.value.toLowerCase()
+        );
+        return !exist ? { userNotSignin: 'No such signup user ' } : null;
+      })
     );
   };
 }

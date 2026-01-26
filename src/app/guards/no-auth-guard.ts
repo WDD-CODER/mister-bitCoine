@@ -8,13 +8,35 @@ export const noAuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
   const userMsgService = inject(UserMsgService)
 
-  return inject(UserService).user$.pipe(
-    map(user => {
-      if (user) {
-        userMsgService.onSetErrorMsg('You are signed in must logout to reach signup')
-        return router.createUrlTree(['/']);
-      }
-      return true
-    })
-  );
+  const user = inject(UserService).user_()
+  if (user) {
+    userMsgService.onSetErrorMsg('You are signed in must logout to reach signup')
+    return router.createUrlTree(['/'])
+  }
+  else return true
 };
+
+// .pipe(
+//   map(user => {
+//     if (user) {
+//       userMsgService.onSetErrorMsg('You are signed in must logout to reach signup')
+//       return router.createUrlTree(['/']);
+//     }
+//     return true
+//   })
+// );
+
+// export const noAuthGuard: CanActivateFn = (route, state) => {
+//   const router = inject(Router)
+//   const userMsgService = inject(UserMsgService)
+
+//   return inject(UserService).user$.pipe(
+//     map(user => {
+//       if (user) {
+//         userMsgService.onSetErrorMsg('You are signed in must logout to reach signup')
+//         return router.createUrlTree(['/']);
+//       }
+//       return true
+//     })
+//   );
+// };
