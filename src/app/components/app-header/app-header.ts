@@ -20,8 +20,6 @@ isOpen = false
   ]
 
 onSetIsOpen(ev:MouseEvent) {
-  console.log( this.isOpen)
-  
   this.isOpen = !this.isOpen
 }
 

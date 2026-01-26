@@ -27,8 +27,4 @@ export class ColorPalette {
     '#F3FF33'  // Lemon
   ];
 
-  // onSetIsOn($event: MouseEvent) {
-  //   this.isOpen = !this.isOpen
-  // }
-
 }
