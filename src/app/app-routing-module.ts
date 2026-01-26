@@ -10,6 +10,7 @@ import { contactResolver } from './resolvers/contact-resolver';
 import { ContactEditReactive } from './pages/contact-edit-reactive/contact-edit-reactive';
 import { Signup } from './pages/signup/signup';
 import { Transaction } from './components/transaction/transaction';
+import { noAuthGuard } from './guards/no-auth-guard';
 
 const routes: Routes = [
   { path: 'wallet', component: HomePage 
@@ -17,7 +18,9 @@ const routes: Routes = [
       { path: 'transaction', component: Transaction },
     ] 
   },
-  { path: 'signup', component: Signup },
+  { path: 'signup', component: Signup , canActivate:[noAuthGuard]
+    
+  },
   {
     path: 'contacts', component: ContactPage, children: [
       { path: 'edit', component: ContactEditReactive },

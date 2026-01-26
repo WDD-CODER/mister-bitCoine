@@ -31,6 +31,10 @@ import { FetchData } from './pipes/fetch-data-pipe';
 import {  TextColorPipe } from './pipes/Text-color-pipe';
 import { Signup } from './pages/signup/signup';
 import { Transaction } from './components/transaction/transaction';
+import { UserMsg } from './components/user-msg/user-msg';
+import { InputColor } from './diractives/input-color';
+import { Highlight } from './diractives/highlight';
+import { ClickOutSide } from './diractives/click-out-side';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,10 @@ import { Transaction } from './components/transaction/transaction';
     TextColorPipe,
     Signup,
     Transaction,
+    UserMsg,
+    InputColor,
+    Highlight,
+    ClickOutSide,
   ],
   imports: [
     BrowserModule,

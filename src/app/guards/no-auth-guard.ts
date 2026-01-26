@@ -4,15 +4,15 @@ import { UserService } from '../services/user.service';
 import { map } from 'rxjs';
 import { UserMsgService } from '../services/user-msg.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const noAuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
   const userMsgService = inject(UserMsgService)
 
   return inject(UserService).user$.pipe(
     map(user => {
-      if (!user) {
-        userMsgService.onSetErrorMsg('Must Signin first!')
-        return router.createUrlTree(['/signup']);
+      if (user) {
+        userMsgService.onSetErrorMsg('You are signed in must logout to reach signup')
+        return router.createUrlTree(['/']);
       }
       return true
     })

@@ -1,9 +1,9 @@
-<div class="back-drop" *ngIf="isOpen" (click)="[isOpenChange.emit($event),$event.stopPropagation() ]"  ></div>
-<div class="color-palette" @toggleColor  (click)="$event.stopPropagation()" *ngIf="isOpen">
+<!-- <div class="back-drop" *ngIf="isOpen" (click)="[isOpenChange.emit($event),$event.stopPropagation() ]"  ></div> -->
+<div (clickOutSide)="isOpenChange.emit()" class="color-palette" @toggleColor   (click)="$event.stopPropagation()" *ngIf="isOpen">
     <section class="colors">
         <span *ngFor="let color of colors; let idx = index" [style.background-color]="color"
             (click)="colorChange.emit(color); $event.stopPropagation()"
             [style.border-width]="(color === curColor)? '3px' : '' ">
         </span>
     </section>
-</div>
+<!-- </div> -->

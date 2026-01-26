@@ -8,10 +8,10 @@ import { Move } from '../models/move.model';
 import { ReceiveMove } from '../models/receive-move.model';
 import { UtilService } from './util.service';
 import { storageService } from './async-storage.service';
+import { UserMsgService } from './user-msg.service';
 
 
 const SINGED_USERS = 'signed-users-db'
-const LOGGED_IN_USER = 'signed-user'
 @Injectable({
   providedIn: 'root',
 })
@@ -19,6 +19,7 @@ const LOGGED_IN_USER = 'signed-user'
 export class UserService {
 
   utilService = inject(UtilService)
+  userMsgService = inject(UserMsgService)
   contactService = inject(ContactService)
   router = inject(Router)
 
@@ -36,7 +37,10 @@ export class UserService {
         of(user)
         :
         from(storageService.post(SINGED_USERS, newUser))),
-      tap(user => this._saveUserLocal(user)),
+      tap(user => {
+        this.userMsgService.onSetSuccessMsg('Signup Successfully ')
+        this._saveUserLocal(user)
+      }),
     )
   }
 
@@ -65,6 +69,7 @@ export class UserService {
 
     const updatedMoves = user.moves ? [...user.moves, moveToAdd] : [moveToAdd]
     const updatedUser = { ...user, coins: UpdatedCoins, moves: updatedMoves }
+    this.userMsgService.onSetSuccessMsg('Add Coins Successfully ')
 
     this._updateUser(updatedUser)
     this.router.navigateByUrl('/wallet')

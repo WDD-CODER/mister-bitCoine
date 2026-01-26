@@ -6,12 +6,12 @@
                 <span>{{ user.name }}</span>
             </h1>
             <section class="balance">
-                <div class="funds">
+                <div (highlight)="onSaveTxt($event)" class="funds">
                     <img src="assets/img/coins.png" alt="coins icon">
                     <span class="amount"> Coins : {{user.coins}}</span>
                     <!-- <ng-template class="amount " #noUser> User Is Not Found</ng-template> -->
                 </div>
-                <div class="funds" *ngIf="user">
+                <div (highlight)="onSaveTxt($event)" class="funds" *ngIf="user">
                     <img src="assets/img/bitcoin.png" alt="bitcoin icon">
                     <ng-container *ngIf="btcRate$ | async as btcRate; else loading">
                         <span class="amount ">BTC : {{btcRate}}</span>

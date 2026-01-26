@@ -1,10 +1,10 @@
-<form (ngSubmit)="onSendFunds($event)">
+<form (clickOutSide)="onBack($event)" (ngSubmit)="onSendFunds($event)">
     <h4>Transfer Funds To User</h4>
     <label for="amount">
-        <input  type="number"  [formControl]="amountToSent" placeholder="How much to transfer?">
+        <input inputColor="green"   type="number"  [formControl]="amountToSent" placeholder="How much to transfer?">
     </label>
     <section class="actions">
         <button type="submit">Send</button>
-        <button type="button" routerLink="/wallet">Back</button>
+        <button type="button" (click)="onBack($event)">Back</button>
     </section>
 </form>

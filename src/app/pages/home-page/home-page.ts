@@ -53,17 +53,21 @@ export class HomePage implements OnInit {
 
   }
 
+  onSaveTxt(txt:string) {
+    console.log("🚀 ~ HomePage ~ onSaveTxt ~ txt:", txt)
+  }
+
   makeTransaction($event: PointerEvent) {
     this.router.navigateByUrl('/wallet/transaction')
   }
 
 
   onLogout(ev: MouseEvent): void {
-    this.userService.logout().subscribe({ 
+    this.userService.logout().subscribe({
       next: () => this.router.navigateByUrl('/signup'),
-      error:err=> console.log('err', err)
+      error: err => console.log('err', err)
     })
-    
+
   }
 
   // onAddCoins(ev: MouseEvent) {

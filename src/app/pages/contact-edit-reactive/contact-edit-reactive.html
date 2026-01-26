@@ -1,5 +1,5 @@
 <div class="contact-edit">
-    <form [formGroup]="contactForm" (submit)="onSaveContact($event)">
+    <form (clickOutSide)="onBack()" [formGroup]="contactForm" (submit)="onSaveContact($event)">
         <label for="name">
             Contact Name :
             <input id="name" required type="text" formControlName="name">
@@ -55,7 +55,6 @@
         </label>
 
         <section class="actions">
-            {{contactForm.status }}
             <button type="submit" [disabled]="!contactForm.valid">Save</button>
             <button type="button" (click)="onBack()">Back</button>
         </section>

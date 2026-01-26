@@ -13,14 +13,21 @@ export class Transaction {
 
   amount!: number
 
+  private router = inject(Router)
   private userService = inject(UserService)
+
   public amountToSent = new FormControl('', [Validators.min(1)])
 
+
   onSendFunds(ev: SubmitEvent): void {
-    if (this.amountToSent.value) { 
-      const coinsToSend:number = +this.amountToSent.value
+    if (this.amountToSent.value) {
+      const coinsToSend: number = +this.amountToSent.value
       this.userService.addCoins(coinsToSend)
     }
+  }
+
+  onBack(ev: MouseEvent) {
+   return this.router.navigateByUrl('/wallet')
   }
 
 }
