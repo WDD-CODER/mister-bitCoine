@@ -11,15 +11,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './contact-filter.html',
   styleUrl: './contact-filter.scss',
-  imports:[CommonModule,FormsModule,ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class ContactFilter implements OnInit {
 
   contactService = inject(ContactService)
 
-  filterBy_ = signal<FilterBy>(this.contactService.filterBy_() || {term:''});
+  filterBy_ = signal<FilterBy>(this.contactService.filterBy_() || { term: '' });
 
-  filter!: FilterBy
   private filterSubject = toObservable(this.filterBy_)
 
 
@@ -35,19 +34,19 @@ export class ContactFilter implements OnInit {
       .subscribe(() => {
         console.log('fetching contacts')
 
-        this.contactService.setFilterBy(this.filter)
+        this.contactService.setFilterBy(this.filterBy_())
       })
   }
 
 
   onChangeInput({ target }: Event) {
     const netFilter = target as HTMLInputElement
-    this.filter = { term: netFilter.value }
+    this.filterBy_.set({ term: netFilter.value })
   }
 
 
   onSetFilterBy(term: string) {
-   this.filterBy_.set({ term });
+    this.filterBy_.set({ term });
   }
 
 }
