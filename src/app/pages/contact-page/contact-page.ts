@@ -13,4 +13,6 @@ import { ContactList } from '../../components/contact-list/contact-list';
   imports:[RouterOutlet, ContactList]
 })
 export class ContactPage {
+
+  
 }

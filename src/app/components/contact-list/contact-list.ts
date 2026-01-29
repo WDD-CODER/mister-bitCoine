@@ -18,7 +18,6 @@ import { CommonModule } from '@angular/common';
 export class ContactList {
 
   private contactService = inject(ContactService)
-  // contacts$: Observable<Contact[]> = this.contactService.contacts$
   contacts_ = this.contactService.contacts_ 
 
   onSelectContact(contact: Contact) {
