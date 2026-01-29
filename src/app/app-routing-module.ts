@@ -13,35 +13,59 @@ import { Transaction } from './components/transaction/transaction';
 import { noAuthGuard } from './guards/no-auth-guard';
 
 export const routes: Routes = [
-  { path: 'wallet', component: HomePage 
+  {
+    path: 'wallet', component: HomePage
     , children: [
-      { path: 'transaction', component: Transaction },
-    ] 
-  },
-  { path: 'signup', component: Signup , canActivate:[noAuthGuard]
-    
-  },
-  {
-    path: 'contacts', component: ContactPage, children: [
-      { path: 'edit', component: ContactEditReactive },
-    ] , canActivate: [authGuard]
-  },
-  { path: 'dash-board', component: DashBoard , canActivate: [authGuard]
-    
+      {
+        path: 'transaction',
+        loadComponent: () => import('./components/transaction/transaction').then(m => m.Transaction)
+      },
+    ]
   },
   {
-    path: 'details/:contactId', component: ContactDetailsPage,
+    path: 'signup',
+    loadComponent: () => import('./pages/signup/signup').then(m => m.Signup)
+    ,
+    canActivate: [noAuthGuard]
+
+  },
+  {
+    path: 'contacts',
+    loadComponent: () => import('./pages/contact-page/contact-page').then(m => m.ContactPage),
     children: [
-      { path: 'edit', component: ContactEditReactive, resolve: { contact: contactResolver } }
+      {
+        path: 'edit',
+        loadComponent: () => import('./pages/contact-edit-reactive/contact-edit-reactive').then(m => m.ContactEditReactive),
+      },
+    ], canActivate: [authGuard]
+  },
+  {
+    path: 'dash-board',
+    loadComponent: () => import('./pages/dash-board/dash-board').then(m => m.DashBoard),
+    canActivate: [authGuard]
+
+  },
+  {
+    path: 'details/:contactId',
+    loadComponent: () => import('./pages/contact-details-page/contact-details-page').then(m => m.ContactDetailsPage),
+    children: [
+      {
+        path: 'edit',
+        loadComponent: () => import('./pages/contact-edit-reactive/contact-edit-reactive').then(m => m.ContactEditReactive),
+        resolve: { contact: contactResolver }
+      }
     ]
     , canActivate: [authGuard], resolve: { contact: contactResolver }
   },
   { path: '', pathMatch: 'full', redirectTo: 'wallet' },
-  { path: '**', component: PageNotFound },
-];
+  {
+    path: '**',
+    loadComponent: () => import('./components/page-not-found/page-not-found').then(m => m.PageNotFound),
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+  },
+];
+// @NgModule({
+//   imports: [RouterModule.forRoot(routes, { useHash: true })],
+//   exports: [RouterModule]
+// })
+// export class AppRoutingModule { }
