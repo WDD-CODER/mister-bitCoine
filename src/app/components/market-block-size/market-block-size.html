@@ -1,9 +1,7 @@
-<div class="chart-container" *ngIf="blockSize$ | async as block">
+@if(blockSize_(); as block){
+<div class="chart-container">
     <h4>{{block.description}}</h4>
-    <google-chart
-    [type]="pieType" 
-    [data]="newValues" 
-    [options]="pieOptions"
-    >
+    <google-chart [type]="pieType" [data]="newValues" [options]="pieOptions">
     </google-chart>
 </div>
+}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -6,11 +6,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoaderService {
 
-  private _isLoading$ = new BehaviorSubject<boolean>(false)
-  public isLoading$ = this._isLoading$.asObservable()
+  private _isLoading_ = signal<boolean>(false)
+  public isLoading_ = this._isLoading_.asReadonly()
 
   onSetIsLoading(isLoading: boolean) {
-    this._isLoading$.next(isLoading)
+    this._isLoading_.set(isLoading)
   }
 
 }

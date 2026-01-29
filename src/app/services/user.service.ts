@@ -26,8 +26,8 @@ export class UserService {
   // private _signedUsers$ = new BehaviorSubject<User[] | null>(this.utilService.LoadFromStorage())
   // public signedUsers$ = this._signedUsers$.asObservable()
 
-  private _user$ = new BehaviorSubject<User | null>(this.utilService.LoadUserFromSession())
-  public user$ = this._user$.asObservable()
+  // private _user$ = new BehaviorSubject<User | null>(this.utilService.LoadUserFromSession())
+  // public user$ = this._user$.asObservable()
   
   private _users_ = signal<User[] | null>(this.utilService.LoadFromStorage())
   public users_ = this._users_.asReadonly()

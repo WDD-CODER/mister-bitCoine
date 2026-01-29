@@ -1,5 +1,4 @@
 <contact-filter />
-<!-- *ngIf="contacts$ | async as contacts; else loading" -->
 @if (contacts_(); as contacts) {
   <ul class="contacts-list">
     @for (contact of contacts; track contact._id) {
@@ -14,3 +13,4 @@
 } @else {
   <div>loading....</div>
 }
+<button [routerLink]="['edit']">Add New Contact</button>

@@ -22,23 +22,21 @@ export class MarketBlockSize implements OnInit {
   private bitcoinService = inject(BitcoinService)
 
   blockSize$: Observable<MarketPrice | null> = this.bitcoinService.getBlockSize()
+  blockSize_ = this.bitcoinService.btcBlockSize_
 
   newValues!: ChartDataPoint[]
   pieTitle: string = ''
 
   ngOnInit(): void {
-   this.blockSize$.subscribe({
-      next: blockSize => {
-        if (!blockSize) return;
-        const newValues = blockSize?.values.map((value, idx): ChartDataPoint => {
+    const blockSize = this.blockSize_()
+    if (blockSize) {
+       const newValues = blockSize.values.map((value, idx): ChartDataPoint => {
           let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
           return [newData.toString(), value.y]
         });
         this.pieTitle = blockSize.description
         this.newValues = newValues.slice(-5)
-    },
-      error: err => console.log('Error', err)
-    })
+    }
   }
 
 

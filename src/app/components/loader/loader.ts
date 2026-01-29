@@ -13,6 +13,6 @@ import { CommonModule } from '@angular/common';
 export class Loader {
 
   loaderService = inject(LoaderService)
-  isLoading$: Observable<boolean> = this.loaderService.isLoading$
+  isLoading_ = this.loaderService.isLoading_
 
 }

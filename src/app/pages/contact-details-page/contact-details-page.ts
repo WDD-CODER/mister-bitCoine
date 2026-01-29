@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, input, Input, model, OnInit, Output } from '@angular/core';
 import { ContactService } from '../../services/contact.service';
 import { combineLatest, filter, map, Observable, tap } from 'rxjs';
 import { Contact } from '../../models/contact.model';
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/route
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'contact-details-page',
@@ -13,31 +14,37 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './contact-details-page.html',
   styleUrl: './contact-details-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports:[CommonModule,ReactiveFormsModule,FormsModule,RouterOutlet]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterOutlet]
 })
 export class ContactDetailsPage implements OnInit {
 
 
   private contactService = inject(ContactService)
   private userService = inject(UserService)
-  private route = inject(ActivatedRoute)
   private router = inject(Router)
   private cd = inject(ChangeDetectorRef)
+  public showTransferOption: boolean = false
 
-  public contact$: Observable<Contact | null> = this.route.data.pipe(map(data => data['contact']))
-  user$ = this.userService.user$
+  public contact_ = model<Contact | null>(null, { alias: 'contact' });
+  private contact$ = toObservable(this.contact_)
+
+  // user$ = this.userService.user$
+  public user_ = this.userService.user_
+  private user$ = toObservable(this.user_)
+
 
   public contactMoves$ = combineLatest([this.user$, this.contact$]).pipe(
     filter(([user]) => !!user),
     map(([user, contact]) => {
-      
-     return  user?.moves?.filter(move => move.toId === contact?._id)})
+
+      return user?.moves?.filter(move => move.toId === contact?._id)
+    })
   )
-  public showTransferOption: boolean = false
 
   amountToTransfer: number | null = null;
 
   ngOnInit(): void {
+
     setTimeout(() => {
       this.cd.markForCheck()
       this.showTransferOption = true

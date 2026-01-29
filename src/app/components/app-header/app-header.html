@@ -6,7 +6,8 @@
         [isOpen]="isOpen" />
     <section class="routes">
         @for (route of customRoutes; track route){
-        <a *ngIf="route.name !== 'details'" routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>
+        @if ( route.name !== 'details'){
+        <a routerLink="{{route.name}}" routerLinkActive="active">{{route.name}}</a>}
         }
     </section>
 </header>

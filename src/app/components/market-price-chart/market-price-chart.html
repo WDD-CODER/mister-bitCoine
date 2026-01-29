@@ -1,6 +1,7 @@
-<div class="chart-container" *ngIf="marketPrice$ | async as marketPrice">
-  <h4>{{marketPrice.name}}</h4>
-  <google-chart class="google-chart"
+@if(marketPrice_(); as marketPrice){
+  <div class="chart-container" >
+    <h4>{{marketPrice.name}}</h4>
+    <google-chart class="google-chart"
     [type]="type"
     [data]="newValues"
     [columns]="columnNames"
@@ -9,3 +10,4 @@
     >
   </google-chart>
 </div>
+}

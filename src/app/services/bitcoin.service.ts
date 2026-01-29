@@ -17,27 +17,24 @@ export class BitcoinService {
 
   constructor(private http: HttpClient) { }
 
-  // private _btcRate$ = new BehaviorSubject<number>(0)
-  // public btcRate$ = this._btcRate$.asObservable()
-
   private _btcRate_ = signal<number>(0)
   public btcRate_ = this._btcRate_.asReadonly()
 
-  private _btcMarketPrice$ = new BehaviorSubject<MarketPrice | null>(null)
-  public btcMarketPrice$ = this._btcMarketPrice$.asObservable()
+  private _btcMarketPrice_ = signal<MarketPrice | null>(null)
+  public btcMarketPrice_ = this._btcMarketPrice_.asReadonly()
 
-  private _btcBlockSize$ = new BehaviorSubject<MarketPrice | null>(null)
-  public btcBlockSize$ = this._btcBlockSize$.asObservable()
+  private _btcBlockSize_ = signal<MarketPrice | null>(null)
+  public btcBlockSize_ = this._btcBlockSize_.asReadonly()
 
-  private _btcTradeVolume$ = new BehaviorSubject<MarketPrice | null>(null)
-  public btcTradeVolume$ = this._btcTradeVolume$.asObservable()
+  private _btcTradeVolume_ = signal<MarketPrice | null>(null)
+  public btcTradeVolume_ = this._btcTradeVolume_.asReadonly()
 
 
   public getRateStream(coins: number): Observable<number> {
     return timer(0, 1000)
-    .pipe(
-      switchMap(() => this.getRate(coins)
-    ))
+      .pipe(
+        switchMap(() => this.getRate(coins)
+        ))
   }
 
   public getRate(coins: number) {
@@ -55,7 +52,7 @@ export class BitcoinService {
 
     if (cachedData) {
       let data = JSON.parse(cachedData) as MarketPrice
-      this._btcMarketPrice$.next(data)
+      this._btcMarketPrice_.set(data)
       return of(data)
     }
 
@@ -63,7 +60,7 @@ export class BitcoinService {
       .pipe(
         tap(marketPrice => {
           localStorage.setItem(MARKET_PRICE_DB, JSON.stringify(marketPrice))
-          this._btcMarketPrice$.next(marketPrice)
+          this._btcMarketPrice_.set(marketPrice)
         }),
         retry(2)
       )
@@ -75,7 +72,7 @@ export class BitcoinService {
 
     if (cachedData) {
       let data = JSON.parse(cachedData) as MarketPrice
-      this._btcBlockSize$.next(data)
+      this._btcBlockSize_.set(data)
       return of(data)
     }
 
@@ -83,7 +80,7 @@ export class BitcoinService {
       .pipe(
         tap(BlockSize => {
           localStorage.setItem(BLOCK_SIZE_DB, JSON.stringify(BlockSize))
-          this._btcBlockSize$.next(BlockSize)
+          this._btcBlockSize_.set(BlockSize)
         }),
         retry(2)
       )
@@ -95,7 +92,7 @@ export class BitcoinService {
 
     if (cachedData) {
       let data = JSON.parse(cachedData) as MarketPrice
-      this._btcTradeVolume$.next(data)
+      this._btcTradeVolume_.set(data)
       return of(data)
     }
 
@@ -103,7 +100,7 @@ export class BitcoinService {
       .pipe(
         tap(BlockSize => {
           localStorage.setItem(TRADING_VOLUME_DB, JSON.stringify(BlockSize))
-          this._btcBlockSize$.next(BlockSize)
+          this._btcBlockSize_.set(BlockSize)
         }),
         retry(2)
       )
