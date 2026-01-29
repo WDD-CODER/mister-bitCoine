@@ -1,5 +1,7 @@
-<div class="playful-loader" *ngIf="isLoading$ | async">
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="orb"></div>
-</div>
+@if(isLoading_()){
+  <div class="playful-loader" >
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+}

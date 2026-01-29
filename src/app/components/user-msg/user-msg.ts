@@ -11,14 +11,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './user-msg.html',
   styleUrl: './user-msg.scss',
-  imports:[CommonModule]
+  imports: [CommonModule]
 })
 export class UserMsg {
 
   userMsgService = inject(UserMsgService)
 
-  msg$: Observable<Msg | null> = this.userMsgService.msg$
-
+  public msg_ = this.userMsgService.msg_
+  
   onCloseMsg($event: MouseEvent) {
     this.userMsgService.CloseMsg()
   }
