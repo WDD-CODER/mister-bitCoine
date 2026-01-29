@@ -1,12 +1,15 @@
-<article *ngIf="contact; else loading" class="contact-preview-container">
-    <div class="contact-preview" (click)="GoToUserDetails(contact._id)">
-        <img src="https://robohash.org/{{contact._id}}" alt="Content Image">
-        {{contact.name}}
-        <section class="actions">
-            <button (click)="onRemoveContact($event,contact._id)">X</button>
-        </section>
+@if(contact){
+    <article class="contact-preview-container">
+        <div class="contact-preview" (click)="GoToUserDetails(contact._id)">
+            <img src="https://robohash.org/{{contact._id}}" alt="Content Image">
+            {{contact.name}}
+            <section class="actions">
+                <button (click)="onRemoveContact($event,contact._id)">X</button>
+            </section>
+        </div>
+    </article>
+} @else {
+    <div #loading>
+        Loading...
     </div>
-</article>
-<ng-template #loading>
-    Loading...
-</ng-template>
+}
