@@ -26,7 +26,7 @@ export class Signup {
   public userLoginForm!: FormGroup;
   public user: User | null = null
 
-  public Signup: boolean = false
+  public signup: boolean = false
 
   constructor() {
     this.userSigninForm = this.fb.group({
@@ -56,7 +56,7 @@ export class Signup {
   }
 
   setSignupLogin($event: MouseEvent) {
-    this.Signup = !this.Signup
+    this.signup = !this.signup
     this.userSigninForm.reset({
       name: '',
       email: '',

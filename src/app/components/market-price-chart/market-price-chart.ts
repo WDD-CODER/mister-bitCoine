@@ -23,25 +23,22 @@ export class MarketPriceChart implements OnInit {
 
   private bitcoinService = inject(BitcoinService)
   
-  public marketPrice$: Observable<MarketPrice> = this.bitcoinService.getMarketPrice()
+  public marketPrice_ = this.bitcoinService.btcMarketPrice_
 
   newValues!: ChartDataPoint[]
   title: string = ''
 
   ngOnInit(): void {
-    this.marketPrice$.subscribe({
-      next: marketPrice => {
-        if (!marketPrice) return;
-        const newValues = marketPrice.values.map((value): ChartDataPoint => {
+    const marketPrice = this.marketPrice_()
+if (marketPrice) {
+          const newValues = marketPrice.values.map((value): ChartDataPoint => {
           let newData = new Date(value.x * 1000).toLocaleDateString('en-US', { month: '2-digit', year: 'numeric' })
           return [newData.toString(), value.y]
         })
         this.title = marketPrice.description;
         this.newValues = newValues
-      },
-      error: err => console.log('Error', err)
-    })
-  }
+      }
+}
 
 
   type = ChartType.LineChart;

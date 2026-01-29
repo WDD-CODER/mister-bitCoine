@@ -3,51 +3,83 @@
         <label for="name">
             Contact Name :
             <input id="name" required type="text" formControlName="name">
-            <ng-container *ngIf="contactForm.controls['name'] as contactName">
-                <ng-container *ngIf="editing; else creating">
-                    <p class="errors" *ngIf="contactName.invalid">
-                        <span *ngIf="contactName.errors?.['required']">Name is required</span>
-                        <span *ngIf="contactName.errors?.['OnlyEnglishLetters'] as errorMsg">{{errorMsg}}</span>
-                    </p>
-                    <span *ngIf="contactName.pending && contactName.dirty">Fetching for name...</span>
-                </ng-container>
+            @if(contactForm.controls['name']; as contactName){
 
-                <ng-template #creating>
-                    <p class="errors" *ngIf="contactName.invalid && contactName.touched">
-                        <span *ngIf="contactName.errors?.['required']">Name is required</span>
-                        <span *ngIf="contactName.errors?.['nameTaken'] as errorMsg">{{errorMsg}}</span>
-                        <span *ngIf="contactName.errors?.['OnlyEnglishLetters'] as errorMsg">{{errorMsg}}</span>
-                    </p>
-                </ng-template>
-            </ng-container>
+            @if(editing){
+            @if (contactName.invalid) {
+            <p class="errors">
+                @if (contactName.errors?.['required']) {
+                <span>Name is required</span>
+                }
+                @if (contactName.errors?.['OnlyEnglishLetters']; as errorMsg) {
+                <span>{{errorMsg}}</span>
+                }
+            </p>
+            }
+            @if(contactName.pending && contactName.dirty){
+            <span>Fetching for name...</span>
+            }
+            }@else{
+            @if (contactName.invalid && contactName.touched) {
+            <p class="errors">
+                @if (contactName.errors?.['required']) {
+                <span>Name is required</span>
+                }
+                @if (contactName.errors?.['nameTaken']; as errorMsg) {
+                <span>{{errorMsg}}</span>
+                }
+                @if (contactName.errors?.['OnlyEnglishLetters']; as errorMsg) {
+                <span>{{errorMsg}}</span>
+                }
+            </p>
+            }
+            }
+            }
         </label>
         <label for="phone">
             Contact Phone :
             <input id="phone" required type="text" formControlName="phone">
-            <ng-container *ngIf="contactForm.controls['phone'] as contactPhone">
-                <ng-container *ngIf="editing; else creating">
-                    <p class="errors" *ngIf="contactPhone.invalid ">
-                        <span *ngIf="contactPhone.errors?.['required']">phone Number is required</span>
-                        <span *ngIf="contactPhone.errors?.['minlength']">Number must be Minimum 6 figures</span>
-                    </p>
-                </ng-container>
-                <ng-template #creating>
-                    <p class="errors" *ngIf="contactPhone.invalid && contactPhone.touched ">
-                        <span *ngIf="contactPhone.errors?.['required']">phone Number is required</span>
-                        <span *ngIf="contactPhone.errors?.['minlength']">Number must be Minimum 6 figures</span>
-                    </p>
-                </ng-template>
-            </ng-container>
+            @if(contactForm.controls['phone']; as contactPhone){
+            @if (editing) {
+            @if (contactPhone.invalid) {
+            <p class="errors">
+                @if (contactPhone.errors?.['required']) {
+                <span>phone Number is required</span>
+                }
+                @if (contactPhone.errors?.['minlength']) {
+                <span>Number must be Minimum 6 figures</span>
+                }
+            </p>
+            }
+            }@else {
+            @if (contactPhone.invalid && contactPhone.touched ) {
+            <p class="errors">
+                @if (contactPhone.errors?.['required']) {
+                <span>phone Number is required</span>
+                }
+                @if (contactPhone.errors?.['minlength']) {
+                <span>Number must be Minimum 6 figures</span>
+                }
+            </p>
+            }
+            }
+            }
         </label>
         <label for="email">
             Contact Email :
             <input id="email" required type="email" formControlName="email">
-            <ng-container *ngIf="contactForm.controls['email'] as contactEmail">
-                <p class="errors" *ngIf="contactEmail.invalid && contactEmail.touched">
-                    <span *ngIf="contactEmail.errors?.['required']">Email is required</span>
-                    <span *ngIf="contactEmail.errors?.['mustContainHash'] as errorMsg">{{errorMsg}}</span>
-                </p>
-            </ng-container>
+            @if (contactForm.controls['email']; as contactEmail) {
+            @if (contactEmail.invalid && contactEmail.touched) {
+            <p class="errors">
+                @if (contactEmail.errors?.['required']) {
+                <span>Email is required</span>
+                }
+                @if (contactEmail.errors?.['mustContainHash'];as errorMsg) {
+                <span>{{errorMsg}}</span>
+                }
+            </p>
+            }
+            }
         </label>
         <label for="birthday">
             Contact birthday :

@@ -19,39 +19,12 @@ type ChartDataPoint = [
   styleUrl: './dash-board.scss',
   imports:[GoogleChartsModule,MarketBlockSize,MarketPriceChart,MarketTradeVolume,CommonModule]
 })
-export class DashBoard implements OnInit {
+export class DashBoard{
 
   private bitcoinService = inject(BitcoinService)
 
-  marketPrice: MarketPrice | null = null
-  tradeVolume: MarketPrice | null = null
-  blockSize: MarketPrice | null = null
+  marketPrice_ = this.bitcoinService.btcMarketPrice_
+  tradeVolume_ = this.bitcoinService.btcTradeVolume_
+  blockSize_ = this.bitcoinService.btcBlockSize_
 
-  ngOnInit(): void {
-    this.bitcoinService.btcMarketPrice$.subscribe({
-      next: marketPrice => {
-        if (!marketPrice) return;
-        this.marketPrice = marketPrice
-      },
-      error: err => console.log('err', err)
-    })
-    this.bitcoinService.btcTradeVolume$.subscribe({
-      next: tradeVolume => {
-        if (!tradeVolume) return;
-        this.tradeVolume = tradeVolume
-      },
-      error: err => console.log('err', err)
-    })
-
-    this.bitcoinService.btcBlockSize$.subscribe({
-      next: blockSize => {
-        if (!blockSize) return;
-        this.blockSize = blockSize
-      },
-      error: err => console.log('err', err)
-    })
-
-
-
-  }
 }

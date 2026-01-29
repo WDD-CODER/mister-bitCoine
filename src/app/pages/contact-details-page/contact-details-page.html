@@ -1,43 +1,53 @@
-<ng-container *ngIf="contact$ | async as contact; else loading">
-    
-    <div class="simple-cards-grid">
-        <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
-        <span>Name : {{contact.name}}</span>
-        <span>Email : {{contact.email}}</span>
-        <span>Phone Number : {{contact.phone}}</span>
-        <span *ngIf="contact.birthday">birthday : {{contact.birthday | date : 'dd/MM/yyyy'}}</span>
-        <span *ngIf="contact.coins">Coins : {{contact.coins}}</span>
+@if(contact_(); as contact){
+<div class="simple-cards-grid">
+    <img src="https://robohash.org/{{contact._id}}" alt="Contact Image">
+    <span>Name : {{contact.name}}</span>
+    <span>Email : {{contact.email}}</span>
+    <span>Phone Number : {{contact.phone}}</span>
+    @if(contact.birthday){
+    <span>birthday : {{contact.birthday | date : 'dd/MM/yyyy'}}</span>
+    }
+    @if(contact.coins){
+    <span>Coins : {{contact.coins}}</span>
+    }
+</div>
+<section class="actions">
+    <button routerLink="/contacts">Back</button>
+    <button (click)="onRemoveContact($event,contact._id)">Delete</button>
+    <button routerLink="edit">Edit</button>
+</section>
+@if(showTransferOption){
+<div class="moveCoinsTo simple-cards-grid">
+    <h4>Send coins to {{contact.name}}</h4>
+    <span>
+        <button (click)="onSendCoins(contact)">Send</button>
+        <label for="amount">
+            <input [(ngModel)]="amountToTransfer" class="amount" type="number" name="amount">
+        </label>
+    </span>
+</div>
+}
+@if(contactMoves$ | async; as contactMoves){
+<section class="transfers simple-cards-grid">
+    @if(contactMoves.length > 0){
+    @for(move of contactMoves; track move.at; let idx = $index){
+    <article class="transfer">
+        <div>Sent From : <span>{{user_()?.name}}</span></div>
+        <div>Amount : <span>{{move.amount}} </span></div>
+        <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
+    </article>
+    }
+    }@else {
+    <div class="transfers" #noMoves>
+        No transaction Yat
     </div>
-    <section class="actions">
-        <button routerLink="/contacts">Back</button>
-        <button (click)="onRemoveContact($event,contact._id)">Delete</button>
-        <button routerLink="edit">Edit</button>
-    </section>
-    <div class="moveCoinsTo simple-cards-grid" *ngIf=" showTransferOption">
-        <h4>Send coins to {{contact.name}}</h4>
-        <span>
-            <button (click)="onSendCoins(contact)">Send</button>
-            <label for="amount">
-                <input [(ngModel)]="amountToTransfer" class="amount" type="number" name="amount">
-            </label>
-        </span>
-    </div>
-    <section class="transfers simple-cards-grid" *ngIf="(contactMoves$ |async ) as contactMoves">
-        <ng-container *ngIf="contactMoves.length > 0; else noMoves">
-            <article *ngFor="let move of contactMoves; let idx = index" class="transfer">
-                <div>Sent From : <span>{{(user$| async)?.name}}</span></div>
-                <div>Amount : <span>{{move.amount}} </span></div>
-                <div>Send At: <span>{{move.at | date : 'dd/MM/yyyy'}} </span></div>
-            </article>
-        </ng-container>
-        <ng-template class="transfers" #noMoves>
-                No transaction Yat
-        </ng-template>
-        </section>
+    }
 
-
-    <router-outlet/>
-</ng-container>
-<ng-template #loading>
-    loading....
-</ng-template>
+</section>
+}
+<router-outlet />
+}@else {
+<div>
+    Cant Fetch Contact
+</div>
+}

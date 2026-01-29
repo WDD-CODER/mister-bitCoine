@@ -1,9 +1,11 @@
-<div class="chart-container" *ngIf="tradeVolume$ | async as tradeVolume">
-    <h4>{{tradeVolume.description}}</h4>
-    <google-chart  
-    [type]="barType" 
-    [data]="newValues" 
-    [options]="options"
-    >
+@if(tradeVolume_(); as tradeVolume){
+    <div class="chart-container">
+        <h4>{{tradeVolume.description}}</h4>
+        <google-chart  
+        [type]="barType" 
+        [data]="newValues" 
+        [options]="options"
+        >
     </google-chart>
 </div>
+}
